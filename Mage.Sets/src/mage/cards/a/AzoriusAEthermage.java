@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.TriggeredAbilityImpl;
 import mage.abilities.costs.mana.ManaCostsImpl;
@@ -36,14 +37,13 @@ import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.FilterPermanent;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.ZoneChangeEvent;
 import mage.game.permanent.Permanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -56,8 +56,8 @@ public class AzoriusAEthermage extends CardImpl {
     public AzoriusAEthermage(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{1}{W}{U}");
 
-        this.subtype.add("Human");
-        this.subtype.add("Wizard");
+        this.subtype.add(SubType.HUMAN);
+        this.subtype.add(SubType.WIZARD);
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);
 
@@ -115,7 +115,7 @@ class AzoriusAEthermageAbility extends TriggeredAbilityImpl {
             }
             if (permanentThatMoved != null
                     && filter.match(permanentThatMoved, sourceId, controllerId, game)
-                    && zEvent.getPlayerId() == controllerId) { //The controller's hand is where the permanent moved to.
+                    && zEvent.getPlayerId().equals(controllerId)) { //The controller's hand is where the permanent moved to.
                 return true;
             }
         }

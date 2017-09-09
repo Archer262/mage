@@ -34,7 +34,6 @@ import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.combat.CantBeBlockedTargetEffect;
 import mage.abilities.effects.common.continuous.BoostTargetEffect;
-import mage.abilities.keyword.ChangelingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.*;
@@ -94,7 +93,7 @@ class KasetoEffect extends OneShotEffect {
         Permanent permanent = game.getPermanent(getTargetPointer().getFirst(game, source));
         if (permanent != null) {
             game.addEffect(new CantBeBlockedTargetEffect(Duration.EndOfTurn), source);
-            if (permanent.hasSubtype("Snake", game)) {
+            if (permanent.hasSubtype(SubType.SNAKE, game)) {
                 game.addEffect(new BoostTargetEffect(2, 2, Duration.EndOfTurn), source);
             }
             return true;

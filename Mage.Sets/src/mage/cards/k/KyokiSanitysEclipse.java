@@ -27,6 +27,7 @@
  */
 package mage.cards.k;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SpellCastControllerTriggeredAbility;
@@ -37,10 +38,8 @@ import mage.constants.CardType;
 import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.filter.FilterCard;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 import mage.target.common.TargetOpponent;
-
-import java.util.UUID;
 
 /**
  *
@@ -58,7 +57,7 @@ public class KyokiSanitysEclipse extends CardImpl {
         this.toughness = new MageInt(4);
 
         // Whenever you cast a Spirit or Arcane spell, target opponent exiles a card from his or her hand.
-        Ability ability = new SpellCastControllerTriggeredAbility(new ExileFromZoneTargetEffect(Zone.HAND, null, "", new FilterCard()), new FilterSpiritOrArcaneCard(), false);
+        Ability ability = new SpellCastControllerTriggeredAbility(new ExileFromZoneTargetEffect(Zone.HAND, null, "", new FilterCard()), StaticFilters.SPIRIT_OR_ARCANE_CARD, false);
         ability.addTarget(new TargetOpponent());
         this.addAbility(ability);
         

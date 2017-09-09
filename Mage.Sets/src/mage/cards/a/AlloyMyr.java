@@ -27,13 +27,13 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.mana.AnyColorManaAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -43,7 +43,7 @@ public class AlloyMyr extends CardImpl {
 
     public AlloyMyr(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ARTIFACT,CardType.CREATURE},"{3}");
-        this.subtype.add("Myr");
+        this.subtype.add(SubType.MYR);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

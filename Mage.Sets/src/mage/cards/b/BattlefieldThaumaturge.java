@@ -27,6 +27,9 @@
  */
 package mage.cards.b;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.SpellAbility;
@@ -38,18 +41,12 @@ import mage.abilities.keyword.HexproofAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.*;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.game.stack.Spell;
 import mage.target.Target;
 import mage.util.CardUtil;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  *
@@ -59,8 +56,7 @@ public class BattlefieldThaumaturge extends CardImpl {
 
     public BattlefieldThaumaturge(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{U}");
-        this.subtype.add("Human");
-        this.subtype.add("Wizard");
+        this.subtype.add(SubType.HUMAN, SubType.WIZARD);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(1);
@@ -83,11 +79,6 @@ public class BattlefieldThaumaturge extends CardImpl {
 
 class BattlefieldThaumaturgeSpellsCostReductionEffect extends CostModificationEffectImpl {
 
-    private static final FilterSpell filter = new FilterSpell("instant and sorcery spell");
-
-    static {
-        filter.add(Predicates.or(new CardTypePredicate(CardType.INSTANT), new CardTypePredicate(CardType.SORCERY)));
-    }
 
     public BattlefieldThaumaturgeSpellsCostReductionEffect() {
         super(Duration.WhileOnBattlefield, Outcome.Benefit, CostModificationType.REDUCE_COST);
@@ -118,7 +109,7 @@ class BattlefieldThaumaturgeSpellsCostReductionEffect extends CostModificationEf
         if ((abilityToModify instanceof SpellAbility)
                 && abilityToModify.getControllerId().equals(source.getControllerId())) {
             Spell spell = (Spell) game.getStack().getStackObject(abilityToModify.getId());
-            return spell != null && BattlefieldThaumaturgeSpellsCostReductionEffect.filter.match(spell, game);
+            return spell != null && StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL.match(spell, game);
         }
         return false;
     }

@@ -38,6 +38,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -100,7 +101,7 @@ class SlayersPlateTriggeredAbility extends TriggeredAbilityImpl {
     public boolean checkTrigger(GameEvent event, Game game) {
         if (((ZoneChangeEvent) event).isDiesEvent()) {
             Permanent permanent = (Permanent) game.getLastKnownInformation(event.getTargetId(), Zone.BATTLEFIELD);
-            if (permanent.getAttachments().contains(this.getSourceId()) && permanent.hasSubtype("Human", game)) {
+            if (permanent.getAttachments().contains(this.getSourceId()) && permanent.hasSubtype(SubType.HUMAN, game)) {
                 return true;
             }
         }

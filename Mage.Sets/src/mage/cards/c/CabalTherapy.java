@@ -33,10 +33,7 @@ import mage.abilities.costs.common.SacrificeTargetCost;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.NameACardEffect;
 import mage.abilities.keyword.FlashbackAbility;
-import mage.cards.Card;
-import mage.cards.CardImpl;
-import mage.cards.CardSetInfo;
-import mage.cards.Cards;
+import mage.cards.*;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.TimingRule;
@@ -99,6 +96,15 @@ class CabalTherapyEffect extends OneShotEffect {
             Cards hand = targetPlayer.getHand();
 
             for (Card card : hand.getCards(game)) {
+                if(card.isSplitCard()){
+                    SplitCard splitCard = (SplitCard) card;
+                    if(splitCard.getLeftHalfCard().getName().equals(cardName)){
+                        targetPlayer.discard(card, source, game);
+                    }
+                    else if(splitCard.getRightHalfCard().getName().equals(cardName)){
+                        targetPlayer.discard(card, source, game);
+                    }
+                }
                 if (card.getName().equals(cardName)) {
                     targetPlayer.discard(card, source, game);
                 }

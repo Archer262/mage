@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
 import mage.abilities.effects.Effect;
@@ -41,10 +42,10 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
+import mage.constants.SuperType;
 import mage.game.permanent.token.WolfToken;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -54,7 +55,8 @@ public class ArlinnKord extends CardImpl {
 
     public ArlinnKord(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{2}{R}{G}");
-        this.subtype.add("Arlinn");
+        this.addSuperType(SuperType.LEGENDARY);
+        this.subtype.add(SubType.ARLINN);
 
         this.transformable = true;
         this.secondSideCardClazz = ArlinnEmbracedByTheMoon.class;

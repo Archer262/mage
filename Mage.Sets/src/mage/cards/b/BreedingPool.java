@@ -36,6 +36,7 @@ import mage.abilities.mana.GreenManaAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 
 import java.util.UUID;
 
@@ -47,8 +48,7 @@ public class BreedingPool extends CardImpl {
 
     public BreedingPool (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.LAND},null);
-        this.subtype.add("Forest");
-        this.subtype.add("Island");
+        this.subtype.add(SubType.FOREST, SubType.ISLAND);
         this.addAbility(new GreenManaAbility());
         this.addAbility(new BlueManaAbility());
         this.addAbility(new AsEntersBattlefieldAbility(new TapSourceUnlessPaysEffect(new PayLifeCost(2)), "you may pay 2 life. If you don't, Breeding Pool enters the battlefield tapped"));

@@ -27,6 +27,7 @@
  */
 package mage.cards.f;
 
+import java.util.UUID;
 import mage.abilities.common.SpellCastOpponentTriggeredAbility;
 import mage.abilities.effects.common.DrawCardTargetEffect;
 import mage.cards.CardImpl;
@@ -34,9 +35,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.SetTargetPointer;
 import mage.constants.Zone;
-import mage.filter.FilterSpell;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -50,7 +49,7 @@ public class ForcedFruition extends CardImpl {
 
         // Whenever an opponent casts a spell, that player draws seven cards.
         this.addAbility(new SpellCastOpponentTriggeredAbility(Zone.BATTLEFIELD, new DrawCardTargetEffect(7),
-                new FilterSpell(), false, SetTargetPointer.PLAYER));
+                StaticFilters.FILTER_SPELL, false, SetTargetPointer.PLAYER));
     }
 
     public ForcedFruition(final ForcedFruition card) {

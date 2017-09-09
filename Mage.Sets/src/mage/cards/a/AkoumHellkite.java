@@ -37,6 +37,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -55,7 +56,7 @@ public class AkoumHellkite extends CardImpl {
 
     public AkoumHellkite(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{R}{R}");
-        this.subtype.add("Dragon");
+        this.subtype.add(SubType.DRAGON);
         this.power = new MageInt(4);
         this.toughness = new MageInt(4);
 
@@ -146,7 +147,7 @@ class AkoumHellkiteDamageEffect extends OneShotEffect {
         Permanent land = game.getPermanentOrLKIBattlefield(getTargetPointer().getFirst(game, source));
         Player player = game.getPlayer(source.getFirstTarget());
         if (land != null && player != null) {
-            if (land.hasSubtype("Mountain", game)) {
+            if (land.hasSubtype(SubType.MOUNTAIN, game)) {
                 player.damage(2, source.getSourceId(), game, false, true);
             } else {
                 player.damage(1, source.getSourceId(), game, false, true);
@@ -155,7 +156,7 @@ class AkoumHellkiteDamageEffect extends OneShotEffect {
         }
         Permanent permanent = game.getPermanent(source.getFirstTarget());
         if (land != null && permanent != null) {
-            if (land.hasSubtype("Mountain", game)) {
+            if (land.hasSubtype(SubType.MOUNTAIN, game)) {
                 permanent.damage(2, source.getSourceId(), game, false, true);
             } else {
                 permanent.damage(1, source.getSourceId(), game, false, true);

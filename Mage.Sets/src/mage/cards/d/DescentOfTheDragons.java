@@ -41,6 +41,7 @@ import mage.target.Target;
 import mage.target.common.TargetCreaturePermanent;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -87,7 +88,7 @@ class DescentOfTheDragonsEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            HashMap<UUID, Integer> playersWithTargets = new HashMap<>();
+            Map<UUID, Integer> playersWithTargets = new HashMap<>();
             for (Target target : source.getTargets()) {
                 for (UUID permanentId : target.getTargets()) {
                     Permanent permanent = game.getPermanent(permanentId);

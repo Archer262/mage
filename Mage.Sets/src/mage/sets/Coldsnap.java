@@ -85,6 +85,7 @@ public class Coldsnap extends ExpansionSet {
         cards.add(new SetCardInfo("Drelnoch", 32, Rarity.COMMON, mage.cards.d.Drelnoch.class));
         cards.add(new SetCardInfo("Field Marshal", 5, Rarity.RARE, mage.cards.f.FieldMarshal.class));
         cards.add(new SetCardInfo("Flashfreeze", 33, Rarity.UNCOMMON, mage.cards.f.Flashfreeze.class));
+        cards.add(new SetCardInfo("Freyalise's Radiance", 108, Rarity.UNCOMMON, mage.cards.f.FreyalisesRadiance.class));
         cards.add(new SetCardInfo("Frost Marsh", 146, Rarity.UNCOMMON, mage.cards.f.FrostMarsh.class));
         cards.add(new SetCardInfo("Frost Raptor", 34, Rarity.COMMON, mage.cards.f.FrostRaptor.class));
         cards.add(new SetCardInfo("Frozen Solid", 35, Rarity.COMMON, mage.cards.f.FrozenSolid.class));
@@ -136,6 +137,7 @@ public class Coldsnap extends ExpansionSet {
         cards.add(new SetCardInfo("Resize", 117, Rarity.UNCOMMON, mage.cards.r.Resize.class));
         cards.add(new SetCardInfo("Rimebound Dead", 69, Rarity.COMMON, mage.cards.r.RimeboundDead.class));
         cards.add(new SetCardInfo("Rime Transfusion", 68, Rarity.UNCOMMON, mage.cards.r.RimeTransfusion.class));
+        cards.add(new SetCardInfo("Rimescale Dragon", 95, Rarity.RARE, mage.cards.r.RimescaleDragon.class));
         cards.add(new SetCardInfo("Rimewind Cryomancer", 43, Rarity.UNCOMMON, mage.cards.r.RimewindCryomancer.class));
         cards.add(new SetCardInfo("Rimewind Taskmage", 44, Rarity.COMMON, mage.cards.r.RimewindTaskmage.class));
         cards.add(new SetCardInfo("Rite of Flame", 96, Rarity.COMMON, mage.cards.r.RiteOfFlame.class));
@@ -170,6 +172,7 @@ public class Coldsnap extends ExpansionSet {
         cards.add(new SetCardInfo("Tresserhorn Sinks", 150, Rarity.UNCOMMON, mage.cards.t.TresserhornSinks.class));
         cards.add(new SetCardInfo("Ursine Fylgja", 22, Rarity.UNCOMMON, mage.cards.u.UrsineFylgja.class));
         cards.add(new SetCardInfo("Vanish into Memory", 133, Rarity.UNCOMMON, mage.cards.v.VanishIntoMemory.class));
+        cards.add(new SetCardInfo("Vexing Sphinx", 50, Rarity.RARE, mage.cards.v.VexingSphinx.class));
         cards.add(new SetCardInfo("Wall of Shards", 23, Rarity.UNCOMMON, mage.cards.w.WallOfShards.class));
         cards.add(new SetCardInfo("White Shield Crusader", 24, Rarity.UNCOMMON, mage.cards.w.WhiteShieldCrusader.class));
         cards.add(new SetCardInfo("Wilderness Elemental", 134, Rarity.UNCOMMON, mage.cards.w.WildernessElemental.class));

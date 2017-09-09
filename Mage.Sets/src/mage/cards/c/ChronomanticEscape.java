@@ -27,6 +27,7 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.dynamicvalue.common.StaticValue;
 import mage.abilities.effects.Effect;
@@ -39,9 +40,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.counters.CounterType;
-import mage.filter.common.FilterCreaturePermanent;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -49,13 +48,12 @@ import java.util.UUID;
  */
 public class ChronomanticEscape extends CardImpl {
 
-    private static final FilterCreaturePermanent filter = new FilterCreaturePermanent("Creatures");
 
     public ChronomanticEscape(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.SORCERY}, "{4}{W}{W}");
 
         // Until your next turn, creatures can't attack you. Exile Chronomantic Escape with three time counters on it.
-        getSpellAbility().addEffect(new CantAttackYouAllEffect(Duration.UntilYourNextTurn, filter));
+        getSpellAbility().addEffect(new CantAttackYouAllEffect(Duration.UntilYourNextTurn, StaticFilters.FILTER_PERMANENT_CREATURES));
         getSpellAbility().addEffect(ExileSpellEffect.getInstance());
         Effect effect = new AddCountersSourceEffect(CounterType.TIME.createInstance(), new StaticValue(3), true, true);
         effect.setText("with 3 time counters on it");

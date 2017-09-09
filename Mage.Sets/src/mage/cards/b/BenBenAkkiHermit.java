@@ -49,23 +49,21 @@ import mage.target.common.TargetAttackingCreature;
 import java.util.UUID;
 
 /**
- *
  * @author Loki
  */
 public class BenBenAkkiHermit extends CardImpl {
 
     private static final FilterLandPermanent filter = new FilterLandPermanent("untapped Mountain you control");
 
-       static {
-           filter.add(Predicates.not(new TappedPredicate()));
-           filter.add(new SubtypePredicate(SubType.MOUNTAIN));
-       }
+    static {
+        filter.add(Predicates.not(new TappedPredicate()));
+        filter.add(new SubtypePredicate(SubType.MOUNTAIN));
+    }
 
-       public BenBenAkkiHermit (UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{R}{R}");
+    public BenBenAkkiHermit(UUID ownerId, CardSetInfo setInfo) {
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{R}{R}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Goblin");
-        this.subtype.add("Shaman");
+        this.subtype.add(SubType.GOBLIN, SubType.SHAMAN);
 
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);
@@ -74,7 +72,7 @@ public class BenBenAkkiHermit extends CardImpl {
         this.addAbility(ability);
     }
 
-    public BenBenAkkiHermit (final BenBenAkkiHermit card) {
+    public BenBenAkkiHermit(final BenBenAkkiHermit card) {
         super(card);
     }
 

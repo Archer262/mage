@@ -47,11 +47,12 @@ import mage.constants.TargetController;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
+import mage.game.stack.Spell;
 import mage.players.Player;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
-import mage.game.stack.Spell;
 
 /**
  *
@@ -98,7 +99,7 @@ class ThranTurbineEffect extends OneShotEffect {
 
         if (player != null) {
             Choice numberChoice = new ChoiceImpl();
-            HashSet<String> numbers = new HashSet<>();
+            Set<String> numbers = new HashSet<>();
             numbers.add(Integer.toString(1));
             numbers.add(Integer.toString(2));
             numberChoice.setChoices(numbers);

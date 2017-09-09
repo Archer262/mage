@@ -28,7 +28,6 @@
 package mage.cards.a;
 
 import mage.MageInt;
-import mage.constants.ComparisonType;
 import mage.abilities.TriggeredAbility;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
 import mage.abilities.condition.common.PermanentsOnTheBattlefieldCondition;
@@ -60,7 +59,7 @@ public class ApothecaryGeist extends CardImpl {
 
     public ApothecaryGeist(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{W}");
-        this.subtype.add("Spirit");
+        this.subtype.add(SubType.SPIRIT);
         this.power = new MageInt(2);
         this.toughness = new MageInt(3);
 
@@ -71,7 +70,7 @@ public class ApothecaryGeist extends CardImpl {
         TriggeredAbility triggeredAbility = new EntersBattlefieldTriggeredAbility(new GainLifeEffect(3));
         this.addAbility(new ConditionalTriggeredAbility(
                 triggeredAbility,
-                new PermanentsOnTheBattlefieldCondition(filter, ComparisonType.MORE_THAN, 0),
+                new PermanentsOnTheBattlefieldCondition(filter),
                 "When {this} enters the battlefield, if you control another Spirit, you gain 3 life."));
     }
 

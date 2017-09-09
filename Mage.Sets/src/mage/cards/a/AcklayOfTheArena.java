@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.BecomesMonstrousTriggeredAbility;
@@ -35,9 +36,8 @@ import mage.abilities.keyword.MonstrosityAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.target.common.TargetOpponentsCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -47,8 +47,8 @@ public class AcklayOfTheArena extends CardImpl {
 
     public AcklayOfTheArena(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{R}{G}{W}");
-        this.subtype.add("Insect");
-        this.subtype.add("Beast");
+        this.subtype.add(SubType.INSECT);
+        this.subtype.add(SubType.BEAST);
         this.power = new MageInt(5);
         this.toughness = new MageInt(4);
 

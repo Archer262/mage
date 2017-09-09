@@ -111,6 +111,7 @@ my $cardTemplate = 'cardClass.tmpl';
 my $splitDelimiter = '//';
 my $empty = '';
 my $splitSpell = 'false';
+my $originalName = $cardName;
 
 # Remove the // from name of split cards
 if (index($cardName, $splitDelimiter) != -1) {
@@ -132,11 +133,10 @@ $vars{'className'} = toCamelCase($cardName);
 $vars{'cardNameFirstLetter'} = lc substr($cardName, 0, 1);
 my @card;
 
-foreach my $setName (keys %{$cards{$cardName}}) {
+foreach my $setName (keys %{$cards{$originalName}}) {
   my $setFileName = "../Mage.Sets/src/mage/sets/".$knownSets{$setName}.".java";
-  @card = @{${cards{$cardName}{$setName}}}; 
-  my $line = "        cards.add(new SetCardInfo(\"".$card[0]."\", ".$card[2].", Rarity.".$raritiesConversion{$card[3]}.", mage.cards.".$vars{'cardNameFirstLetter'}.".".$vars{'className'}.".class));\n";  
-  
+  @card = @{${cards{$originalName}{$setName}}};
+  my $line = "        cards.add(new SetCardInfo(\"".$card[0]."\", ".$card[2].", Rarity.".$raritiesConversion{$card[3]}.", mage.cards.".$vars{'cardNameFirstLetter'}.".".$vars{'className'}.".class));\n";
   @ARGV = ($setFileName);
   $^I = '.bak';
   my $last;
@@ -174,35 +174,38 @@ foreach my $setName (keys %{$cards{$cardName}}) {
   unlink $setFileName.".bak";
   print "$setFileName\n";
 }
-print "Generate the card: ".$card[0]."\n";
+
 # Generate the card
 my $result;
 my $template = Text::Template->new(TYPE => 'FILE', SOURCE => $cardTemplate, DELIMITERS => [ '[=', '=]' ]);
 $vars{'author'} = $author;
 $vars{'manaCost'} = fixCost($card[4]);
-print "cost ".$vars{'manaCost'}."\n";
 $vars{'power'} = $card[6];
 $vars{'toughness'} = $card[7];
 
 my @types;
 $vars{'planeswalker'} = 'false';
 $vars{'subType'} = '';
+$vars{'hasSubTypes'} = 'false';
+$vars{'hasSuperTypes'} = 'false';
 my $cardAbilities = $card[8];
 my $type = $card[5];
 while ($type =~ m/([a-zA-Z]+)( )*/g) {
     if (exists($cardTypes{$1})) {
         push(@types, $cardTypes{$1}); 
-print   $cardTypes{$1}."\n";
         if ($cardTypes{$1} eq $cardTypes{'Planeswalker'}) {
             $vars{'planeswalker'} = 'true';
             $cardAbilities = $card[7];
         }
     } else {
         if (@types) {
-            $vars{'subType'} .= "\n        this.subtype.add(\"$1\");";
+            my $st = uc($1);
+            $vars{'subType'} .= "\n        this.subtype.add(SubType.$st);";
+			$vars{'hasSubTypes'} = 'true';
         } else {
             my $st = uc($1);
-            $vars{'subType'} .= "\n        addSuperType(SuperType.$st);";
+            $vars{'subType'} .= "\n        this.addSuperType(SuperType.$st);";
+			$vars{'hasSuperTypes'} = 'true';
         }
     }
 }
@@ -211,6 +214,10 @@ $vars{'type'} = join(', ', @types);
 $vars{'abilitiesImports'} = '';
 $vars{'abilities'} = '';
 
+my $strong = "<strong>";
+$cardAbilities  =~ s/$strong/$empty/g;
+$strong = "</strong>";
+$cardAbilities  =~ s/$strong/$empty/g;
 
 my @abilities = split('\$', $cardAbilities);
 foreach my $ability (@abilities) {

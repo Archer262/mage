@@ -78,6 +78,7 @@ public class Judgment extends ExpansionSet {
         cards.add(new SetCardInfo("Canopy Claws", 108, Rarity.COMMON, mage.cards.c.CanopyClaws.class));
         cards.add(new SetCardInfo("Centaur Rootcaster", 109, Rarity.COMMON, mage.cards.c.CentaurRootcaster.class));
         cards.add(new SetCardInfo("Cephalid Constable", 35, Rarity.RARE, mage.cards.c.CephalidConstable.class));
+        cards.add(new SetCardInfo("Cephalid Inkshrouder", 36, Rarity.UNCOMMON, mage.cards.c.CephalidInkshrouder.class));
         cards.add(new SetCardInfo("Chastise", 8, Rarity.UNCOMMON, mage.cards.c.Chastise.class));
         cards.add(new SetCardInfo("Commander Eesha", 9, Rarity.RARE, mage.cards.c.CommanderEesha.class));
         cards.add(new SetCardInfo("Crush of Wurms", 110, Rarity.RARE, mage.cards.c.CrushOfWurms.class));
@@ -99,6 +100,7 @@ public class Judgment extends ExpansionSet {
         cards.add(new SetCardInfo("Flash of Insight", 40, Rarity.UNCOMMON, mage.cards.f.FlashOfInsight.class));
         cards.add(new SetCardInfo("Fledgling Dragon", 90, Rarity.RARE, mage.cards.f.FledglingDragon.class));
         cards.add(new SetCardInfo("Folk Medicine", 115, Rarity.COMMON, mage.cards.f.FolkMedicine.class));
+        cards.add(new SetCardInfo("Funeral Pyre", 10, Rarity.COMMON, mage.cards.f.FuneralPyre.class));
         cards.add(new SetCardInfo("Genesis", 117, Rarity.RARE, mage.cards.g.Genesis.class));
         cards.add(new SetCardInfo("Giant Warthog", 118, Rarity.COMMON, mage.cards.g.GiantWarthog.class));
         cards.add(new SetCardInfo("Glory", 11, Rarity.RARE, mage.cards.g.Glory.class));
@@ -125,6 +127,7 @@ public class Judgment extends ExpansionSet {
         cards.add(new SetCardInfo("Mental Note", 46, Rarity.COMMON, mage.cards.m.MentalNote.class));
         cards.add(new SetCardInfo("Mirari's Wake", 139, Rarity.RARE, mage.cards.m.MirarisWake.class));
         cards.add(new SetCardInfo("Mirror Wall", 47, Rarity.COMMON, mage.cards.m.MirrorWall.class));
+        cards.add(new SetCardInfo("Mist of Stagnation", 48, Rarity.RARE, mage.cards.m.MistOfStagnation.class));
         cards.add(new SetCardInfo("Nantuko Monastery", 142, Rarity.UNCOMMON, mage.cards.n.NantukoMonastery.class));
         cards.add(new SetCardInfo("Nantuko Tracer", 125, Rarity.COMMON, mage.cards.n.NantukoTracer.class));
         cards.add(new SetCardInfo("Nomad Mythmaker", 15, Rarity.RARE, mage.cards.n.NomadMythmaker.class));
@@ -142,6 +145,7 @@ public class Judgment extends ExpansionSet {
         cards.add(new SetCardInfo("Ray of Revelation", 20, Rarity.COMMON, mage.cards.r.RayOfRevelation.class));
         cards.add(new SetCardInfo("Riftstone Portal", 143, Rarity.UNCOMMON, mage.cards.r.RiftstonePortal.class));
         cards.add(new SetCardInfo("Scalpelexis", 50, Rarity.RARE, mage.cards.s.Scalpelexis.class));
+        cards.add(new SetCardInfo("Seedtime", 130, Rarity.RARE, mage.cards.s.Seedtime.class));
         cards.add(new SetCardInfo("Silver Seraph", 23, Rarity.RARE, mage.cards.s.SilverSeraph.class));
         cards.add(new SetCardInfo("Solitary Confinement", 24, Rarity.RARE, mage.cards.s.SolitaryConfinement.class));
         cards.add(new SetCardInfo("Soulcatchers' Aerie", 25, Rarity.UNCOMMON, mage.cards.s.SoulcatchersAerie.class));
@@ -158,6 +162,7 @@ public class Judgment extends ExpansionSet {
         cards.add(new SetCardInfo("Sylvan Safekeeper", 133, Rarity.RARE, mage.cards.s.SylvanSafekeeper.class));
         cards.add(new SetCardInfo("Test of Endurance", 29, Rarity.RARE, mage.cards.t.TestOfEndurance.class));
         cards.add(new SetCardInfo("Thriss, Nantuko Primus", 134, Rarity.RARE, mage.cards.t.ThrissNantukoPrimus.class));
+        cards.add(new SetCardInfo("Toxic Stench", 74, Rarity.COMMON, mage.cards.t.ToxicStench.class));
         cards.add(new SetCardInfo("Tunneler Wurm", 135, Rarity.UNCOMMON, mage.cards.t.TunnelerWurm.class));
         cards.add(new SetCardInfo("Unquestioned Authority", 31, Rarity.UNCOMMON, mage.cards.u.UnquestionedAuthority.class));
         cards.add(new SetCardInfo("Valor", 32, Rarity.UNCOMMON, mage.cards.v.Valor.class));

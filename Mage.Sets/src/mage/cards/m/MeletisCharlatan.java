@@ -39,9 +39,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.Zone;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.stack.Spell;
 import mage.game.stack.StackObject;
@@ -55,14 +53,6 @@ import mage.target.TargetSpell;
  */
 public class MeletisCharlatan extends CardImpl {
 
-    private static final FilterSpell filter = new FilterSpell("instant or sorcery spell");
-
-    static {
-        filter.add(Predicates.or(
-                new CardTypePredicate(CardType.INSTANT),
-                new CardTypePredicate(CardType.SORCERY)));
-    }
-
     public MeletisCharlatan(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{U}");
         this.subtype.add("Human");
@@ -74,7 +64,7 @@ public class MeletisCharlatan extends CardImpl {
         // {2}{U}, {T}: The controller of target instant or sorcery spell copies it. That player may choose new targets for the copy.
         Ability ability = new SimpleActivatedAbility(Zone.BATTLEFIELD, new MeletisCharlatanCopyTargetSpellEffect(), new ManaCostsImpl("{2}{U}"));
         ability.addCost(new TapSourceCost());
-        Target target = new TargetSpell(filter);
+        Target target = new TargetSpell(StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL);
         ability.addTarget(target);
         this.addAbility(ability);
     }

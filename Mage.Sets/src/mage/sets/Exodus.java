@@ -84,6 +84,7 @@ public class Exodus extends ExpansionSet {
         cards.add(new SetCardInfo("Ertai, Wizard Adept", 33, Rarity.RARE, mage.cards.e.ErtaiWizardAdept.class));
         cards.add(new SetCardInfo("Exalted Dragon", 6, Rarity.RARE, mage.cards.e.ExaltedDragon.class));
         cards.add(new SetCardInfo("Fade Away", 34, Rarity.COMMON, mage.cards.f.FadeAway.class));
+        cards.add(new SetCardInfo("Fighting Chance", 82, Rarity.RARE, mage.cards.f.FightingChance.class));
         cards.add(new SetCardInfo("Flowstone Flood", 83, Rarity.UNCOMMON, mage.cards.f.FlowstoneFlood.class));
         cards.add(new SetCardInfo("Forbid", 35, Rarity.UNCOMMON, mage.cards.f.Forbid.class));
         cards.add(new SetCardInfo("Fugue", 62, Rarity.UNCOMMON, mage.cards.f.Fugue.class));
@@ -98,6 +99,7 @@ public class Exodus extends ExpansionSet {
         cards.add(new SetCardInfo("Mana Breach", 38, Rarity.UNCOMMON, mage.cards.m.ManaBreach.class));
         cards.add(new SetCardInfo("Maniacal Rage", 87, Rarity.COMMON, mage.cards.m.ManiacalRage.class));
         cards.add(new SetCardInfo("Medicine Bag", 133, Rarity.UNCOMMON, mage.cards.m.MedicineBag.class));
+        cards.add(new SetCardInfo("Memory Crystal", 134, Rarity.RARE, mage.cards.m.MemoryCrystal.class));
         cards.add(new SetCardInfo("Merfolk Looter", 39, Rarity.COMMON, mage.cards.m.MerfolkLooter.class));
         cards.add(new SetCardInfo("Mindless Automaton", 135, Rarity.RARE, mage.cards.m.MindlessAutomaton.class));
         cards.add(new SetCardInfo("Mind Over Matter", 40, Rarity.RARE, mage.cards.m.MindOverMatter.class));
@@ -106,7 +108,10 @@ public class Exodus extends ExpansionSet {
         cards.add(new SetCardInfo("Necrologia", 68, Rarity.UNCOMMON, mage.cards.n.Necrologia.class));
         cards.add(new SetCardInfo("Null Brooch", 136, Rarity.RARE, mage.cards.n.NullBrooch.class));
         cards.add(new SetCardInfo("Oath of Druids", 115, Rarity.RARE, mage.cards.o.OathOfDruids.class));
+        cards.add(new SetCardInfo("Oath of Ghouls", 69, Rarity.RARE, mage.cards.o.OathOfGhouls.class));
         cards.add(new SetCardInfo("Oath of Lieges", 11, Rarity.RARE, mage.cards.o.OathOfLieges.class));
+        cards.add(new SetCardInfo("Oath of Mages", 90, Rarity.RARE, mage.cards.o.OathOfMages.class));
+        cards.add(new SetCardInfo("Oath of Scholars", 42, Rarity.RARE, mage.cards.o.OathOfScholars.class));
         cards.add(new SetCardInfo("Ogre Shaman", 91, Rarity.RARE, mage.cards.o.OgreShaman.class));
         cards.add(new SetCardInfo("Onslaught", 92, Rarity.COMMON, mage.cards.o.Onslaught.class));
         cards.add(new SetCardInfo("Paladin en-Vec", 12, Rarity.RARE, mage.cards.p.PaladinEnVec.class));
@@ -130,6 +135,7 @@ public class Exodus extends ExpansionSet {
         cards.add(new SetCardInfo("Rootwater Alligator", 122, Rarity.COMMON, mage.cards.r.RootwaterAlligator.class));
         cards.add(new SetCardInfo("Rootwater Mystic", 44, Rarity.COMMON, mage.cards.r.RootwaterMystic.class));
         cards.add(new SetCardInfo("Sabertooth Wyvern", 99, Rarity.UNCOMMON, mage.cards.s.SabertoothWyvern.class));
+        cards.add(new SetCardInfo("ScareTactics", 73, Rarity.COMMON, mage.cards.s.ScareTactics.class));
         cards.add(new SetCardInfo("School of Piranha", 45, Rarity.COMMON, mage.cards.s.SchoolOfPiranha.class));
         cards.add(new SetCardInfo("Scrivener", 46, Rarity.UNCOMMON, mage.cards.s.Scrivener.class));
         cards.add(new SetCardInfo("Seismic Assault", 101, Rarity.RARE, mage.cards.s.SeismicAssault.class));
@@ -139,6 +145,7 @@ public class Exodus extends ExpansionSet {
         cards.add(new SetCardInfo("Skyshroud Elite", 123, Rarity.UNCOMMON, mage.cards.s.SkyshroudElite.class));
         cards.add(new SetCardInfo("Slaughter", 74, Rarity.UNCOMMON, mage.cards.s.Slaughter.class));
         cards.add(new SetCardInfo("Soltari Visionary", 20, Rarity.COMMON, mage.cards.s.SoltariVisionary.class));
+        cards.add(new SetCardInfo("Song of Serenity", 125, Rarity.UNCOMMON, mage.cards.s.SongOfSerenity.class));
         cards.add(new SetCardInfo("Sonic Burst", 103, Rarity.COMMON, mage.cards.s.SonicBurst.class));
         cards.add(new SetCardInfo("Soul Warden", 21, Rarity.COMMON, mage.cards.s.SoulWarden.class));
         cards.add(new SetCardInfo("Spellbook", 138, Rarity.UNCOMMON, mage.cards.s.Spellbook.class));

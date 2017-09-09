@@ -27,6 +27,7 @@
  */
 package mage.abilities.keyword;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.SpellAbility;
 import mage.abilities.costs.Cost;
@@ -47,8 +48,6 @@ import mage.game.events.GameEvent;
 import mage.game.events.ZoneChangeEvent;
 import mage.players.Player;
 import mage.target.targetpointer.FixedTarget;
-
-import java.util.UUID;
 
 /**
  * 702.32. Flashback
@@ -232,12 +231,10 @@ class FlashbackEffect extends OneShotEffect {
                     ContinuousEffect effect = new FlashbackReplacementEffect();
                     effect.setTargetPointer(new FixedTarget(source.getSourceId(), game.getState().getZoneChangeCounter(source.getSourceId())));
                     game.addEffect(effect, source);
-                    return true;
                 }
-                return false;
+                return true;
             }
         }
-
         return false;
     }
 
@@ -270,6 +267,7 @@ class FlashbackReplacementEffect extends ReplacementEffectImpl {
         if (controller != null) {
             Card card = game.getCard(event.getTargetId());
             if (card != null) {
+                discard();
                 return controller.moveCards(
                         card, Zone.EXILED, source, game, false, false, false, event.getAppliedEffects());
             }
@@ -287,7 +285,7 @@ class FlashbackReplacementEffect extends ReplacementEffectImpl {
         if (event.getTargetId().equals(source.getSourceId())
                 && ((ZoneChangeEvent) event).getFromZone() == Zone.STACK
                 && ((ZoneChangeEvent) event).getToZone() != Zone.EXILED) {
-            discard();
+
             int zcc = game.getState().getZoneChangeCounter(source.getSourceId());
             if (((FixedTarget) getTargetPointer()).getZoneChangeCounter() == zcc) {
                 return true;

@@ -29,8 +29,6 @@
 package mage.cards.i;
 
 import java.util.UUID;
-
-import mage.constants.CardType;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -41,17 +39,16 @@ import mage.abilities.effects.common.TapTargetEffect;
 import mage.abilities.effects.common.UntapSourceEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
 import mage.constants.ColoredManaSymbol;
 import mage.constants.Zone;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 import mage.target.common.TargetCreaturePermanent;
 
 /**
  * @author Loki
  */
 public class InnocenceKami extends CardImpl {
-
-    private static final FilterSpiritOrArcaneCard filter = new FilterSpiritOrArcaneCard();
 
     public InnocenceKami(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{W}{W}");
@@ -63,7 +60,7 @@ public class InnocenceKami extends CardImpl {
         ability.addCost(new TapSourceCost());
         ability.addTarget(new TargetCreaturePermanent());
         this.addAbility(ability);
-        this.addAbility(new SpellCastControllerTriggeredAbility(new UntapSourceEffect(), filter, false));
+        this.addAbility(new SpellCastControllerTriggeredAbility(new UntapSourceEffect(), StaticFilters.SPIRIT_OR_ARCANE_CARD, false));
     }
 
     public InnocenceKami(final InnocenceKami card) {

@@ -139,15 +139,34 @@ class SolemnityEffect2 extends ReplacementEffectImpl {
 
     @Override
     public boolean checksEventType(GameEvent event, Game game) {
-        return event.getType() == EventType.ADD_COUNTER;
+        return event.getType() == EventType.ADD_COUNTER || event.getType() == EventType.ADD_COUNTERS;
     }
 
     @Override
     public boolean applies(GameEvent event, Ability source, Game game) {
         MageObject object = game.getObject(event.getTargetId());
-        if (object instanceof Permanent && filter.match((Permanent) object, game)) {
-            return true;
+        Permanent permanent = game.getPermanentEntering(event.getSourceId());
+        Permanent permanent2 = game.getPermanent(event.getTargetId());
+        Permanent permanent3 = game.getPermanentEntering(event.getTargetId());
+
+        if (object != null && object instanceof Permanent) {
+            if (filter.match((Permanent) object, game)) {
+                return true;
+            }
+        } else if (permanent != null) {
+            if (filter.match(permanent, game)) {
+                return true;
+            }
+        } else if (permanent2 != null) {
+            if (filter.match(permanent2, game)) {
+                return true;
+            }
+        } else if (permanent3 != null) {
+            if (filter.match(permanent3, game)) {
+                return true;
+            }
         }
+
         return false;
     }
 }

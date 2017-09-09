@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.DiesCreatureTriggeredAbility;
 import mage.abilities.effects.common.counter.AddCountersSourceEffect;
@@ -34,9 +35,8 @@ import mage.abilities.keyword.ShroudAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.counters.CounterType;
-
-import java.util.UUID;
 
 /**
  *
@@ -46,7 +46,7 @@ public class AlgaeGharial extends CardImpl {
 
     public AlgaeGharial(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{G}");
-        this.subtype.add("Crocodile");
+        this.subtype.add(SubType.CROCODILE);
 
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);

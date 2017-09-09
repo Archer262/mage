@@ -27,6 +27,8 @@
  */
 package mage.cards.s;
 
+import java.util.List;
+import java.util.UUID;
 import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
@@ -39,6 +41,7 @@ import mage.cards.CardsImpl;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
+import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.filter.common.FilterControlledPermanent;
 import mage.filter.predicate.mageobject.CardTypePredicate;
@@ -52,9 +55,6 @@ import mage.target.Target;
 import mage.target.TargetPlayer;
 import mage.target.common.TargetCreaturePermanent;
 
-import java.util.List;
-import java.util.UUID;
-
 /**
  *
  * @author maurer.it_at_gmail.com
@@ -63,6 +63,7 @@ public class SarkhanTheMad extends CardImpl {
 
     public SarkhanTheMad(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{3}{B}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Sarkhan");
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(7));
 

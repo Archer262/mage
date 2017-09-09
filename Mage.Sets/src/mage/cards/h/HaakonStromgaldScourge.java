@@ -28,6 +28,7 @@
 
 package mage.cards.h;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.DiesTriggeredAbility;
@@ -41,8 +42,6 @@ import mage.cards.CardSetInfo;
 import mage.constants.*;
 import mage.game.Game;
 import mage.game.events.GameEvent;
-
-import java.util.UUID;
 
 /**
  *
@@ -182,7 +181,7 @@ class HaakonPlayKnightsFromGraveyardEffect extends AsThoughEffectImpl {
         if (affectedControllerId.equals(source.getControllerId())) {
             Card knightToCast = game.getCard(objectId);
             if (knightToCast != null
-                    && knightToCast.hasSubtype("Knight", game)
+                    && knightToCast.hasSubtype(SubType.KNIGHT, game)
                     && knightToCast.getOwnerId().equals(source.getControllerId())
                     && game.getState().getZone(objectId) == Zone.GRAVEYARD) {
                 return true;

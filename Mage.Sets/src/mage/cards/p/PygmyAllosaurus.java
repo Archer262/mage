@@ -28,11 +28,12 @@
 package mage.cards.p;
 
 import java.util.UUID;
-import mage.constants.CardType;
 import mage.MageInt;
 import mage.abilities.keyword.SwampwalkAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
+import mage.constants.SubType;
 
 /**
  *
@@ -41,8 +42,8 @@ import mage.cards.CardSetInfo;
 public class PygmyAllosaurus extends CardImpl {
 
     public PygmyAllosaurus(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{G}");
-        this.subtype.add("Lizard");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{G}");
+        this.subtype.add(SubType.DINOSAUR);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

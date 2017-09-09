@@ -39,13 +39,9 @@ import mage.abilities.effects.common.continuous.AddCardSubTypeTargetEffect;
 import mage.abilities.effects.common.continuous.GainAbilityAllEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.choices.Choice;
-import mage.choices.ChoiceImpl;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.choices.ChoiceCreatureType;
+import mage.constants.*;
 import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -53,7 +49,6 @@ import mage.players.Player;
 import mage.target.targetpointer.FixedTarget;
 
 /**
- *
  * @author cbt33, Plopman (Engineered Plague)
  */
 public class MistformSliver extends CardImpl {
@@ -97,16 +92,14 @@ class MistformSliverEffect extends OneShotEffect {
         Player player = game.getPlayer(source.getControllerId());
         Permanent permanent = game.getPermanent(source.getSourceId());
         if (player != null && permanent != null) {
-            Choice typeChoice = new ChoiceImpl(true);
-            typeChoice.setMessage("Choose creature type");
-            typeChoice.setChoices(CardRepository.instance.getCreatureTypes());
+            Choice typeChoice = new ChoiceCreatureType();
             while (!player.choose(Outcome.Detriment, typeChoice, game)) {
                 if (!player.canRespond()) {
                     return false;
                 }
             }
             game.informPlayers(permanent.getName() + ": " + player.getLogName() + " has chosen " + typeChoice.getChoice());
-            ContinuousEffect effect = new AddCardSubTypeTargetEffect(typeChoice.getChoice(), Duration.EndOfTurn);
+            ContinuousEffect effect = new AddCardSubTypeTargetEffect(SubType.byDescription(typeChoice.getChoice()), Duration.EndOfTurn);
             effect.setTargetPointer(new FixedTarget(permanent.getId()));
             game.addEffect(effect, source);
         }

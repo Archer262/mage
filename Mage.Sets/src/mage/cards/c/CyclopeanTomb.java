@@ -81,7 +81,7 @@ public class CyclopeanTomb extends CardImpl {
         Ability ability = new ConditionalActivatedAbility(Zone.BATTLEFIELD, new AddCountersTargetEffect(CounterType.MIRE.createInstance()), new GenericManaCost(2), new IsStepCondition(PhaseStep.UPKEEP), "{2}, {T}: Put a mire counter on target non-Swamp land. That land is a Swamp for as long as it has a mire counter on it. Activate this ability only during your upkeep.");
         ability.addCost(new TapSourceCost());
         ability.addTarget(new TargetLandPermanent(filter));
-        ability.addEffect(new BecomeSwampEffect(Duration.Custom, false, true, "Swamp"));
+        ability.addEffect(new BecomeSwampEffect(Duration.Custom, false, true, SubType.SWAMP));
         this.addAbility(ability, new CyclopeanTombCounterWatcher());
         // When Cyclopean Tomb is put into a graveyard from the battlefield, at the beginning of each of your upkeeps for the rest of the game, remove all mire counters from a land that a mire counter was put onto with Cyclopean Tomb but that a mire counter has not been removed from with Cyclopean Tomb.
         this.addAbility(new PutIntoGraveFromBattlefieldSourceTriggeredAbility(new CyclopeanTombCreateTriggeredEffect()));
@@ -99,7 +99,7 @@ public class CyclopeanTomb extends CardImpl {
 
 class BecomeSwampEffect extends BecomesBasicLandTargetEffect {
 
-    public BecomeSwampEffect(Duration duration, boolean chooseLandType, boolean loseOther, String... landNames) {
+    public BecomeSwampEffect(Duration duration, boolean chooseLandType, boolean loseOther, SubType... landNames) {
         super(duration, chooseLandType, loseOther, landNames);
         staticText = "That land is a Swamp for as long as it has a mire counter on it";
     }

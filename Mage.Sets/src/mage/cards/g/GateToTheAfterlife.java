@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.PutIntoGraveFromBattlefieldAllTriggeredAbility;
 import mage.abilities.condition.common.CardsInControllerGraveCondition;
@@ -58,8 +59,6 @@ import mage.target.common.TargetCardInHand;
 import mage.target.common.TargetCardInLibrary;
 import mage.target.common.TargetCardInYourGraveyard;
 
-import java.util.UUID;
-
 /**
  * @author LevelX2
  */
@@ -87,7 +86,6 @@ public class GateToTheAfterlife extends CardImpl {
                 new GateToTheAfterlifeEffect(), new GenericManaCost(2), new CardsInControllerGraveCondition(6, new FilterCreatureCard()));
         ability.addCost(new TapSourceCost());
         ability.addCost(new SacrificeSourceCost());
-        ability.addEffect(effect);
         this.addAbility(ability);
     }
 

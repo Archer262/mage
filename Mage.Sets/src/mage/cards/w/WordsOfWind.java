@@ -108,6 +108,7 @@ class WordsOfWindEffect extends ReplacementEffectImpl {
                 }
             }
         }
+		this.used = true;
         discard();
         return true;
     }
@@ -119,6 +120,9 @@ class WordsOfWindEffect extends ReplacementEffectImpl {
     
     @Override
     public boolean applies(GameEvent event, Ability source, Game game) {
-        return source.getControllerId().equals(event.getPlayerId());
+        if (!this.used) {
+			return source.getControllerId().equals(event.getPlayerId());
+        }
+        return false;
     }
 }

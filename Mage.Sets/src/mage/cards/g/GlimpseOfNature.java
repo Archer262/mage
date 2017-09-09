@@ -27,6 +27,7 @@
 */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.abilities.DelayedTriggeredAbility;
 import mage.abilities.effects.common.CreateDelayedTriggeredAbilityEffect;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
@@ -34,14 +35,11 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.GameEvent.EventType;
 import mage.game.stack.Spell;
-
-import java.util.UUID;
 
 public class GlimpseOfNature extends CardImpl {
 
@@ -66,11 +64,6 @@ public class GlimpseOfNature extends CardImpl {
 
 class GlimpseOfNatureTriggeredAbility extends DelayedTriggeredAbility {
 
-    private static final FilterSpell filter = new FilterSpell();
-    static {
-            filter.add(new CardTypePredicate(CardType.CREATURE));
-    }
-
     public GlimpseOfNatureTriggeredAbility() {
         super(new DrawCardSourceControllerEffect(1), Duration.EndOfTurn, false);
     }
@@ -88,7 +81,7 @@ class GlimpseOfNatureTriggeredAbility extends DelayedTriggeredAbility {
     public boolean checkTrigger(GameEvent event, Game game) {
         if (event.getPlayerId().equals(this.getControllerId())) {
             Spell spell = game.getStack().getSpell(event.getTargetId());
-            if (spell != null && filter.match(spell, game)) {
+            if (spell != null && StaticFilters.FILTER_SPELL_A_CREATURE.match(spell, game)) {
                 return true;
             }
         }

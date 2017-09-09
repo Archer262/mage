@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.TriggeredAbilityImpl;
@@ -38,10 +39,7 @@ import mage.abilities.effects.common.TapTargetEffect;
 import mage.abilities.keyword.FlyingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Outcome;
-import mage.constants.TargetController;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.permanent.ControllerPredicate;
 import mage.game.Game;
@@ -49,8 +47,6 @@ import mage.game.events.GameEvent;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetCreaturePermanent;
 import mage.target.targetpointer.FixedTarget;
-
-import java.util.UUID;
 
 /**
  *
@@ -152,7 +148,7 @@ class GuardianOfTazeemEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Permanent land = game.getPermanentOrLKIBattlefield(getTargetPointer().getFirst(game, source));
         Permanent targetCreature = game.getPermanent(source.getFirstTarget());
-        if (land != null && targetCreature != null && land.hasSubtype("Island", game)) {
+        if (land != null && targetCreature != null && land.hasSubtype(SubType.ISLAND, game)) {
             ContinuousEffect effect = new DontUntapInControllersNextUntapStepTargetEffect("that creature");
             effect.setTargetPointer(new FixedTarget(targetCreature, game));
             game.addEffect(effect, source);

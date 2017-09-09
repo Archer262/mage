@@ -28,12 +28,12 @@
 
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -45,8 +45,8 @@ public class ArmoredWolfRider extends CardImpl {
 
     public ArmoredWolfRider (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{G}{W}");
-        this.subtype.add("Elf");
-        this.subtype.add("Knight");
+        this.subtype.add(SubType.ELF);
+        this.subtype.add(SubType.KNIGHT);
 
 
         this.power = new MageInt(4);

@@ -118,7 +118,7 @@ class GnarlrootTrapperManaCondition extends CreatureCastManaCondition {
     public boolean apply(Game game, Ability source) {
         if (super.apply(game, source)) {
             MageObject object = game.getObject(source.getSourceId());
-            if (object.hasSubtype("Elf", game)
+            if (object.hasSubtype(SubType.ELF, game)
                     && object.isCreature()) {
                 return true;
             }

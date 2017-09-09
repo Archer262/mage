@@ -27,6 +27,7 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.DiesTriggeredAbility;
 import mage.abilities.costs.mana.GenericManaCost;
@@ -36,10 +37,8 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.filter.common.FilterCreatureCard;
-import mage.filter.predicate.permanent.AnotherPredicate;
+import mage.filter.predicate.mageobject.AnotherCardPredicate;
 import mage.target.common.TargetCardInYourGraveyard;
-
-import java.util.UUID;
 
 /**
  *
@@ -48,12 +47,13 @@ import java.util.UUID;
 public class CarrionThrash extends CardImpl {
 
     private static final FilterCreatureCard filter = new FilterCreatureCard("another creature card from your graveyard");
+
     static {
-        filter.add(new AnotherPredicate());
+        filter.add(new AnotherCardPredicate());
     }
 
     public CarrionThrash(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{B}{R}{G}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{B}{R}{G}");
         this.subtype.add("Viashino");
         this.subtype.add("Warrior");
 

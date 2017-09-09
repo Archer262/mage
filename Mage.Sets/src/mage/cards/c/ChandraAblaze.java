@@ -27,6 +27,8 @@
  */
 package mage.cards.c;
 
+import java.util.Set;
+import java.util.UUID;
 import mage.ObjectColor;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
@@ -40,6 +42,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.filter.FilterCard;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.CardTypePredicate;
@@ -51,9 +54,6 @@ import mage.target.common.TargetCardInGraveyard;
 import mage.target.common.TargetCreatureOrPlayer;
 import mage.target.common.TargetDiscard;
 
-import java.util.Set;
-import java.util.UUID;
-
 /**
  *
  * @author North
@@ -62,6 +62,7 @@ public class ChandraAblaze extends CardImpl {
 
     public ChandraAblaze(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{4}{R}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Chandra");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(5));

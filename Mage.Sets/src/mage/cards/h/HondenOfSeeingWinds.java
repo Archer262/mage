@@ -56,7 +56,7 @@ public class HondenOfSeeingWinds extends CardImpl {
     public HondenOfSeeingWinds(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{4}{U}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Shrine");
+        this.subtype.add(SubType.SHRINE);
 
 
         // At the beginning of your upkeep, draw a card for each Shrine you control.

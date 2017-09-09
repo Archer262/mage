@@ -40,8 +40,9 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.filter.FilterPermanent;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
@@ -55,7 +56,8 @@ import mage.target.TargetPlayer;
 public class LilianaOfTheVeil extends CardImpl {
 
     public LilianaOfTheVeil(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{1}{B}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{1}{B}{B}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Liliana");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(3));
@@ -64,7 +66,7 @@ public class LilianaOfTheVeil extends CardImpl {
         this.addAbility(new LoyaltyAbility(new DiscardEachPlayerEffect(), 1));
 
         // -2: Target player sacrifices a creature.
-        LoyaltyAbility ability = new LoyaltyAbility(new SacrificeEffect(new FilterCreaturePermanent(), 1, "Target player"), -2);
+        LoyaltyAbility ability = new LoyaltyAbility(new SacrificeEffect(StaticFilters.FILTER_PERMANENT_CREATURE, 1, "Target player"), -2);
         ability.addTarget(new TargetPlayer());
         this.addAbility(ability);
 

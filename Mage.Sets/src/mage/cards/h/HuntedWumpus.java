@@ -97,7 +97,7 @@ class HuntedWumpusEffect extends OneShotEffect {
                     if (player != null) {
                         TargetCardInHand target = new TargetCardInHand(new FilterCreatureCard());
                         if (target.canChoose(source.getSourceId(), playerId, game)
-                                && player.chooseUse(Outcome.Neutral, "Put a creature card from your hand in play?", source, game)
+                                && player.chooseUse(Outcome.Neutral, "Put a creature card from your hand onto the battlefield?", source, game)
                                 && player.choose(Outcome.PutCreatureInPlay, target, source.getSourceId(), game)) {
                             Card card = game.getCard(target.getFirstTarget());
                             if (card != null) {

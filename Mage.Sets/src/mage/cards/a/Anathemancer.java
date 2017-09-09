@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -38,6 +39,7 @@ import mage.abilities.keyword.UnearthAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.filter.common.FilterLandPermanent;
 import mage.filter.predicate.Predicates;
@@ -45,8 +47,6 @@ import mage.filter.predicate.mageobject.SupertypePredicate;
 import mage.filter.predicate.permanent.ControllerIdPredicate;
 import mage.game.Game;
 import mage.target.TargetPlayer;
-
-import java.util.UUID;
 
 /**
  *
@@ -56,8 +56,8 @@ public class Anathemancer extends CardImpl {
 
     public Anathemancer(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{B}{R}");
-        this.subtype.add("Zombie");
-        this.subtype.add("Wizard");
+        this.subtype.add(SubType.ZOMBIE);
+        this.subtype.add(SubType.WIZARD);
        
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

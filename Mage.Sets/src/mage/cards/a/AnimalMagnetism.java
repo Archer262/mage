@@ -27,6 +27,8 @@
  */
 package mage.cards.a;
 
+import java.util.Set;
+import java.util.UUID;
 import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
@@ -40,9 +42,6 @@ import mage.players.Player;
 import mage.target.Target;
 import mage.target.TargetCard;
 import mage.target.common.TargetOpponent;
-
-import java.util.Set;
-import java.util.UUID;
 
 /**
  *
@@ -91,9 +90,9 @@ class AnimalMagnetismEffect extends OneShotEffect {
             cards.addAll(controller.getLibrary().getTopCards(game, 5));
             if (!cards.isEmpty()) {
                 controller.revealCards(staticText, cards, game);
-                Card cardToHand;
+                Card cardToBattlefield;
                 if (cards.size() == 1) {
-                    cardToHand = cards.getRandom(game);
+                    cardToBattlefield = cards.getRandom(game);
                 } else {
                     Player opponent;
                     Set<UUID> opponents = game.getOpponents(controller.getId());
@@ -106,11 +105,11 @@ class AnimalMagnetismEffect extends OneShotEffect {
                     }
                     TargetCard target = new TargetCard(1, Zone.LIBRARY, new FilterCreatureCard());
                     opponent.chooseTarget(outcome, cards, target, source, game);
-                    cardToHand = game.getCard(target.getFirstTarget());
+                    cardToBattlefield = game.getCard(target.getFirstTarget());
                 }
-                if (cardToHand != null) {
-                    controller.moveCards(cardToHand, Zone.HAND, source, game);
-                    cards.remove(cardToHand);
+                if (cardToBattlefield != null) {
+                    controller.moveCards(cardToBattlefield, Zone.BATTLEFIELD, source, game);
+                    cards.remove(cardToBattlefield);
                 }
                 controller.moveCards(cards, Zone.GRAVEYARD, source, game);
             }

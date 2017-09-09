@@ -27,6 +27,7 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.MageObject;
 import mage.Mana;
 import mage.abilities.Ability;
@@ -43,15 +44,14 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.constants.TargetController;
 import mage.constants.Zone;
 import mage.game.Game;
+import mage.game.command.emblems.ChandraTorchOfDefianceEmblem;
 import mage.players.Library;
 import mage.players.Player;
-import mage.game.command.emblems.ChandraTorchOfDefianceEmblem;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  * @author fireshoes
@@ -60,6 +60,7 @@ public class ChandraTorchOfDefiance extends CardImpl {
 
     public ChandraTorchOfDefiance(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{R}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Chandra");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
@@ -94,7 +95,7 @@ class ChandraTorchOfDefianceEffect extends OneShotEffect {
 
     public ChandraTorchOfDefianceEffect() {
         super(Outcome.Detriment);
-        this.staticText = "Exile the top card of your library. You may cast that card. If you don't, Chandra, Torch of Defiance deals 2 damage to each opponent";
+        this.staticText = "Exile the top card of your library. You may cast that card. If you don't, {this} deals 2 damage to each opponent";
     }
 
     public ChandraTorchOfDefianceEffect(final ChandraTorchOfDefianceEffect effect) {
@@ -112,17 +113,12 @@ class ChandraTorchOfDefianceEffect extends OneShotEffect {
         MageObject sourceObject = source.getSourceObject(game);
         if (controller != null && sourceObject != null && controller.getLibrary().hasCards()) {
             Library library = controller.getLibrary();
-            Card card = library.removeFromTop(game);
+            Card card = library.getFromTop(game);
             if (card != null) {
                 boolean exiledCardWasCast = false;
                 controller.moveCardToExileWithInfo(card, source.getSourceId(), sourceObject.getIdName(), source.getSourceId(), game, Zone.LIBRARY, true);
                 if (!card.getManaCost().isEmpty()) {
                     if (controller.chooseUse(Outcome.Benefit, "Cast the card? (You still pay the costs)", source, game) && !card.isLand()) {
-//                    LinkedHashMap<UUID, ActivatedAbility> useableAbilities = controller.getUseableActivatedAbilities(card, Zone.EXILED, game);
-//                    for (ActivatedAbility ability : useableAbilities.values()) {
-//
-//                    }
-//                    controller.activateAbility(useableAbilities, game);
                         exiledCardWasCast = controller.cast(card.getSpellAbility(), game, false);
                     }
                 }

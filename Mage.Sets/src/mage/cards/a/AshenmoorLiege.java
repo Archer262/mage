@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.ObjectColor;
 import mage.abilities.TriggeredAbilityImpl;
@@ -37,6 +38,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.mageobject.ColorPredicate;
@@ -44,8 +46,6 @@ import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.GameEvent.EventType;
 import mage.target.targetpointer.FixedTarget;
-
-import java.util.UUID;
 
 /**
  *
@@ -64,8 +64,8 @@ public class AshenmoorLiege extends CardImpl {
 
     public AshenmoorLiege(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{B/R}{B/R}{B/R}");
-        this.subtype.add("Elemental");
-        this.subtype.add("Knight");
+        this.subtype.add(SubType.ELEMENTAL);
+        this.subtype.add(SubType.KNIGHT);
 
         this.power = new MageInt(4);
         this.toughness = new MageInt(1);

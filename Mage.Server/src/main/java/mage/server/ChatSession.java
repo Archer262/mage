@@ -27,6 +27,12 @@
  */
 package mage.server;
 
+import java.text.DateFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import mage.interfaces.callback.ClientCallback;
 import mage.interfaces.callback.ClientCallbackMethod;
 import mage.view.ChatMessage;
@@ -35,13 +41,6 @@ import mage.view.ChatMessage.MessageType;
 import mage.view.ChatMessage.SoundToPlay;
 import org.apache.log4j.Logger;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * @author BetaSteward_at_googlemail.com
  */
@@ -49,6 +48,8 @@ public class ChatSession {
 
     private static final Logger logger = Logger.getLogger(ChatSession.class);
     private static final DateFormat timeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT);
+
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private final ConcurrentHashMap<UUID, String> clients = new ConcurrentHashMap<>();
     private final UUID chatId;
@@ -65,7 +66,13 @@ public class ChatSession {
         UserManager.instance.getUser(userId).ifPresent(user -> {
             if (!clients.containsKey(userId)) {
                 String userName = user.getName();
-                clients.put(userId, userName);
+                final Lock w = lock.writeLock();
+                w.lock();
+                try {
+                    clients.put(userId, userName);
+                } finally {
+                    w.unlock();
+                }
                 broadcast(null, userName + " has joined (" + user.getClientVersion() + ')', MessageColor.BLUE, true, MessageType.STATUS, null);
                 logger.trace(userName + " joined chat " + chatId);
             }
@@ -81,8 +88,14 @@ public class ChatSession {
             }
             if (userId != null && clients.containsKey(userId)) {
                 String userName = clients.get(userId);
-                if (reason != DisconnectReason.LostConnection) { // for lost connection the user will be reconnected or session expire so no remove of chat yet
-                    clients.remove(userId);
+                if (reason != DisconnectReason.LostConnection) { // for lost connection the user will be reconnected or session expire so no removeUserFromAllTablesAndChat of chat yet
+                    final Lock w = lock.writeLock();
+                    w.lock();
+                    try {
+                        clients.remove(userId);
+                    } finally {
+                        w.unlock();
+                    }
                     logger.debug(userName + '(' + reason.toString() + ')' + " removed from chatId " + chatId);
                 }
                 String message = reason.getMessage();
@@ -119,9 +132,17 @@ public class ChatSession {
 
     public void broadcast(String userName, String message, MessageColor color, boolean withTime, MessageType messageType, SoundToPlay soundToPlay) {
         if (!message.isEmpty()) {
-            HashSet<UUID> clientsToRemove = new HashSet<>();
+            Set<UUID> clientsToRemove = new HashSet<>();
             ClientCallback clientCallback = new ClientCallback(ClientCallbackMethod.CHATMESSAGE, chatId, new ChatMessage(userName, message, (withTime ? timeFormatter.format(new Date()) : ""), color, messageType, soundToPlay));
-            for (UUID userId : clients.keySet()) {
+            List<UUID> chatUserIds = new ArrayList<>();
+            final Lock r = lock.readLock();
+            r.lock();
+            try {
+                chatUserIds.addAll(clients.keySet());
+            } finally {
+                r.unlock();
+            }
+            for (UUID userId : chatUserIds) {
                 Optional<User> user = UserManager.instance.getUser(userId);
                 if (user.isPresent()) {
                     user.get().fireCallback(clientCallback);
@@ -129,8 +150,14 @@ public class ChatSession {
                     clientsToRemove.add(userId);
                 }
             }
-            for (UUID userIdToRemove : clientsToRemove) {
-                clients.remove(userIdToRemove);
+            if (!clientsToRemove.isEmpty()) {
+                final Lock w = lock.readLock();
+                w.lock();
+                try {
+                    clients.keySet().removeAll(clientsToRemove);
+                } finally {
+                    w.unlock();
+                }
             }
 
         }

@@ -27,28 +27,20 @@
  */
 package mage.abilities.effects.common.continuous;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.ContinuousEffectImpl;
-import mage.abilities.mana.BlackManaAbility;
-import mage.abilities.mana.BlueManaAbility;
-import mage.abilities.mana.GreenManaAbility;
-import mage.abilities.mana.RedManaAbility;
-import mage.abilities.mana.WhiteManaAbility;
-import mage.cards.repository.CardRepository;
+import mage.abilities.mana.*;
 import mage.choices.Choice;
 import mage.choices.ChoiceBasicLandType;
-import mage.constants.CardType;
-import mage.constants.DependencyType;
-import mage.constants.Duration;
-import mage.constants.Layer;
-import mage.constants.Outcome;
-import mage.constants.SubLayer;
+import mage.constants.*;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * http://mtgsalvation.gamepedia.com/Land_changers
@@ -58,38 +50,38 @@ import mage.players.Player;
 public class BecomesBasicLandTargetEffect extends ContinuousEffectImpl {
 
     protected boolean chooseLandType;
-    protected ArrayList<String> landTypes = new ArrayList();
-    protected ArrayList<String> landTypesToAdd = new ArrayList();
+    protected List<SubType> landTypes = new ArrayList<>();
+    protected List<SubType> landTypesToAdd = new ArrayList<>();
     protected boolean loseOther;  // loses all other abilities, card types, and creature types
 
     public BecomesBasicLandTargetEffect(Duration duration) {
-        this(duration, true, new String[0]);
+        this(duration, true);
     }
 
-    public BecomesBasicLandTargetEffect(Duration duration, String... landNames) {
+    public BecomesBasicLandTargetEffect(Duration duration, SubType... landNames) {
         this(duration, false, landNames);
     }
 
-    public BecomesBasicLandTargetEffect(Duration duration, boolean chooseLandType, String... landNames) {
+    public BecomesBasicLandTargetEffect(Duration duration, boolean chooseLandType, SubType... landNames) {
         this(duration, chooseLandType, true, landNames);
     }
 
-    public BecomesBasicLandTargetEffect(Duration duration, boolean chooseLandType, boolean loseOther, String... landNames) {
+    public BecomesBasicLandTargetEffect(Duration duration, boolean chooseLandType, boolean loseOther, SubType... landNames) {
         super(duration, Outcome.Detriment);
         this.landTypes.addAll(Arrays.asList(landNames));
-        if (landTypes.contains("Mountain")) {
+        if (landTypes.contains(SubType.MOUNTAIN)) {
             dependencyTypes.add(DependencyType.BecomeMountain);
         }
-        if (landTypes.contains("Forest")) {
+        if (landTypes.contains(SubType.FOREST)) {
             dependencyTypes.add(DependencyType.BecomeForest);
         }
-        if (landTypes.contains("Swamp")) {
+        if (landTypes.contains(SubType.SWAMP)) {
             dependencyTypes.add(DependencyType.BecomeSwamp);
         }
-        if (landTypes.contains("Island")) {
+        if (landTypes.contains(SubType.ISLAND)) {
             dependencyTypes.add(DependencyType.BecomeIsland);
         }
-        if (landTypes.contains("Plains")) {
+        if (landTypes.contains(SubType.PLAINS)) {
             dependencyTypes.add(DependencyType.BecomePlains);
         }
         this.chooseLandType = chooseLandType;
@@ -125,7 +117,7 @@ public class BecomesBasicLandTargetEffect extends ContinuousEffectImpl {
             if (controller != null) {
                 Choice choice = new ChoiceBasicLandType();
                 controller.choose(outcome, choice, game);
-                landTypes.add(choice.getChoice());
+                landTypes.add(SubType.byDescription(choice.getChoice()));
             } else {
                 this.discard();
             }
@@ -152,11 +144,11 @@ public class BecomesBasicLandTargetEffect extends ContinuousEffectImpl {
                             // So the ability removing has to be done before Layer 6
                             land.removeAllAbilities(source.getSourceId(), game);
                             // 305.7
-                            land.getSubtype(game).removeAll(CardRepository.instance.getLandTypes());
+                            land.getSubtype(game).removeAll(SubType.getLandTypes(false));
                             land.getSubtype(game).addAll(landTypes);
                         } else {
                             landTypesToAdd.clear();
-                            for (String subtype : landTypes) {
+                            for (SubType subtype : landTypes) {
                                 if (!land.getSubtype(game).contains(subtype)) {
                                     land.getSubtype(game).add(subtype);
                                     landTypesToAdd.add(subtype);
@@ -165,21 +157,21 @@ public class BecomesBasicLandTargetEffect extends ContinuousEffectImpl {
                         }
                         break;
                     case AbilityAddingRemovingEffects_6:
-                        for (String landType : landTypesToAdd) {
+                        for (SubType landType : landTypesToAdd) {
                             switch (landType) {
-                                case "Swamp":
+                                case SWAMP:
                                     land.addAbility(new BlackManaAbility(), source.getSourceId(), game);
                                     break;
-                                case "Mountain":
+                                case MOUNTAIN:
                                     land.addAbility(new RedManaAbility(), source.getSourceId(), game);
                                     break;
-                                case "Forest":
+                                case FOREST:
                                     land.addAbility(new GreenManaAbility(), source.getSourceId(), game);
                                     break;
-                                case "Island":
+                                case ISLAND:
                                     land.addAbility(new BlueManaAbility(), source.getSourceId(), game);
                                     break;
-                                case "Plains":
+                                case PLAINS:
                                     land.addAbility(new WhiteManaAbility(), source.getSourceId(), game);
                                     break;
                             }
@@ -203,7 +195,7 @@ public class BecomesBasicLandTargetEffect extends ContinuousEffectImpl {
         } else {
             sb.append("Target land becomes a ");
             int i = 1;
-            for (String landType : landTypes) {
+            for (SubType landType : landTypes) {
                 if (i > 1) {
                     if (i == landTypes.size()) {
                         sb.append(" and ");

@@ -27,6 +27,7 @@
  */
 package mage.cards.o;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -38,11 +39,9 @@ import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SuperType;
 import mage.constants.TargetController;
-import mage.filter.common.FilterPlaneswalkerPermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.players.Player;
-
-import java.util.UUID;
 
 /**
  *
@@ -51,7 +50,7 @@ import java.util.UUID;
 public class OathOfJace extends CardImpl {
 
     public OathOfJace(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{2}{U}");
+        super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT}, "{2}{U}");
         addSuperType(SuperType.LEGENDARY);
 
         // When Oath of Jace enters the battlefield, draw three cards, then discard two cards.
@@ -92,7 +91,7 @@ class OathOfJaceEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            int planeswalker = game.getBattlefield().countAll(new FilterPlaneswalkerPermanent(), source.getControllerId(), game);
+            int planeswalker = game.getBattlefield().countAll(StaticFilters.FILTER_PERMANENT_PLANESWALKER, source.getControllerId(), game);
             if (planeswalker > 0) {
                 controller.scry(planeswalker, source, game);
             }

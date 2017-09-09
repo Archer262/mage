@@ -24,8 +24,7 @@
 * The views and conclusions contained in the software and documentation are those of the
 * authors and should not be interpreted as representing official policies, either expressed
 * or implied, of BetaSteward_at_googlemail.com.
-*/
-
+ */
 package mage.sets;
 
 import mage.cards.ExpansionSet;
@@ -91,6 +90,7 @@ public class Weatherlight extends ExpansionSet {
         cards.add(new SetCardInfo("Cone of Flame", 95, Rarity.UNCOMMON, mage.cards.c.ConeOfFlame.class));
         cards.add(new SetCardInfo("Debt of Loyalty", 127, Rarity.RARE, mage.cards.d.DebtOfLoyalty.class));
         cards.add(new SetCardInfo("Dense Foliage", 66, Rarity.RARE, mage.cards.d.DenseFoliage.class));
+        cards.add(new SetCardInfo("Dingus Staff", 149, Rarity.UNCOMMON, mage.cards.d.DingusStaff.class));
         cards.add(new SetCardInfo("Disrupt", 37, Rarity.COMMON, mage.cards.d.Disrupt.class));
         cards.add(new SetCardInfo("Doomsday", 8, Rarity.RARE, mage.cards.d.Doomsday.class));
         cards.add(new SetCardInfo("Downdraft", 67, Rarity.UNCOMMON, mage.cards.d.Downdraft.class));
@@ -107,7 +107,7 @@ public class Weatherlight extends ExpansionSet {
         cards.add(new SetCardInfo("Fire Whip", 100, Rarity.COMMON, mage.cards.f.FireWhip.class));
         cards.add(new SetCardInfo("Fit of Rage", 102, Rarity.COMMON, mage.cards.f.FitOfRage.class));
         cards.add(new SetCardInfo("Fledgling Djinn", 11, Rarity.COMMON, mage.cards.f.FledglingDjinn.class));
-	cards.add(new SetCardInfo("Flux", 27, Rarity.COMMON, mage.cards.f.Flux.class));
+        cards.add(new SetCardInfo("Flux", 39, Rarity.COMMON, mage.cards.f.Flux.class));
         cards.add(new SetCardInfo("Fog Elemental", 40, Rarity.COMMON, mage.cards.f.FogElemental.class));
         cards.add(new SetCardInfo("Foriysian Brigade", 130, Rarity.UNCOMMON, mage.cards.f.ForiysianBrigade.class));
         cards.add(new SetCardInfo("Gaea's Blessing", 71, Rarity.UNCOMMON, mage.cards.g.GaeasBlessing.class));
@@ -145,6 +145,7 @@ public class Weatherlight extends ExpansionSet {
         cards.add(new SetCardInfo("Nature's Kiss", 78, Rarity.COMMON, mage.cards.n.NaturesKiss.class));
         cards.add(new SetCardInfo("Nature's Resurgence", 79, Rarity.RARE, mage.cards.n.NaturesResurgence.class));
         cards.add(new SetCardInfo("Necratog", 18, Rarity.UNCOMMON, mage.cards.n.Necratog.class));
+        cards.add(new SetCardInfo("Noble Benefactor", 44, Rarity.UNCOMMON, mage.cards.n.NobleBenefactor.class));
         cards.add(new SetCardInfo("Null Rod", 154, Rarity.RARE, mage.cards.n.NullRod.class));
         cards.add(new SetCardInfo("Odylic Wraith", 19, Rarity.UNCOMMON, mage.cards.o.OdylicWraith.class));
         cards.add(new SetCardInfo("Ophidian", 45, Rarity.COMMON, mage.cards.o.Ophidian.class));

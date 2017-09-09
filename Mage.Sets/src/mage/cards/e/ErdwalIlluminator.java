@@ -42,6 +42,7 @@ import mage.game.events.GameEvent.EventType;
 import mage.watchers.Watcher;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -107,7 +108,7 @@ class ErdwalIlluminatorTriggeredAbility extends TriggeredAbilityImpl {
 
 class InvestigatedWatcher extends Watcher {
 
-    private final HashMap<UUID, Integer> timesInvestigated = new HashMap<>();
+    private final Map<UUID, Integer> timesInvestigated = new HashMap<>();
 
     public InvestigatedWatcher() {
         super(InvestigatedWatcher.class.getSimpleName(), WatcherScope.GAME);

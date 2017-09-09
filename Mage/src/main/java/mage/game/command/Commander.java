@@ -27,6 +27,9 @@
  */
 package mage.game.command;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.UUID;
 import mage.MageInt;
 import mage.ObjectColor;
 import mage.abilities.Abilities;
@@ -36,17 +39,16 @@ import mage.abilities.SpellAbility;
 import mage.abilities.common.CastCommanderAbility;
 import mage.abilities.costs.mana.ManaCost;
 import mage.abilities.costs.mana.ManaCosts;
+import mage.abilities.text.TextPart;
 import mage.cards.Card;
 import mage.cards.FrameStyle;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.game.Game;
 import mage.game.events.ZoneChangeEvent;
 import mage.util.GameLog;
-
-import java.util.EnumSet;
-import java.util.List;
-import java.util.UUID;
+import mage.util.SubTypeList;
 
 public class Commander implements CommandObject {
 
@@ -118,12 +120,12 @@ public class Commander implements CommandObject {
     }
 
     @Override
-    public List<String> getSubtype(Game game) {
+    public SubTypeList getSubtype(Game game) {
         return sourceObject.getSubtype(game);
     }
 
     @Override
-    public boolean hasSubtype(String subtype, Game game) {
+    public boolean hasSubtype(SubType subtype, Game game) {
         return sourceObject.hasSubtype(subtype, game);
     }
 
@@ -226,6 +228,25 @@ public class Commander implements CommandObject {
     @Override
     public void setZoneChangeCounter(int value, Game game) {
         sourceObject.setZoneChangeCounter(value, game);
+    }
+
+    @Override
+    public boolean isAllCreatureTypes() {
+        return false;
+    }
+
+    @Override
+    public void setIsAllCreatureTypes(boolean value) {
+    }
+
+    @Override
+    public List<TextPart> getTextParts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TextPart addTextPart(TextPart textPart) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

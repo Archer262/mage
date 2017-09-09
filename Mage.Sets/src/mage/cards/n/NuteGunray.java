@@ -27,6 +27,7 @@
  */
 package mage.cards.n;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldControlledTriggeredAbility;
@@ -49,8 +50,6 @@ import mage.filter.predicate.permanent.TokenPredicate;
 import mage.game.permanent.token.DroidToken;
 import mage.target.common.TargetControlledPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author Styxo
@@ -66,7 +65,7 @@ public class NuteGunray extends CardImpl {
     public NuteGunray(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{W}{U}{B}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Neimidian");
+        this.subtype.add("Neimoidian");
         this.subtype.add("Advisor");
         this.power = new MageInt(2);
         this.toughness = new MageInt(3);

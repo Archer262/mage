@@ -45,6 +45,7 @@ import mage.abilities.costs.mana.ManaCost;
 import mage.abilities.costs.mana.ManaCosts;
 import mage.abilities.keyword.BestowAbility;
 import mage.abilities.keyword.MorphAbility;
+import mage.abilities.text.TextPart;
 import mage.cards.Card;
 import mage.cards.CardsImpl;
 import mage.cards.FrameStyle;
@@ -61,6 +62,7 @@ import mage.game.permanent.Permanent;
 import mage.game.permanent.PermanentCard;
 import mage.players.Player;
 import mage.util.GameLog;
+import mage.util.SubTypeList;
 
 /**
  *
@@ -68,8 +70,8 @@ import mage.util.GameLog;
  */
 public class Spell extends StackObjImpl implements Card {
 
-    private final List<Card> spellCards = new ArrayList<>();
     private final List<SpellAbility> spellAbilities = new ArrayList<>();
+    private final List<Card> spellCards = new ArrayList<>();
 
     private final Card card;
     private final ObjectColor color;
@@ -83,6 +85,7 @@ public class Spell extends StackObjImpl implements Card {
     private boolean copiedSpell;
     private boolean faceDown;
     private boolean countered;
+    private boolean resolving = false;
 
     private boolean doneActivatingManaAbilities; // if this is true, the player is no longer allowed to pay the spell costs with activating of mana abilies
 
@@ -106,7 +109,6 @@ public class Spell extends StackObjImpl implements Card {
         this.controllerId = controllerId;
         this.fromZone = fromZone;
         this.countered = false;
-        this.doneActivatingManaAbilities = false;
     }
 
     public Spell(final Spell spell) {
@@ -127,17 +129,23 @@ public class Spell extends StackObjImpl implements Card {
         } else {
             this.card = spell.card.copy();
         }
-        this.controllerId = spell.controllerId;
+
         this.fromZone = spell.fromZone;
-        this.copiedSpell = spell.copiedSpell;
-        this.faceDown = spell.faceDown;
         this.color = spell.color.copy();
         this.frameColor = spell.color.copy();
         this.frameStyle = spell.frameStyle;
+
+        this.controllerId = spell.controllerId;
+        this.copiedSpell = spell.copiedSpell;
+        this.faceDown = spell.faceDown;
+        this.countered = spell.countered;
+        this.resolving = spell.resolving;
+
         this.doneActivatingManaAbilities = spell.doneActivatingManaAbilities;
     }
 
     public boolean activate(Game game, boolean noMana) {
+        setDoneActivatingManaAbilities(false); // Used for e.g. improvise
         if (!spellAbilities.get(0).activate(game, noMana)) {
             return false;
         }
@@ -157,7 +165,7 @@ public class Spell extends StackObjImpl implements Card {
                 }
             }
         }
-        setDoneActivatingManaAbilities(false); // can be activated again maybe during the resolution of the spell (e.g. Metallic Rebuke)
+        setDoneActivatingManaAbilities(true); // can be activated again maybe during the resolution of the spell (e.g. Metallic Rebuke)
         return true;
     }
 
@@ -188,6 +196,7 @@ public class Spell extends StackObjImpl implements Card {
         if (controller == null) {
             return false;
         }
+        this.resolving = true;
         if (this.isInstant() || this.isSorcery()) {
             int index = 0;
             result = false;
@@ -254,7 +263,7 @@ public class Spell extends StackObjImpl implements Card {
                         if (permanent != null && permanent instanceof PermanentCard) {
                             permanent.setSpellAbility(ability); // otherwise spell ability without bestow will be set
                             card.addCardType(CardType.CREATURE);
-                            card.getSubtype(game).remove("Aura");
+                            card.getSubtype(game).remove(SubType.AURA);
                         }
                     }
                     return ability.resolve(game);
@@ -271,7 +280,7 @@ public class Spell extends StackObjImpl implements Card {
                     Permanent permanent = game.getPermanent(card.getId());
                     if (permanent != null && permanent instanceof PermanentCard) {
                         ((PermanentCard) permanent).getCard().addCardType(CardType.CREATURE);
-                        ((PermanentCard) permanent).getCard().getSubtype(game).remove("Aura");
+                        ((PermanentCard) permanent).getCard().getSubtype(game).remove(SubType.AURA);
                         return true;
                     }
                 }
@@ -470,10 +479,9 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public List<String> getSubtype(Game game) {
+    public SubTypeList getSubtype(Game game) {
         if (this.getSpellAbility() instanceof BestowAbility) {
-            List<String> subtypes = new ArrayList<>();
-            subtypes.addAll(card.getSubtype(game));
+            SubTypeList subtypes = card.getSubtype(game);
             subtypes.add("Aura");
             return subtypes;
         }
@@ -481,10 +489,9 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public boolean hasSubtype(String subtype, Game game) {
+    public boolean hasSubtype(SubType subtype, Game game) {
         if (this.getSpellAbility() instanceof BestowAbility) { // workaround for Bestow (don't like it)
-            List<String> subtypes = new ArrayList<>();
-            subtypes.addAll(card.getSubtype(game));
+            SubTypeList subtypes = card.getSubtype(game);
             subtypes.add("Aura");
             if (subtypes.contains(subtype)) {
                 return true;
@@ -731,7 +738,7 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public boolean moveToZone(Zone zone, UUID sourceId, Game game, boolean flag, ArrayList<UUID> appliedEffects) {
+    public boolean moveToZone(Zone zone, UUID sourceId, Game game, boolean flag, List<UUID> appliedEffects) {
         // 706.10a If a copy of a spell is in a zone other than the stack, it ceases to exist.
         // If a copy of a card is in any zone other than the stack or the battlefield, it ceases to exist.
         // These are state-based actions. See rule 704.
@@ -747,7 +754,7 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public boolean moveToExile(UUID exileId, String name, UUID sourceId, Game game, ArrayList<UUID> appliedEffects) {
+    public boolean moveToExile(UUID exileId, String name, UUID sourceId, Game game, List<UUID> appliedEffects) {
         return this.card.moveToExile(exileId, name, sourceId, game, appliedEffects);
     }
 
@@ -767,7 +774,7 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public boolean putOntoBattlefield(Game game, Zone fromZone, UUID sourceId, UUID controllerId, boolean tapped, boolean facedown, ArrayList<UUID> appliedEffects) {
+    public boolean putOntoBattlefield(Game game, Zone fromZone, UUID sourceId, UUID controllerId, boolean tapped, boolean facedown, List<UUID> appliedEffects) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -864,7 +871,7 @@ public class Spell extends StackObjImpl implements Card {
     }
 
     @Override
-    public boolean addCounters(Counter counter, Ability source, Game game, ArrayList<UUID> appliedEffects) {
+    public boolean addCounters(Counter counter, Ability source, Game game, List<UUID> appliedEffects) {
         return card.addCounters(counter, source, game, appliedEffects);
     }
 
@@ -901,6 +908,10 @@ public class Spell extends StackObjImpl implements Card {
         return countered;
     }
 
+    public boolean isResolving() {
+        return resolving;
+    }
+
     @Override
     public void checkForCountersToAdd(Permanent permanent, Game game) {
         card.checkForCountersToAdd(permanent, game);
@@ -916,4 +927,24 @@ public class Spell extends StackObjImpl implements Card {
         game.fireEvent(new GameEvent(EventType.COPIED_STACKOBJECT, copy.getId(), this.getId(), newControllerId));
         return copy;
     }
+
+    @Override
+    public boolean isAllCreatureTypes() {
+        return false;
+    }
+
+    @Override
+    public void setIsAllCreatureTypes(boolean value) {
+    }
+
+    @Override
+    public List<TextPart> getTextParts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TextPart addTextPart(TextPart textPart) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

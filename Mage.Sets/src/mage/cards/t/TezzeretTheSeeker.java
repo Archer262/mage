@@ -27,8 +27,9 @@
  */
 package mage.cards.t;
 
+import java.util.List;
+import java.util.UUID;
 import mage.abilities.Ability;
-import mage.constants.ComparisonType;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
 import mage.abilities.costs.Cost;
@@ -49,9 +50,6 @@ import mage.players.Player;
 import mage.target.common.TargetArtifactPermanent;
 import mage.target.common.TargetCardInLibrary;
 
-import java.util.List;
-import java.util.UUID;
-
 /**
  *
  * @author North
@@ -60,6 +58,7 @@ public class TezzeretTheSeeker extends CardImpl {
 
     public TezzeretTheSeeker(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{3}{U}{U}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Tezzeret");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));

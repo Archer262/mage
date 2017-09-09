@@ -32,7 +32,7 @@ import mage.abilities.effects.common.DestroyAllEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterLandPermanent;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -45,7 +45,7 @@ public class RavagesOfWar extends CardImpl {
 
 
         // Destroy all lands.
-        this.getSpellAbility().addEffect(new DestroyAllEffect(new FilterLandPermanent("lands")));
+        this.getSpellAbility().addEffect(new DestroyAllEffect(StaticFilters.FILTER_LANDS));
     }
 
     public RavagesOfWar(final RavagesOfWar card) {

@@ -28,6 +28,7 @@
 
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.OnEventTriggeredAbility;
 import mage.abilities.effects.common.SacrificeSourceEffect;
@@ -35,9 +36,8 @@ import mage.abilities.keyword.HasteAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.game.events.GameEvent.EventType;
-
-import java.util.UUID;
 
 /**
  *
@@ -47,8 +47,8 @@ public class ArcRunner extends CardImpl {
 
     public ArcRunner(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{R}");
-        this.subtype.add("Elemental");
-        this.subtype.add("Ox");
+        this.subtype.add(SubType.ELEMENTAL);
+        this.subtype.add(SubType.OX);
 
         this.power = new MageInt(5);
         this.toughness = new MageInt(1);

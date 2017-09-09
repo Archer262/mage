@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.AttacksTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -39,8 +40,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -51,7 +51,7 @@ public class AetherstreamLeopard extends CardImpl {
     public AetherstreamLeopard(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{G}");
 
-        this.subtype.add("Cat");
+        this.subtype.add(SubType.CAT);
         this.power = new MageInt(2);
         this.toughness = new MageInt(3);
 

@@ -50,7 +50,8 @@ import mage.constants.Duration;
 import mage.constants.Layer;
 import mage.constants.Outcome;
 import mage.constants.SubLayer;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.constants.SuperType;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
@@ -64,7 +65,8 @@ import mage.target.targetpointer.FixedTarget;
 public class TibaltTheFiendBlooded extends CardImpl {
 
     public TibaltTheFiendBlooded(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{R}{R}");
+        super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{R}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Tibalt");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(2));
@@ -144,7 +146,7 @@ class TibaltTheFiendBloodedThirdEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        List<Permanent> permanents = game.getBattlefield().getActivePermanents(new FilterCreaturePermanent(), source.getControllerId(), source.getSourceId(), game);
+        List<Permanent> permanents = game.getBattlefield().getActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, source.getControllerId(), source.getSourceId(), game);
         for (Permanent permanent : permanents) {
             permanent.untap(game);
 
@@ -188,4 +190,3 @@ class TibaltTheFiendBloodedControlEffect extends ContinuousEffectImpl {
         return false;
     }
 }
-

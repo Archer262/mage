@@ -27,7 +27,6 @@
  */
 package mage.cards.j;
 
-import java.util.Arrays;
 import java.util.UUID;
 import mage.abilities.condition.LockedInCondition;
 import mage.abilities.condition.common.SourceHasSubtypeCondition;
@@ -39,7 +38,9 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.target.common.TargetCreaturePermanent;
+import mage.util.SubTypeList;
 
 /**
  *
@@ -53,11 +54,13 @@ public class JarKaiBattleStance extends CardImpl {
         // Target creature gains double strike until end of turn.
         this.getSpellAbility().addEffect(new GainAbilityTargetEffect(DoubleStrikeAbility.getInstance(), Duration.EndOfTurn));
         this.getSpellAbility().addTarget(new TargetCreaturePermanent());
-
+        SubTypeList s = new SubTypeList();
+        s.add(SubType.JEDI);
+        s.add(SubType.SITH);
         // If that creature is a Jedi or Sith, it also gains trample until end of turn.
         this.getSpellAbility().addEffect(new ConditionalContinuousEffect(
                 new GainAbilityTargetEffect(TrampleAbility.getInstance(), Duration.EndOfTurn),
-                new LockedInCondition(new SourceHasSubtypeCondition(Arrays.asList("Jedi", "Sith"))),
+                new LockedInCondition(new SourceHasSubtypeCondition(s)),
                 "If that creature is a Jedi or Sith, it also gains trample until end of turn"));
 
     }

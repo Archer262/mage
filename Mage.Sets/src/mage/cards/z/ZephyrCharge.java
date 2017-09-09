@@ -49,7 +49,6 @@ public class ZephyrCharge extends CardImpl {
     public ZephyrCharge(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{1}{U}");
 
-
         // {1}{U}: Target creature gains flying until end of turn.
         Ability ability = new SimpleActivatedAbility(Zone.BATTLEFIELD, new GainAbilityTargetEffect(FlyingAbility.getInstance(), Duration.EndOfTurn), new ManaCostsImpl("{1}{U}"));
         ability.addTarget(new TargetCreaturePermanent());

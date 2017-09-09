@@ -36,6 +36,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -98,7 +99,7 @@ class DealsDamageAllTriggeredAbility extends TriggeredAbilityImpl {
     @Override
     public boolean checkTrigger(GameEvent event, Game game) {
         Permanent creature = game.getPermanent(event.getSourceId());
-        if (creature != null && creature.hasSubtype("Sliver", game)) {
+        if (creature != null && creature.hasSubtype(SubType.SLIVER, game)) {
             for (Effect effect : this.getEffects()) {
                 effect.setValue("damage", event.getAmount());
             }

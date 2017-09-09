@@ -34,6 +34,7 @@ import mage.abilities.keyword.TrampleAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 
 import java.util.UUID;
 
@@ -47,8 +48,7 @@ public class BatteringKrasis extends CardImpl {
 
     public BatteringKrasis (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{G}");
-        this.subtype.add("Fish");
-        this.subtype.add("Beast");
+        this.subtype.add(SubType.FISH, SubType.BEAST);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(1);

@@ -27,6 +27,7 @@
  */
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.DiesTriggeredAbility;
@@ -35,13 +36,12 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.counters.Counter;
 import mage.counters.CounterType;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetControlledCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  * @author nantuko
@@ -95,7 +95,7 @@ class ElderCatharAddCountersTargetEffect extends OneShotEffect {
         Permanent permanent = game.getPermanent(targetPointer.getFirst(game, source));
         if (permanent != null) {
             if (counter != null) {
-                if (permanent.hasSubtype("Human", game)) {
+                if (permanent.hasSubtype(SubType.HUMAN, game)) {
                     permanent.addCounters(counter2.copy(), source, game);
                 } else {
                     permanent.addCounters(counter.copy(), source, game);

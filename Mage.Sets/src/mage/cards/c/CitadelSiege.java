@@ -27,6 +27,7 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.BeginningOfCombatTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldAbility;
@@ -45,8 +46,6 @@ import mage.filter.predicate.permanent.ControllerIdPredicate;
 import mage.game.Game;
 import mage.target.common.TargetControlledCreaturePermanent;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -85,7 +84,7 @@ public class CitadelSiege extends CardImpl {
     public void adjustTargets(Ability ability, Game game) {
         if (this.getAbilities().contains(ability) && ability.getRule().startsWith("&bull Dragons")) {
             FilterCreaturePermanent filter = new FilterCreaturePermanent("creature that player controls");
-            filter.add(new ControllerIdPredicate(game.getCombat().getAttackerId()));
+            filter.add(new ControllerIdPredicate(game.getCombat().getAttackingPlayerId()));
             ability.getTargets().clear();
             ability.addTarget(new TargetCreaturePermanent(filter));
         }

@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -34,10 +35,8 @@ import mage.abilities.effects.common.TapAllTargetPlayerControlsEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterLandPermanent;
+import mage.filter.StaticFilters;
 import mage.target.TargetPlayer;
-
-import java.util.UUID;
 
 /**
  *
@@ -53,7 +52,7 @@ public class GulfSquid extends CardImpl {
         this.toughness = new MageInt(2);
 
         // When Gulf Squid enters the battlefield, tap all lands target player controls.
-        Ability ability = new EntersBattlefieldTriggeredAbility(new TapAllTargetPlayerControlsEffect(new FilterLandPermanent("lands")));
+        Ability ability = new EntersBattlefieldTriggeredAbility(new TapAllTargetPlayerControlsEffect(StaticFilters.FILTER_LANDS));
         ability.addTarget(new TargetPlayer());
         this.addAbility(ability);
     }

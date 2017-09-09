@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.BecomesBlockedByCreatureTriggeredAbility;
@@ -35,11 +36,10 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
-
-import java.util.UUID;
 
 /**
  *
@@ -49,8 +49,8 @@ public class AlleyGrifters extends CardImpl {
 
     public AlleyGrifters(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{B}{B}");
-        this.subtype.add("Human");
-        this.subtype.add("Mercenary");
+        this.subtype.add(SubType.HUMAN);
+        this.subtype.add(SubType.MERCENARY);
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
 

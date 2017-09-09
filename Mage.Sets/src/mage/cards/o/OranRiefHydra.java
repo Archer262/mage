@@ -38,6 +38,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.counters.CounterType;
 import mage.game.Game;
@@ -143,7 +144,7 @@ class OranRiefHydraEffect extends OneShotEffect {
         Permanent land = game.getPermanentOrLKIBattlefield(getTargetPointer().getFirst(game, source));
         Permanent sourcePermanent = game.getPermanent(source.getSourceId());
         if (land != null && sourcePermanent != null) {
-            if (land.hasSubtype("Forest", game)) {
+            if (land.hasSubtype(SubType.FOREST, game)) {
                 sourcePermanent.addCounters(CounterType.P1P1.createInstance(2), source, game);
             } else {
                 sourcePermanent.addCounters(CounterType.P1P1.createInstance(), source, game);

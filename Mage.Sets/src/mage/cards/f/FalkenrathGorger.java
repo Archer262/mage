@@ -42,6 +42,7 @@ import mage.game.Game;
 import mage.players.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -91,7 +92,7 @@ class FalkenrathGorgerEffect extends ContinuousEffectImpl {
 
     }
 
-    HashMap<UUID, MadnessAbility> madnessAbilities = new HashMap<>(); // reuse the same ability for the same object
+    Map<UUID, MadnessAbility> madnessAbilities = new HashMap<>(); // reuse the same ability for the same object
 
     public FalkenrathGorgerEffect() {
         super(Duration.WhileOnBattlefield, Layer.AbilityAddingRemovingEffects_6, SubLayer.NA, Outcome.AddAbility);
@@ -112,7 +113,7 @@ class FalkenrathGorgerEffect extends ContinuousEffectImpl {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            HashMap<UUID, MadnessAbility> usedMadnessAbilities = new HashMap<>();
+            Map<UUID, MadnessAbility> usedMadnessAbilities = new HashMap<>();
             // hand
             for (Card card : controller.getHand().getCards(filter, game)) {
                 addMadnessToCard(game, card, usedMadnessAbilities);
@@ -137,7 +138,7 @@ class FalkenrathGorgerEffect extends ContinuousEffectImpl {
         return false;
     }
 
-    private void addMadnessToCard(Game game, Card card, HashMap<UUID, MadnessAbility> usedMadnessAbilities) {
+    private void addMadnessToCard(Game game, Card card, Map<UUID, MadnessAbility> usedMadnessAbilities) {
         MadnessAbility ability = madnessAbilities.get(card.getId());
         if (ability == null) {
             ability = new MadnessAbility(card, card.getSpellAbility().getManaCosts());

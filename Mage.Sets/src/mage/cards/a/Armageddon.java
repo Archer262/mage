@@ -27,13 +27,12 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.effects.common.DestroyAllEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterLandPermanent;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -46,7 +45,7 @@ public class Armageddon extends CardImpl {
 
 
         // Destroy all lands.
-        this.getSpellAbility().addEffect(new DestroyAllEffect(new FilterLandPermanent("lands")));
+        this.getSpellAbility().addEffect(new DestroyAllEffect(StaticFilters.FILTER_LANDS));
     }
 
     public Armageddon(final Armageddon card) {

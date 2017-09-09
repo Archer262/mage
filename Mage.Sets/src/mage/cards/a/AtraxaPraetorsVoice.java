@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.BeginningOfEndStepTriggeredAbility;
 import mage.abilities.effects.common.counter.ProliferateEffect;
@@ -37,10 +38,9 @@ import mage.abilities.keyword.VigilanceAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.constants.TargetController;
-
-import java.util.UUID;
 
 /**
  *
@@ -52,8 +52,8 @@ public class AtraxaPraetorsVoice extends CardImpl {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{G}{W}{U}{B}");
 
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Angel");
-        this.subtype.add("Horror");
+        this.subtype.add(SubType.ANGEL);
+        this.subtype.add(SubType.HORROR);
         this.power = new MageInt(4);
         this.toughness = new MageInt(4);
 

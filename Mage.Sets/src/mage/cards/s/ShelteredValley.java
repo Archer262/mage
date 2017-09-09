@@ -29,7 +29,6 @@ package mage.cards.s;
 
 import java.util.UUID;
 import mage.abilities.Ability;
-import mage.constants.ComparisonType;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.SimpleStaticAbility;
 import mage.abilities.condition.Condition;
@@ -43,10 +42,11 @@ import mage.abilities.mana.ColorlessManaAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.ComparisonType;
 import mage.constants.TargetController;
 import mage.constants.Zone;
 import mage.filter.FilterPermanent;
-import mage.filter.common.FilterLandPermanent;
+import mage.filter.StaticFilters;
 import mage.filter.predicate.mageobject.NamePredicate;
 
 /**
@@ -54,8 +54,7 @@ import mage.filter.predicate.mageobject.NamePredicate;
  * @author anonymous
  */
 public class ShelteredValley extends CardImpl {
-    
-    private static final FilterLandPermanent filter = new FilterLandPermanent();
+
     private static final FilterPermanent filterShelteredValley = new FilterPermanent("permanent named Sheltered Valley");
     
     static {
@@ -72,7 +71,7 @@ public class ShelteredValley extends CardImpl {
         this.addAbility(ability);
         
         // At the beginning of your upkeep, if you control three or fewer lands, you gain 1 life.
-        Condition controls = new PermanentsOnTheBattlefieldCondition(filter, ComparisonType.FEWER_THAN, 4);
+        Condition controls = new PermanentsOnTheBattlefieldCondition(StaticFilters.FILTER_LANDS, ComparisonType.FEWER_THAN, 4);
         effect = new ConditionalOneShotEffect(new GainLifeEffect(1), controls);
         effect.setText("if you control three or fewer lands, you gain 1 life");
         ability = new BeginningOfUpkeepTriggeredAbility(Zone.BATTLEFIELD, effect, TargetController.YOU, false);

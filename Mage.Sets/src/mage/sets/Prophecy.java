@@ -74,6 +74,7 @@ public class Prophecy extends ExpansionSet {
         cards.add(new SetCardInfo("Chimeric Idol", 136, Rarity.UNCOMMON, mage.cards.c.ChimericIdol.class));
         cards.add(new SetCardInfo("Citadel of Pain", 86, Rarity.UNCOMMON, mage.cards.c.CitadelOfPain.class));
         cards.add(new SetCardInfo("Coastal Hornclaw", 31, Rarity.COMMON, mage.cards.c.CoastalHornclaw.class));
+        cards.add(new SetCardInfo("Coffin Puppets", 60, Rarity.RARE, mage.cards.c.CoffinPuppets.class));
         cards.add(new SetCardInfo("Copper-Leaf Angel", 137, Rarity.RARE, mage.cards.c.CopperLeafAngel.class));
         cards.add(new SetCardInfo("Darba", 111, Rarity.UNCOMMON, mage.cards.d.Darba.class));
         cards.add(new SetCardInfo("Denying Wind", 32, Rarity.RARE, mage.cards.d.DenyingWind.class));
@@ -104,6 +105,7 @@ public class Prophecy extends ExpansionSet {
         cards.add(new SetCardInfo("Living Terrain", 117, Rarity.UNCOMMON, mage.cards.l.LivingTerrain.class));
         cards.add(new SetCardInfo("Mageta's Boon", 14, Rarity.COMMON, mage.cards.m.MagetasBoon.class));
         cards.add(new SetCardInfo("Mageta the Lion", 13, Rarity.RARE, mage.cards.m.MagetaTheLion.class));
+        cards.add(new SetCardInfo("Mana Vapors", 38, Rarity.UNCOMMON, mage.cards.m.ManaVapors.class));
         cards.add(new SetCardInfo("Marsh Boa", 118, Rarity.COMMON, mage.cards.m.MarshBoa.class));
         cards.add(new SetCardInfo("Mercenary Informer", 15, Rarity.RARE, mage.cards.m.MercenaryInformer.class));
         cards.add(new SetCardInfo("Mine Bearer", 16, Rarity.COMMON, mage.cards.m.MineBearer.class));
@@ -148,6 +150,7 @@ public class Prophecy extends ExpansionSet {
         cards.add(new SetCardInfo("Verdant Field", 130, Rarity.UNCOMMON, mage.cards.v.VerdantField.class));
         cards.add(new SetCardInfo("Vintara Elephant", 131, Rarity.COMMON, mage.cards.v.VintaraElephant.class));
         cards.add(new SetCardInfo("Vintara Snapper", 132, Rarity.UNCOMMON, mage.cards.v.VintaraSnapper.class));
+        cards.add(new SetCardInfo("Vitalizing Wind", 133, Rarity.RARE, mage.cards.v.VitalizingWind.class));
         cards.add(new SetCardInfo("Well of Discovery", 140, Rarity.RARE, mage.cards.w.WellOfDiscovery.class));
         cards.add(new SetCardInfo("Well of Life", 141, Rarity.UNCOMMON, mage.cards.w.WellOfLife.class));
         cards.add(new SetCardInfo("Whip Sergeant", 107, Rarity.UNCOMMON, mage.cards.w.WhipSergeant.class));

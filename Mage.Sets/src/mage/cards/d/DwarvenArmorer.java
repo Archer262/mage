@@ -51,6 +51,7 @@ import mage.target.common.TargetCreaturePermanent;
 import mage.target.targetpointer.FixedTarget;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -85,7 +86,7 @@ public class DwarvenArmorer extends CardImpl {
 
 class DwarvenArmorerEffect extends OneShotEffect {
 
-    private static final HashSet<String> choices = new HashSet<>();
+    private static final Set<String> choices = new HashSet<>();
 
     static {
         choices.add("+0/+1");

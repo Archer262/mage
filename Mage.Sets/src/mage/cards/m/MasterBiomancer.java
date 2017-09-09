@@ -36,10 +36,7 @@ import mage.abilities.effects.ReplacementEffectImpl;
 import mage.abilities.effects.common.continuous.AddCardSubTypeTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.CounterType;
 import mage.game.Game;
 import mage.game.events.EntersTheBattlefieldEvent;
@@ -109,7 +106,7 @@ class MasterBiomancerEntersBattlefieldEffect extends ReplacementEffectImpl {
             if (power > 0) {
                 creature.addCounters(CounterType.P1P1.createInstance(power), source, game);
             }
-            ContinuousEffect effect = new AddCardSubTypeTargetEffect("Mutant", Duration.Custom);
+            ContinuousEffect effect = new AddCardSubTypeTargetEffect(SubType.MUTANT, Duration.Custom);
             effect.setTargetPointer(new FixedTarget(creature.getId(), creature.getZoneChangeCounter(game) + 1));
             game.addEffect(effect, source);
         }

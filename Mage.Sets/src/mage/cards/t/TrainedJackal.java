@@ -41,7 +41,7 @@ public class TrainedJackal extends CardImpl {
 
     public TrainedJackal(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{G}");
-        this.subtype.add("Hound");
+        this.subtype.add("Jackal");
 
         this.power = new MageInt(1);
         this.toughness = new MageInt(2);

@@ -61,8 +61,8 @@ public class AdmiralAckbar extends CardImpl {
     public AdmiralAckbar(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{4}{U}{U}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Calamari");
-        this.subtype.add("Rebel");
+        this.subtype.add(SubType.CALAMARI);
+        this.subtype.add(SubType.REBEL);
         this.power = new MageInt(2);
         this.toughness = new MageInt(3);
 
@@ -108,7 +108,7 @@ class AdmiralAckbarTriggeredAbility extends TriggeredAbilityImpl {
 
     @Override
     public boolean checkTrigger(GameEvent event, Game game) {
-        return game.getCombat().getAttackers().size() >= 2 && game.getCombat().getAttackerId().equals(getControllerId());
+        return game.getCombat().getAttackers().size() >= 2 && game.getCombat().getAttackingPlayerId().equals(getControllerId());
     }
 
     @Override

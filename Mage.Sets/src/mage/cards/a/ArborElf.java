@@ -28,6 +28,7 @@
 
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -41,8 +42,6 @@ import mage.constants.Zone;
 import mage.filter.common.FilterLandPermanent;
 import mage.target.common.TargetLandPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author BetaSteward_at_googlemail.com
@@ -53,8 +52,8 @@ public class ArborElf extends CardImpl {
 
     public ArborElf(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{G}");
-        this.subtype.add("Elf");
-        this.subtype.add("Druid");
+        this.subtype.add(SubType.ELF);
+        this.subtype.add(SubType.DRUID);
 
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);

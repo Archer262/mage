@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -42,8 +43,6 @@ import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.target.TargetPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -58,7 +57,7 @@ public class AssemblyWorker extends CardImpl {
 
     public AssemblyWorker(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ARTIFACT,CardType.CREATURE},"{3}");
-        this.subtype.add("Assembly-Worker");
+        this.subtype.add(SubType.ASSEMBLY_WORKER);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

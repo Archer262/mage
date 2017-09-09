@@ -56,7 +56,7 @@ public class HondenOfCleansingFire extends CardImpl {
     public HondenOfCleansingFire(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{3}{W}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Shrine");
+        this.subtype.add(SubType.SHRINE);
 
 
         // At the beginning of your upkeep, you gain 2 life for each Shrine you control.

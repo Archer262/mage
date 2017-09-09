@@ -27,6 +27,8 @@
  */
 package mage.cards.a;
 
+import java.util.List;
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
@@ -41,17 +43,15 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.TargetController;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
+import mage.game.command.emblems.AurraSingBaneOfJediEmblem;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
-import mage.game.command.emblems.AurraSingBaneOfJediEmblem;
 import mage.target.TargetPlayer;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -61,7 +61,7 @@ public class AurraSingBaneOfJedi extends CardImpl {
 
     public AurraSingBaneOfJedi(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{B}{R}");
-        this.subtype.add("Aurra");
+        this.subtype.add(SubType.AURRA);
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(3));
 
@@ -137,7 +137,7 @@ class SacrificeAllEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        List<Permanent> permanents = game.getBattlefield().getActivePermanents(new FilterCreaturePermanent(), source.getControllerId(), source.getId(), game);
+        List<Permanent> permanents = game.getBattlefield().getActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, source.getControllerId(), source.getId(), game);
         for (Permanent p : permanents) {
             p.sacrifice(source.getSourceId(), game);
         }

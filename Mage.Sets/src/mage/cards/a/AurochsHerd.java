@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.AttacksTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -46,8 +47,6 @@ import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.filter.predicate.permanent.AnotherPredicate;
 import mage.target.common.TargetCardInLibrary;
 
-import java.util.UUID;
-
 /**
  *
  * @author LoneFox
@@ -65,7 +64,7 @@ public class AurochsHerd extends CardImpl {
 
     public AurochsHerd(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{5}{G}");
-        this.subtype.add("Aurochs");
+        this.subtype.add(SubType.AUROCHS);
         this.power = new MageInt(4);
         this.toughness = new MageInt(4);
 

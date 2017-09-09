@@ -33,9 +33,8 @@ import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.choices.Choice;
-import mage.choices.ChoiceImpl;
+import mage.choices.ChoiceCreatureType;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
@@ -90,9 +89,7 @@ class DistantMelodyEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player player = game.getPlayer(source.getControllerId());
         if (player != null) {
-            Choice typeChoice = new ChoiceImpl(true);
-            typeChoice.setMessage("Choose a creature type:");
-            typeChoice.setChoices(CardRepository.instance.getCreatureTypes());
+            Choice typeChoice = new ChoiceCreatureType();
             while (!player.choose(Outcome.BoostCreature, typeChoice, game)) {
                 if (!player.canRespond()) {
                     return false;

@@ -27,23 +27,26 @@
  */
 package mage.cards.b;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import mage.MageInt;
+import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.*;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
+import mage.constants.Zone;
 import mage.filter.FilterCard;
-import mage.filter.common.FilterBasicLandCard;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.players.Player;
 import mage.target.Target;
 import mage.target.common.TargetCardInLibrary;
 import mage.target.common.TargetDiscard;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 /**
  *
@@ -54,8 +57,7 @@ public class BorderlandExplorer extends CardImpl {
     public BorderlandExplorer(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{1}{G}");
 
-        this.subtype.add("Elf");
-        this.subtype.add("Scout");
+        this.subtype.add(SubType.ELF, SubType.SCOUT);
         this.power = new MageInt(3);
         this.toughness = new MageInt(1);
 
@@ -78,8 +80,8 @@ class BorderlandExplorerEffect extends OneShotEffect {
 
     public BorderlandExplorerEffect() {
         super(Outcome.Neutral);
-        this.staticText = "each player may discard a card. Each player who discarded a card this way may search his or her library " +
-            "for a basic land card, reveal it, put it into his or her hand, then shuffle his or her library";
+        this.staticText = "each player may discard a card. Each player who discarded a card this way may search his or her library "
+                + "for a basic land card, reveal it, put it into his or her hand, then shuffle his or her library";
     }
 
     public BorderlandExplorerEffect(final BorderlandExplorerEffect effect) {
@@ -94,11 +96,13 @@ class BorderlandExplorerEffect extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
-        // Store for each player the cards to discard, that's important because all discard shall happen at the same time
-        HashMap<UUID, Cards> cardsToDiscard = new HashMap<>();
-        // Store for each player the lands to reveal, that's important because all reveals shall happen at the same time
-        HashMap<UUID, Cards> cardsToReveal = new HashMap<>();
-        if (controller != null) {
+        MageObject sourceObject = source.getSourceObject(game);
+        if (controller != null && sourceObject != null) {
+            // Store for each player the cards to discard, that's important because all discard shall happen at the same time
+            Map<UUID, Cards> cardsToDiscard = new HashMap<>();
+            // Store for each player the lands to reveal, that's important because all reveals shall happen at the same time
+            Map<UUID, Cards> cardsToReveal = new HashMap<>();
+
             // choose cards to discard
             for (UUID playerId : game.getState().getPlayersInRange(controller.getId(), game)) {
                 Player player = game.getPlayer(playerId);
@@ -130,8 +134,8 @@ class BorderlandExplorerEffect extends OneShotEffect {
                 Player player = game.getPlayer(playerId);
                 if (player != null) {
                     Cards cardsPlayer = cardsToDiscard.get(playerId);
-                    if (cardsPlayer != null) {
-                        TargetCardInLibrary target = new TargetCardInLibrary(0, 1, new FilterBasicLandCard());
+                    if (cardsPlayer != null && !cardsPlayer.isEmpty()) {
+                        TargetCardInLibrary target = new TargetCardInLibrary(0, 1, StaticFilters.FILTER_BASIC_LAND_CARD);
                         if (player.searchLibrary(target, game)) {
                             if (!target.getTargets().isEmpty()) {
                                 Cards cards = new CardsImpl(target.getTargets());
@@ -151,8 +155,8 @@ class BorderlandExplorerEffect extends OneShotEffect {
                         for (UUID cardId : cardsPlayer) {
                             Cards cards = new CardsImpl(game.getCard(cardId));
                             Card card = game.getCard(cardId);
-                            player.revealCards(card.getIdName() + " (" + player.getName() + ')', cards, game);
-                            player.moveCardToHandWithInfo(card, source.getSourceId(), game);
+                            player.revealCards(sourceObject.getIdName() + " (" + player.getName() + ')', cards, game);
+                            player.moveCards(card, Zone.HAND, source, game);
                             player.shuffleLibrary(source, game);
                         }
                     }

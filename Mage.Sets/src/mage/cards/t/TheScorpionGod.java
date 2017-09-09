@@ -40,6 +40,7 @@ import mage.abilities.effects.Effect;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.abilities.effects.common.ReturnToHandSourceEffect;
+import mage.abilities.effects.common.ReturnToHandTargetEffect;
 import mage.abilities.effects.common.counter.AddCountersTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
@@ -56,6 +57,7 @@ import mage.game.events.GameEvent.EventType;
 import mage.game.events.ZoneChangeEvent;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetCreaturePermanent;
+import mage.target.targetpointer.FixedTarget;
 
 /**
  *
@@ -141,7 +143,7 @@ class TheScorpionGodTriggeredAbility extends TriggeredAbilityImpl {
 
 class TheScorpionGodEffect extends OneShotEffect {
 
-    private static final String effectText = "return it to its owner's hand";
+    private static final String effectText = "return it to its owner's hand at the beginning of the next end step";
 
     TheScorpionGodEffect() {
         super(Outcome.Benefit);
@@ -155,8 +157,9 @@ class TheScorpionGodEffect extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         // Create delayed triggered ability
-        Effect effect = new ReturnToHandSourceEffect(false, true);
-        effect.setText(staticText);
+        Effect effect = new ReturnToHandTargetEffect();
+        effect.setText("return {this} to its owner's hand");
+        effect.setTargetPointer(new FixedTarget(source.getSourceId(), source.getSourceObjectZoneChangeCounter()));
         DelayedTriggeredAbility delayedAbility = new AtTheBeginOfNextEndStepDelayedTriggeredAbility(effect);
         game.addDelayedTriggeredAbility(delayedAbility, source);
         return true;

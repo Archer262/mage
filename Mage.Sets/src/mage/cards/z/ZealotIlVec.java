@@ -39,6 +39,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.target.common.TargetCreaturePermanent;
 
 /**
@@ -49,8 +50,7 @@ public class ZealotIlVec extends CardImpl {
 
     public ZealotIlVec(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{W}");
-        this.subtype.add("Human");
-        this.subtype.add("Rebel");
+        this.subtype.add(SubType.HUMAN, SubType.REBEL);
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);
 

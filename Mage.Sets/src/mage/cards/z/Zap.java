@@ -28,11 +28,11 @@
 package mage.cards.z;
 
 import java.util.UUID;
-import mage.constants.CardType;
 import mage.abilities.effects.common.DamageTargetEffect;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
 import mage.target.common.TargetCreatureOrPlayer;
 
 /**
@@ -43,7 +43,6 @@ public class Zap extends CardImpl {
 
     public Zap(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.INSTANT},"{2}{R}");
-
 
         // Zap deals 1 damage to target creature or player.
         this.getSpellAbility().addEffect(new DamageTargetEffect(1));

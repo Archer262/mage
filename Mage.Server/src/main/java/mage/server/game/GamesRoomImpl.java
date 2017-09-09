@@ -27,6 +27,12 @@
  */
 package mage.server.game;
 
+import java.io.Serializable;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import mage.MageException;
 import mage.cards.decks.DeckCardLists;
 import mage.constants.TableState;
@@ -47,13 +53,6 @@ import mage.view.RoomUsersView;
 import mage.view.TableView;
 import mage.view.UsersView;
 import org.apache.log4j.Logger;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author BetaSteward_at_googlemail.com
@@ -88,15 +87,15 @@ public class GamesRoomImpl extends RoomImpl implements GamesRoom, Serializable {
     private void update() {
         List<Table> allTables = new ArrayList<>(tables.values());
         allTables.sort(new TableListSorter());
-        ArrayList<MatchView> matchList = new ArrayList<>();
-        ArrayList<TableView> tableList = new ArrayList<>();
+        List<MatchView> matchList = new ArrayList<>();
+        List<TableView> tableList = new ArrayList<>();
         for (Table table : allTables) {
             if (table.getState() != TableState.FINISHED) {
                 tableList.add(new TableView(table));
             } else if (matchList.size() < 50) {
                 matchList.add(new MatchView(table));
             } else {
-                // more since 50 matches finished since this match so remove it
+                // more since 50 matches finished since this match so removeUserFromAllTablesAndChat it
                 if (table.isTournament()) {
                     TournamentManager.instance.removeTournament(table.getTournament().getId());
                 }
@@ -107,26 +106,28 @@ public class GamesRoomImpl extends RoomImpl implements GamesRoom, Serializable {
         matchView = matchList;
         List<UsersView> users = new ArrayList<>();
         for (User user : UserManager.instance.getUsers()) {
-            try {
-                users.add(new UsersView(user.getUserData().getFlagName(), user.getName(),
-                        user.getMatchHistory(), user.getMatchQuitRatio(), user.getTourneyHistory(),
-                        user.getTourneyQuitRatio(), user.getGameInfo(), user.getPingInfo(),
-                        user.getUserData().getGeneralRating(), user.getUserData().getConstructedRating(),
-                        user.getUserData().getLimitedRating()));
-            } catch (Exception ex) {
-                LOGGER.fatal("User update exception: " + user.getName() + " - " + ex.toString(), ex);
-                users.add(new UsersView(
-                        (user.getUserData() != null && user.getUserData().getFlagName() != null) ? user.getUserData().getFlagName() : "world",
-                        user.getName() != null ? user.getName() : "<no name>",
-                        user.getMatchHistory() != null ? user.getMatchHistory() : "<no match history>",
-                        user.getMatchQuitRatio(),
-                        user.getTourneyHistory() != null ? user.getTourneyHistory() : "<no tourney history>",
-                        user.getTourneyQuitRatio(),
-                        "[exception]",
-                        user.getPingInfo() != null ? user.getPingInfo() : "<no ping>",
-                        user.getUserData() != null ? user.getUserData().getGeneralRating() : 0,
-                        user.getUserData() != null ? user.getUserData().getConstructedRating() : 0,
-                        user.getUserData() != null ? user.getUserData().getLimitedRating() : 0));
+            if (user.getUserState() != User.UserState.Offline && !user.getName().equals("Admin")) {
+                try {
+                    users.add(new UsersView(user.getUserData().getFlagName(), user.getName(),
+                            user.getMatchHistory(), user.getMatchQuitRatio(), user.getTourneyHistory(),
+                            user.getTourneyQuitRatio(), user.getGameInfo(), user.getPingInfo(),
+                            user.getUserData().getGeneralRating(), user.getUserData().getConstructedRating(),
+                            user.getUserData().getLimitedRating()));
+                } catch (Exception ex) {
+                    LOGGER.fatal("User update exception: " + user.getName() + " - " + ex.toString(), ex);
+                    users.add(new UsersView(
+                            (user.getUserData() != null && user.getUserData().getFlagName() != null) ? user.getUserData().getFlagName() : "world",
+                            user.getName() != null ? user.getName() : "<no name>",
+                            user.getMatchHistory() != null ? user.getMatchHistory() : "<no match history>",
+                            user.getMatchQuitRatio(),
+                            user.getTourneyHistory() != null ? user.getTourneyHistory() : "<no tourney history>",
+                            user.getTourneyQuitRatio(),
+                            "[exception]",
+                            user.getPingInfo() != null ? user.getPingInfo() : "<no ping>",
+                            user.getUserData() != null ? user.getUserData().getGeneralRating() : 0,
+                            user.getUserData() != null ? user.getUserData().getConstructedRating() : 0,
+                            user.getUserData() != null ? user.getUserData().getLimitedRating() : 0));
+                }
             }
         }
 

@@ -27,6 +27,9 @@
  */
 package mage.cards.c;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import mage.MageObject;
 import mage.MageObjectReference;
 import mage.abilities.Ability;
@@ -51,14 +54,6 @@ import mage.target.TargetPermanent;
 import mage.target.TargetPlayer;
 import mage.target.targetpointer.FixedTarget;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 /**
  * @author jeffwadsworth
  */
@@ -66,6 +61,7 @@ public class ChandraPyromaster extends CardImpl {
 
     public ChandraPyromaster(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{R}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Chandra");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));

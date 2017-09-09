@@ -17,7 +17,8 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.Outcome;
-import mage.filter.common.FilterEnchantmentPermanent;
+import mage.constants.SubType;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.targetpointer.FixedTarget;
@@ -33,7 +34,7 @@ public class AuraThief extends CardImpl {
     
     public AuraThief(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{U}");
-        this.subtype.add("Illusion");
+        this.subtype.add(SubType.ILLUSION);
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
         
@@ -75,7 +76,7 @@ class AuraThiefDiesTriggeredEffect extends OneShotEffect {
     @Override 
     public boolean apply(Game game, Ability source) {
         boolean ret = false;
-        for(Permanent enchantment : game.getBattlefield().getActivePermanents(new FilterEnchantmentPermanent(), source.getControllerId(), source.getControllerId(), game)) {
+        for(Permanent enchantment : game.getBattlefield().getActivePermanents(StaticFilters.FILTER_ENCHANTMENT_PERMANENT, source.getControllerId(), source.getControllerId(), game)) {
             ContinuousEffect gainControl = new GainControlTargetEffect(Duration.EndOfGame);
             gainControl.setTargetPointer(new FixedTarget(enchantment.getId()));
             game.addEffect(gainControl, source);

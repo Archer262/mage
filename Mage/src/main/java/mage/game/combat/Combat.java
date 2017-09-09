@@ -28,14 +28,7 @@
 package mage.game.combat;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.effects.RequirementEffect;
@@ -43,10 +36,10 @@ import mage.abilities.effects.RestrictionEffect;
 import mage.abilities.keyword.VigilanceAbility;
 import mage.constants.Outcome;
 import mage.constants.Zone;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.filter.common.FilterCreatureForCombatBlock;
 import mage.filter.common.FilterCreaturePermanent;
-import mage.filter.common.FilterPlaneswalkerPermanent;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.GameEvent.EventType;
@@ -66,7 +59,6 @@ public class Combat implements Serializable, Copyable<Combat> {
 
     private static final Logger logger = Logger.getLogger(Combat.class);
 
-    private static FilterPlaneswalkerPermanent filterPlaneswalker = new FilterPlaneswalkerPermanent();
     private static FilterCreatureForCombatBlock filterBlockers = new FilterCreatureForCombatBlock();
     // There are effects that let creatures assigns combat damage equal to its toughness rather than its power
     private boolean useToughnessForDamage;
@@ -124,6 +116,12 @@ public class Combat implements Serializable, Copyable<Combat> {
         return blockingGroups.values();
     }
 
+    /**
+     * Get all possible defender (players and plainwalkers) That does not mean
+     * neccessarly mean that they are really attacked
+     *
+     * @return
+     */
     public Set<UUID> getDefenders() {
         return defenders;
     }
@@ -308,7 +306,7 @@ public class Combat implements Serializable, Copyable<Combat> {
         for (Permanent creature : player.getAvailableAttackers(game)) {
             boolean mustAttack = false;
             Set<UUID> defendersForcedToAttack = new HashSet<>();
-            for (Map.Entry<RequirementEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
+            for (Map.Entry<RequirementEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
                 RequirementEffect effect = entry.getKey();
                 if (effect.mustAttack(game)) {
                     mustAttack = true;
@@ -395,7 +393,7 @@ public class Combat implements Serializable, Copyable<Combat> {
             }
             for (UUID attackingCreatureId : this.getAttackers()) {
                 Permanent attackingCreature = game.getPermanent(attackingCreatureId);
-                for (Map.Entry<RestrictionEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(attackingCreature, game).entrySet()) {
+                for (Map.Entry<RestrictionEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(attackingCreature, game).entrySet()) {
                     RestrictionEffect effect = entry.getKey();
                     for (Ability ability : entry.getValue()) {
                         if (!effect.canAttackCheckAfter(numberAttackers, ability, game)) {
@@ -581,7 +579,7 @@ public class Combat implements Serializable, Copyable<Combat> {
             return;
         }
         for (Permanent possibleBlocker : game.getBattlefield().getActivePermanents(filterBlockers, attackingPlayer.getId(), game)) {
-            for (Map.Entry<RequirementEffect, HashSet<Ability>> requirementEntry : game.getContinuousEffects().getApplicableRequirementEffects(possibleBlocker, game).entrySet()) {
+            for (Map.Entry<RequirementEffect, Set<Ability>> requirementEntry : game.getContinuousEffects().getApplicableRequirementEffects(possibleBlocker, game).entrySet()) {
                 if (requirementEntry.getKey().mustBlock(game)) {
                     for (Ability ability : requirementEntry.getValue()) {
                         UUID attackingCreatureId = requirementEntry.getKey().mustBlockAttacker(ability, game);
@@ -658,7 +656,7 @@ public class Combat implements Serializable, Copyable<Combat> {
                 // Creature is already blocking but not forced to do so
                 if (creature.getBlocking() > 0) {
                     // get all requirement effects that apply to the creature (e.g. is able to block attacker)
-                    for (Map.Entry<RequirementEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
+                    for (Map.Entry<RequirementEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
                         RequirementEffect effect = entry.getKey();
                         // get possible mustBeBlockedByAtLeastOne blocker
                         for (Ability ability : entry.getValue()) {
@@ -680,7 +678,7 @@ public class Combat implements Serializable, Copyable<Combat> {
                 // Creature is not blocking yet
                 if (creature.getBlocking() == 0) {
                     // get all requirement effects that apply to the creature
-                    for (Map.Entry<RequirementEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
+                    for (Map.Entry<RequirementEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRequirementEffects(creature, game).entrySet()) {
                         RequirementEffect effect = entry.getKey();
                         // get possible mustBeBlockedByAtLeastOne blocker
                         for (Ability ability : entry.getValue()) {
@@ -980,7 +978,7 @@ public class Combat implements Serializable, Copyable<Combat> {
         for (UUID blockingCreatureId : this.getBlockers()) {
             Permanent blockingCreature = game.getPermanent(blockingCreatureId);
             if (blockingCreature != null) {
-                for (Map.Entry<RestrictionEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(blockingCreature, game).entrySet()) {
+                for (Map.Entry<RestrictionEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(blockingCreature, game).entrySet()) {
                     RestrictionEffect effect = entry.getKey();
                     for (Ability ability : entry.getValue()) {
                         if (!effect.canBlockCheckAfter(ability, game)) {
@@ -1000,7 +998,7 @@ public class Combat implements Serializable, Copyable<Combat> {
         for (UUID attackingCreatureId : this.getAttackers()) {
             Permanent attackingCreature = game.getPermanent(attackingCreatureId);
             if (attackingCreature != null) {
-                for (Map.Entry<RestrictionEffect, HashSet<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(attackingCreature, game).entrySet()) {
+                for (Map.Entry<RestrictionEffect, Set<Ability>> entry : game.getContinuousEffects().getApplicableRestrictionEffects(attackingCreature, game).entrySet()) {
                     RestrictionEffect effect = entry.getKey();
                     for (Ability ability : entry.getValue()) {
                         if (!effect.canBeBlockedCheckAfter(attackingCreature, ability, game)) {
@@ -1026,6 +1024,13 @@ public class Combat implements Serializable, Copyable<Combat> {
     }
 
     public void setDefenders(Game game) {
+        for (UUID playerId : getAttackablePlayers(game)) {
+            addDefender(playerId, game);
+        }
+    }
+
+    public List<UUID> getAttackablePlayers(Game game) {
+        List<UUID> attackablePlayers = new ArrayList<>();
         Player attackingPlayer = game.getPlayer(attackingPlayerId);
         if (attackingPlayer != null) {
             PlayerList players;
@@ -1035,7 +1040,7 @@ public class Combat implements Serializable, Copyable<Combat> {
                     while (attackingPlayer.isInGame()) {
                         Player opponent = players.getNext(game);
                         if (attackingPlayer.hasOpponent(opponent.getId(), game)) {
-                            addDefender(opponent.getId(), game);
+                            attackablePlayers.add(opponent.getId());
                             break;
                         }
                     }
@@ -1045,18 +1050,19 @@ public class Combat implements Serializable, Copyable<Combat> {
                     while (attackingPlayer.isInGame()) {
                         Player opponent = players.getPrevious(game);
                         if (attackingPlayer.hasOpponent(opponent.getId(), game)) {
-                            addDefender(opponent.getId(), game);
+                            attackablePlayers.add(opponent.getId());
                             break;
                         }
                     }
                     break;
                 case MULTIPLE:
                     for (UUID opponentId : game.getOpponents(attackingPlayerId)) {
-                        addDefender(opponentId, game);
+                        attackablePlayers.add(opponentId);
                     }
                     break;
             }
         }
+        return attackablePlayers;
     }
 
     private void addDefender(UUID defenderId, Game game) {
@@ -1074,7 +1080,7 @@ public class Combat implements Serializable, Copyable<Combat> {
                 }
             }
             defenders.add(defenderId);
-            for (Permanent permanent : game.getBattlefield().getAllActivePermanents(filterPlaneswalker, defenderId, game)) {
+            for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_PLANESWALKER, defenderId, game)) {
                 defenders.add(permanent.getId());
             }
         }
@@ -1218,7 +1224,7 @@ public class Combat implements Serializable, Copyable<Combat> {
             }
         }
         // reset the removeFromCombat flag on all creatures on the battlefield
-        for (Permanent creaturePermanent : game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), game)) {
+        for (Permanent creaturePermanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, game)) {
             creaturePermanent.setRemovedFromCombat(false);
         }
         clear();
@@ -1414,7 +1420,7 @@ public class Combat implements Serializable, Copyable<Combat> {
         }
     }
 
-    public UUID getAttackerId() {
+    public UUID getAttackingPlayerId() {
         return attackingPlayerId;
     }
 

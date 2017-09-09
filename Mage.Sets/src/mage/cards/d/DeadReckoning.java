@@ -27,6 +27,7 @@
  */
 package mage.cards.d;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.Card;
@@ -42,8 +43,6 @@ import mage.players.Player;
 import mage.target.common.TargetCardInYourGraveyard;
 import mage.target.common.TargetCreaturePermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author jeffwadsworth
@@ -51,7 +50,7 @@ import java.util.UUID;
 public class DeadReckoning extends CardImpl {
 
     public DeadReckoning(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{1}{B}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.SORCERY}, "{1}{B}{B}");
 
         // You may put target creature card from your graveyard on top of your library. If you do, Dead Reckoning deals damage equal to that card's power to target creature.
         this.getSpellAbility().addEffect(new DeadReckoningEffect());
@@ -97,7 +96,7 @@ class DeadReckoningEffect extends OneShotEffect {
                     && you.choose(Outcome.Damage, target2, source.getSourceId(), game)) {
                 Card creatureInGraveyard = game.getCard(target1.getFirstTarget());
                 if (creatureInGraveyard != null) {
-                    if (creatureInGraveyard.moveToZone(Zone.LIBRARY, id, game, true)) {
+                    if (creatureInGraveyard.moveToZone(Zone.LIBRARY, source.getSourceId(), game, true)) {
                         int power = creatureInGraveyard.getPower().getValue();
                         Permanent creature = game.getPermanent(target2.getFirstTarget());
                         if (creature != null) {

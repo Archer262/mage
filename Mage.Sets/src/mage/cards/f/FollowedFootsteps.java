@@ -27,12 +27,13 @@
  */
 package mage.cards.f;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.OnEventTriggeredAbility;
 import mage.abilities.effects.Effect;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.AttachEffect;
-import mage.abilities.effects.common.PutTokenOntoBattlefieldCopyTargetEffect;
+import mage.abilities.effects.common.CreateTokenCopyTargetEffect;
 import mage.abilities.keyword.EnchantAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
@@ -44,8 +45,6 @@ import mage.game.permanent.Permanent;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetCreaturePermanent;
 import mage.target.targetpointer.FixedTarget;
-
-import java.util.UUID;
 
 /**
  *
@@ -100,7 +99,7 @@ class FollowedFootstepsEffect extends OneShotEffect {
         Permanent enchantment = game.getPermanentOrLKIBattlefield(source.getSourceId());
         Permanent target = game.getPermanentOrLKIBattlefield(enchantment.getAttachedTo());
         if (target != null) {
-            Effect effect = new PutTokenOntoBattlefieldCopyTargetEffect();
+            Effect effect = new CreateTokenCopyTargetEffect();
             effect.setTargetPointer(new FixedTarget(enchantment.getAttachedTo()));
             return effect.apply(game, source);
         }

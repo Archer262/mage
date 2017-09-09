@@ -34,6 +34,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -89,7 +90,7 @@ class DeathsCaressEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player player = game.getPlayer(source.getControllerId());
         Permanent creature = (Permanent) game.getLastKnownInformation(source.getFirstTarget(), Zone.BATTLEFIELD);
-        if (player != null && creature != null && creature.hasSubtype("Human", game)) {
+        if (player != null && creature != null && creature.hasSubtype(SubType.HUMAN, game)) {
             player.gainLife(creature.getToughness().getValue(), game);
             return true;
         }

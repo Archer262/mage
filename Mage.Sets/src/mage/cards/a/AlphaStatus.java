@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleStaticAbility;
 import mage.abilities.dynamicvalue.DynamicValue;
@@ -36,17 +37,12 @@ import mage.abilities.effects.common.continuous.BoostEnchantedEffect;
 import mage.abilities.keyword.EnchantAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.constants.*;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -56,7 +52,7 @@ public class AlphaStatus extends CardImpl {
 
     public AlphaStatus(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT}, "{2}{G}");
-        this.subtype.add("Aura");
+        this.subtype.add(SubType.AURA);
 
         // Enchant creature
         TargetPermanent auraTarget = new TargetCreaturePermanent();
@@ -64,7 +60,7 @@ public class AlphaStatus extends CardImpl {
         this.getSpellAbility().addEffect(new AttachEffect(Outcome.BoostCreature));
         Ability ability = new EnchantAbility(auraTarget.getTargetName());
         this.addAbility(ability);
-        
+
         // Enchanted creature gets +2/+2 for each other creature on the battlefield that shares a creature type with it.
         DynamicValue dynamicValue = new AlphaStatusDynamicValue();
         this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new BoostEnchantedEffect(dynamicValue, dynamicValue, Duration.WhileOnBattlefield)));
@@ -89,7 +85,7 @@ class AlphaStatusDynamicValue implements DynamicValue {
         if (enchantment != null && enchantment.getAttachedTo() != null) {
             Permanent enchanted = game.getPermanent(enchantment.getAttachedTo());
             if (enchanted != null) {
-                for (Permanent permanent : game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), game)) {
+                for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, game)) {
                     if (!permanent.getId().equals(enchanted.getId())) {
                         if (enchanted.shareSubtypes(permanent, game)) {
                             xValue += 2;
@@ -110,7 +106,7 @@ class AlphaStatusDynamicValue implements DynamicValue {
     public String toString() {
         return "2";
     }
-    
+
     @Override
     public String getMessage() {
         return "each other creature on the battlefield that shares a creature type with it";

@@ -59,7 +59,7 @@ public class Dissension extends ExpansionSet {
         cards.add(new SetCardInfo("Assault Zeppelid", 103, Rarity.COMMON, mage.cards.a.AssaultZeppelid.class));
         cards.add(new SetCardInfo("Aurora Eidolon", 1, Rarity.COMMON, mage.cards.a.AuroraEidolon.class));
         cards.add(new SetCardInfo("Avatar of Discord", 140, Rarity.RARE, mage.cards.a.AvatarOfDiscord.class));
-        cards.add(new SetCardInfo("Azorius AEthermage", 104, Rarity.UNCOMMON, mage.cards.a.AzoriusAEthermage.class));
+        cards.add(new SetCardInfo("Azorius Aethermage", 104, Rarity.UNCOMMON, mage.cards.a.AzoriusAEthermage.class));
         cards.add(new SetCardInfo("Azorius Chancery", 170, Rarity.COMMON, mage.cards.a.AzoriusChancery.class));
         cards.add(new SetCardInfo("Azorius First-Wing", 105, Rarity.COMMON, mage.cards.a.AzoriusFirstWing.class));
         cards.add(new SetCardInfo("Azorius Guildmage", 141, Rarity.UNCOMMON, mage.cards.a.AzoriusGuildmage.class));
@@ -96,6 +96,7 @@ public class Dissension extends ExpansionSet {
         cards.add(new SetCardInfo("Entropic Eidolon", 45, Rarity.COMMON, mage.cards.e.EntropicEidolon.class));
         cards.add(new SetCardInfo("Evolution Vat", 161, Rarity.RARE, mage.cards.e.EvolutionVat.class));
         cards.add(new SetCardInfo("Experiment Kraj", 110, Rarity.RARE, mage.cards.e.ExperimentKraj.class));
+        cards.add(new SetCardInfo("Flame-Kin War Scout", 61, Rarity.UNCOMMON, mage.cards.f.FlameKinWarScout.class));
         cards.add(new SetCardInfo("Flaring Flame-Kin", 62, Rarity.UNCOMMON, mage.cards.f.FlaringFlameKin.class));
         cards.add(new SetCardInfo("Freewind Equenaut", 9, Rarity.COMMON, mage.cards.f.FreewindEquenaut.class));
         cards.add(new SetCardInfo("Ghost Quarter", 173, Rarity.UNCOMMON, mage.cards.g.GhostQuarter.class));
@@ -111,10 +112,12 @@ public class Dissension extends ExpansionSet {
         cards.add(new SetCardInfo("Hellhole Rats", 113, Rarity.UNCOMMON, mage.cards.h.HellholeRats.class));
         cards.add(new SetCardInfo("Hide // Seek", 151, Rarity.UNCOMMON, mage.cards.h.HideSeek.class));
         cards.add(new SetCardInfo("Hit // Run", 152, Rarity.UNCOMMON, mage.cards.h.HitRun.class));
+        cards.add(new SetCardInfo("Ignorant Bliss", 64, Rarity.UNCOMMON, mage.cards.i.IgnorantBliss.class));
         cards.add(new SetCardInfo("Indrik Stomphowler", 86, Rarity.UNCOMMON, mage.cards.i.IndrikStomphowler.class));
         cards.add(new SetCardInfo("Infernal Tutor", 46, Rarity.RARE, mage.cards.i.InfernalTutor.class));
         cards.add(new SetCardInfo("Isperia the Inscrutable", 114, Rarity.RARE, mage.cards.i.IsperiaTheInscrutable.class));
         cards.add(new SetCardInfo("Kill-Suit Cultist", 65, Rarity.COMMON, mage.cards.k.KillSuitCultist.class));
+        cards.add(new SetCardInfo("Kindle the Carnage", 66, Rarity.UNCOMMON, mage.cards.k.KindleTheCarnage.class));
         cards.add(new SetCardInfo("Leafdrake Roost", 116, Rarity.UNCOMMON, mage.cards.l.LeafdrakeRoost.class));
         cards.add(new SetCardInfo("Loaming Shaman", 87, Rarity.RARE, mage.cards.l.LoamingShaman.class));
         cards.add(new SetCardInfo("Lyzolda, the Blood Witch", 117, Rarity.RARE, mage.cards.l.LyzoldaTheBloodWitch.class));
@@ -180,6 +183,7 @@ public class Dissension extends ExpansionSet {
         cards.add(new SetCardInfo("Spell Snare", 33, Rarity.UNCOMMON, mage.cards.s.SpellSnare.class));
         cards.add(new SetCardInfo("Sporeback Troll", 94, Rarity.COMMON, mage.cards.s.SporebackTroll.class));
         cards.add(new SetCardInfo("Sprouting Phytohydra", 95, Rarity.RARE, mage.cards.s.SproutingPhytohydra.class));
+        cards.add(new SetCardInfo("Squealing Devil", 72, Rarity.UNCOMMON, mage.cards.s.SquealingDevil.class));
         cards.add(new SetCardInfo("Stalking Vengeance", 73, Rarity.RARE, mage.cards.s.StalkingVengeance.class));
         cards.add(new SetCardInfo("Steeling Stance", 18, Rarity.COMMON, mage.cards.s.SteelingStance.class));
         cards.add(new SetCardInfo("Stoic Ephemera", 19, Rarity.UNCOMMON, mage.cards.s.StoicEphemera.class));
@@ -203,9 +207,11 @@ public class Dissension extends ExpansionSet {
         cards.add(new SetCardInfo("Voidslime", 137, Rarity.RARE, mage.cards.v.Voidslime.class));
         cards.add(new SetCardInfo("Wakestone Gargoyle", 21, Rarity.RARE, mage.cards.w.WakestoneGargoyle.class));
         cards.add(new SetCardInfo("Walking Archive", 169, Rarity.RARE, mage.cards.w.WalkingArchive.class));
+        cards.add(new SetCardInfo("War's Toll", 77, Rarity.RARE, mage.cards.w.WarsToll.class));
         cards.add(new SetCardInfo("Whiptail Moloch", 79, Rarity.COMMON, mage.cards.w.WhiptailMoloch.class));
         cards.add(new SetCardInfo("Windreaver", 138, Rarity.RARE, mage.cards.w.Windreaver.class));
         cards.add(new SetCardInfo("Wit's End", 58, Rarity.RARE, mage.cards.w.WitsEnd.class));
         cards.add(new SetCardInfo("Wrecking Ball", 139, Rarity.COMMON, mage.cards.w.WreckingBall.class));
+        cards.add(new SetCardInfo("Writ of Passage", 37, Rarity.COMMON, mage.cards.w.WritOfPassage.class));
     }
 }

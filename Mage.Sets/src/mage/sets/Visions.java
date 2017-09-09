@@ -59,6 +59,8 @@ public class Visions extends ExpansionSet {
         cards.add(new SetCardInfo("Army Ants", 126, Rarity.UNCOMMON, mage.cards.a.ArmyAnts.class));
         cards.add(new SetCardInfo("Betrayal", 26, Rarity.COMMON, mage.cards.b.Betrayal.class));
         cards.add(new SetCardInfo("Blanket of Night", 2, Rarity.UNCOMMON, mage.cards.b.BlanketOfNight.class));
+        cards.add(new SetCardInfo("Brass-Talon Chimera", 142, Rarity.UNCOMMON, mage.cards.b.BrassTalonChimera.class));
+        cards.add(new SetCardInfo("Breathstealer's Crypt", 127, Rarity.RARE, mage.cards.b.BreathstealersCrypt.class));
         cards.add(new SetCardInfo("Breezekeeper", 27, Rarity.COMMON, mage.cards.b.Breezekeeper.class));
         cards.add(new SetCardInfo("Bull Elephant", 51, Rarity.COMMON, mage.cards.b.BullElephant.class));
         cards.add(new SetCardInfo("Chronatog", 28, Rarity.RARE, mage.cards.c.Chronatog.class));
@@ -69,6 +71,7 @@ public class Visions extends ExpansionSet {
         cards.add(new SetCardInfo("Creeping Mold", 53, Rarity.UNCOMMON, mage.cards.c.CreepingMold.class));
         cards.add(new SetCardInfo("Crypt Rats", 5, Rarity.COMMON, mage.cards.c.CryptRats.class));
         cards.add(new SetCardInfo("Daraja Griffin", 102, Rarity.UNCOMMON, mage.cards.d.DarajaGriffin.class));
+        cards.add(new SetCardInfo("Dark Privilege", 6, Rarity.COMMON, mage.cards.d.DarkPrivilege.class));
         cards.add(new SetCardInfo("Death Watch", 7, Rarity.COMMON, mage.cards.d.DeathWatch.class));
         cards.add(new SetCardInfo("Desertion", 30, Rarity.RARE, mage.cards.d.Desertion.class));
         cards.add(new SetCardInfo("Diamond Kaleidoscope", 143, Rarity.RARE, mage.cards.d.DiamondKaleidoscope.class));
@@ -105,6 +108,7 @@ public class Visions extends ExpansionSet {
         cards.add(new SetCardInfo("Jungle Basin", 164, Rarity.UNCOMMON, mage.cards.j.JungleBasin.class));
         cards.add(new SetCardInfo("Kaervek's Spite", 13, Rarity.RARE, mage.cards.k.KaerveksSpite.class));
         cards.add(new SetCardInfo("Karoo", 165, Rarity.UNCOMMON, mage.cards.k.Karoo.class));
+        cards.add(new SetCardInfo("Katabatic Winds", 59, Rarity.RARE, mage.cards.k.KatabaticWinds.class));
         cards.add(new SetCardInfo("Keeper of Kookus", 85, Rarity.COMMON, mage.cards.k.KeeperOfKookus.class));
         cards.add(new SetCardInfo("King Cheetah", 60, Rarity.COMMON, mage.cards.k.KingCheetah.class));
         cards.add(new SetCardInfo("Knight of Valor", 111, Rarity.COMMON, mage.cards.k.KnightOfValor.class));
@@ -152,7 +156,6 @@ public class Visions extends ExpansionSet {
         cards.add(new SetCardInfo("Sun Clasp", 121, Rarity.COMMON, mage.cards.s.SunClasp.class));
         cards.add(new SetCardInfo("Suq'Ata Assassin", 19, Rarity.UNCOMMON, mage.cards.s.SuqAtaAssassin.class));
         cards.add(new SetCardInfo("Suq'Ata Lancer", 96, Rarity.COMMON, mage.cards.s.SuqAtaLancer.class));
-        cards.add(new SetCardInfo("Suq'Ata Firewalker", 94, Rarity.UNCOMMON, mage.cards.s.SuqAtaFirewalker.class));
         cards.add(new SetCardInfo("Talruum Champion", 97, Rarity.COMMON, mage.cards.t.TalruumChampion.class));
         cards.add(new SetCardInfo("Talruum Piper", 98, Rarity.UNCOMMON, mage.cards.t.TalruumPiper.class));
         cards.add(new SetCardInfo("Tar Pit Warrior", 20, Rarity.COMMON, mage.cards.t.TarPitWarrior.class));
@@ -160,6 +163,7 @@ public class Visions extends ExpansionSet {
         cards.add(new SetCardInfo("Teferi's Puzzle Box", 156, Rarity.RARE, mage.cards.t.TeferisPuzzleBox.class));
         cards.add(new SetCardInfo("Teferi's Realm", 44, Rarity.RARE, mage.cards.t.TeferisRealm.class));
         cards.add(new SetCardInfo("Tempest Drake", 139, Rarity.UNCOMMON, mage.cards.t.TempestDrake.class));
+        cards.add(new SetCardInfo("Three Wishes", 45, Rarity.RARE, mage.cards.t.ThreeWishes.class));
         cards.add(new SetCardInfo("Tithe", 123, Rarity.RARE, mage.cards.t.Tithe.class));
         cards.add(new SetCardInfo("Tremor", 99, Rarity.COMMON, mage.cards.t.Tremor.class));
         cards.add(new SetCardInfo("Triangle of War", 158, Rarity.RARE, mage.cards.t.TriangleOfWar.class));

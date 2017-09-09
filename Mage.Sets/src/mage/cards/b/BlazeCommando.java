@@ -35,6 +35,7 @@ import mage.abilities.effects.common.CreateTokenEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -55,8 +56,7 @@ public class BlazeCommando extends CardImpl {
 
     public BlazeCommando (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{R}{W}");
-        this.subtype.add("Minotaur");
-        this.subtype.add("Soldier");
+        this.subtype.add(SubType.MINOTAUR, SubType.SOLDIER);
 
 
         this.power = new MageInt(5);

@@ -43,6 +43,7 @@ import mage.game.events.GameEvent.EventType;
 import mage.players.Player;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -75,7 +76,7 @@ public class Fatespinner extends CardImpl {
 
 class FatespinnerChooseEffect extends OneShotEffect {
 
-    private static final HashSet<String> choices = new HashSet<>();
+    private static final Set<String> choices = new HashSet<>();
 
     static {
         choices.add("Draw step");

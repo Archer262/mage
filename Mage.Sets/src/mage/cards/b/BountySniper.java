@@ -37,6 +37,7 @@ import mage.abilities.keyword.BountyAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.target.common.TargetCreaturePermanent;
 
@@ -50,8 +51,7 @@ public class BountySniper extends CardImpl {
 
     public BountySniper(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{R}");
-        this.subtype.add("Gand");
-        this.subtype.add("Hunter");
+        this.subtype.add(SubType.GAND, SubType.HUNTER);
         this.power = new MageInt(1);
         this.toughness = new MageInt(3);
 

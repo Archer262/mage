@@ -27,6 +27,7 @@
  */
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
@@ -47,8 +48,6 @@ import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetControlledCreaturePermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -111,7 +110,7 @@ class EbonPraetorEffect extends OneShotEffect {
             if (cost instanceof SacrificeTargetCost) {
                 Permanent sacrificedCreature = ((SacrificeTargetCost) cost).getPermanents().get(0);
                 Permanent sourceCreature = game.getPermanent(source.getSourceId());
-                if (sacrificedCreature.hasSubtype("Thrull", game) && sourceCreature != null) {
+                if (sacrificedCreature.hasSubtype(SubType.THRULL, game) && sourceCreature != null) {
                     sourceCreature.addCounters(CounterType.P1P0.createInstance(), source, game);
                     return true;
                 }

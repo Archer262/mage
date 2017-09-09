@@ -27,6 +27,7 @@
  */
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.Effect;
 import mage.abilities.effects.OneShotEffect;
@@ -35,6 +36,7 @@ import mage.abilities.effects.common.counter.AddCountersTargetEffect;
 import mage.cards.*;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.counters.CounterType;
 import mage.game.ExileZone;
@@ -44,8 +46,6 @@ import mage.players.Player;
 import mage.target.common.TargetControlledCreaturePermanent;
 import mage.target.targetpointer.FixedTarget;
 import mage.util.CardUtil;
-
-import java.util.UUID;
 
 /**
  *
@@ -124,7 +124,7 @@ class EssenceFluxEffect extends OneShotEffect {
                 controller.moveCards(cardsToBattlefield.getCards(game), Zone.BATTLEFIELD, source, game, false, false, true, null);
                 for (UUID cardId : cardsToBattlefield) {
                     Permanent permanent = game.getPermanent(cardId);
-                    if (permanent != null && permanent.hasSubtype("Spirit", game)) {
+                    if (permanent != null && permanent.hasSubtype(SubType.SPIRIT, game)) {
                         Effect effect = new AddCountersTargetEffect(CounterType.P1P1.createInstance());
                         effect.setTargetPointer(new FixedTarget(permanent, game));
                         return effect.apply(game, source);

@@ -39,16 +39,17 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.filter.FilterPermanent;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.game.Game;
-import mage.game.permanent.token.SorinLordOfInnistradVampireToken;
 import mage.game.command.emblems.SorinLordOfInnistradEmblem;
-import mage.target.TargetPermanent;
 import mage.game.permanent.Permanent;
+import mage.game.permanent.token.SorinLordOfInnistradVampireToken;
 import mage.players.Player;
+import mage.target.TargetPermanent;
 
 /**
  *
@@ -66,6 +67,7 @@ public class SorinLordOfInnistrad extends CardImpl {
 
     public SorinLordOfInnistrad(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{W}{B}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Sorin");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(3));

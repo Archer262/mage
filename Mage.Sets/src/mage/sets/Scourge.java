@@ -68,15 +68,17 @@ public class Scourge extends ExpansionSet {
         cards.add(new SetCardInfo("Brain Freeze", 29, Rarity.UNCOMMON, mage.cards.b.BrainFreeze.class));
         cards.add(new SetCardInfo("Break Asunder", 113, Rarity.COMMON, mage.cards.b.BreakAsunder.class));
         cards.add(new SetCardInfo("Cabal Conditioning", 56, Rarity.RARE, mage.cards.c.CabalConditioning.class));
-	    cards.add(new SetCardInfo("Cabal Interrogator", 57, Rarity.UNCOMMON, mage.cards.c.CabalInterrogator.class));
+	cards.add(new SetCardInfo("Cabal Interrogator", 57, Rarity.UNCOMMON, mage.cards.c.CabalInterrogator.class));
         cards.add(new SetCardInfo("Call to the Grave", 58, Rarity.RARE, mage.cards.c.CallToTheGrave.class));
         cards.add(new SetCardInfo("Carbonize", 83, Rarity.UNCOMMON, mage.cards.c.Carbonize.class));
         cards.add(new SetCardInfo("Carrion Feeder", 59, Rarity.COMMON, mage.cards.c.CarrionFeeder.class));
         cards.add(new SetCardInfo("Chartooth Cougar", 84, Rarity.COMMON, mage.cards.c.ChartoothCougar.class));
+        cards.add(new SetCardInfo("Chill Haunting", 60, Rarity.UNCOMMON, mage.cards.c.ChillHaunting.class));
         cards.add(new SetCardInfo("Claws of Wirewood", 114, Rarity.UNCOMMON, mage.cards.c.ClawsOfWirewood.class));
         cards.add(new SetCardInfo("Clutch of Undeath", 61, Rarity.COMMON, mage.cards.c.ClutchOfUndeath.class));
         cards.add(new SetCardInfo("Coast Watcher", 30, Rarity.COMMON, mage.cards.c.CoastWatcher.class));
         cards.add(new SetCardInfo("Consumptive Goo", 62, Rarity.RARE, mage.cards.c.ConsumptiveGoo.class));
+        cards.add(new SetCardInfo("Daru Spiritualist", 5, Rarity.COMMON, mage.cards.d.DaruSpiritualist.class));
         cards.add(new SetCardInfo("Daru Warchief", 6, Rarity.UNCOMMON, mage.cards.d.DaruWarchief.class));
         cards.add(new SetCardInfo("Dawn Elemental", 7, Rarity.RARE, mage.cards.d.DawnElemental.class));
         cards.add(new SetCardInfo("Day of the Dragons", 31, Rarity.RARE, mage.cards.d.DayOfTheDragons.class));
@@ -86,6 +88,7 @@ public class Scourge extends ExpansionSet {
         cards.add(new SetCardInfo("Decree of Pain", 64, Rarity.RARE, mage.cards.d.DecreeOfPain.class));
         cards.add(new SetCardInfo("Decree of Savagery", 115, Rarity.RARE, mage.cards.d.DecreeOfSavagery.class));
         cards.add(new SetCardInfo("Decree of Silence", 32, Rarity.RARE, mage.cards.d.DecreeOfSilence.class));
+        cards.add(new SetCardInfo("Dimensional Breach", 9, Rarity.RARE, mage.cards.d.DimensionalBreach.class));
         cards.add(new SetCardInfo("Dispersal Shield", 33, Rarity.COMMON, mage.cards.d.DispersalShield.class));
         cards.add(new SetCardInfo("Divergent Growth", 116, Rarity.COMMON, mage.cards.d.DivergentGrowth.class));
         cards.add(new SetCardInfo("Dragon Breath", 86, Rarity.COMMON, mage.cards.d.DragonBreath.class));

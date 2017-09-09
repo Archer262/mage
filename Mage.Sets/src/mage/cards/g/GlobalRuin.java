@@ -27,6 +27,11 @@
  */
 package mage.cards.g;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.CardImpl;
@@ -35,20 +40,14 @@ import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
 import mage.constants.SubTypeSet;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledLandPermanent;
-import mage.filter.common.FilterLandPermanent;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.Target;
 import mage.target.common.TargetControlledPermanent;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * @author Markedagain
@@ -104,7 +103,7 @@ class GlobalRuinDestroyLandEffect extends OneShotEffect {
                 }
             }
         }
-        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(new FilterLandPermanent(), game)) {
+        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_LAND, game)) {
             if (!lands.contains(permanent.getId())) {
                 permanent.sacrifice(permanent.getId(), game);
             }

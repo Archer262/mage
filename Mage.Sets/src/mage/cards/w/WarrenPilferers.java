@@ -37,10 +37,7 @@ import mage.abilities.keyword.HasteAbility;
 import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.filter.common.FilterCreatureCard;
 import mage.game.Game;
 import mage.target.common.TargetCardInYourGraveyard;
@@ -96,7 +93,7 @@ class WarrenPilferersReturnEffect extends OneShotEffect {
         Card card = game.getCard(source.getFirstTarget());
         if (card != null) {
             card.moveToZone(Zone.HAND, source.getSourceId(), game, false);
-            if (card.hasSubtype("Goblin", game)) {
+            if (card.hasSubtype(SubType.GOBLIN, game)) {
                 game.addEffect(new GainAbilitySourceEffect(HasteAbility.getInstance(), Duration.EndOfTurn), source);
             }
             return true;

@@ -42,6 +42,7 @@ import mage.target.TargetCard;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -86,7 +87,7 @@ class MitoticManipulationEffect extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         List<Permanent> permanents = game.getBattlefield().getActivePermanents(source.getControllerId(), game);
-        HashSet<String> permanentNames = new HashSet<>();
+        Set<String> permanentNames = new HashSet<>();
         FilterCard filter = new FilterCard("card to put onto the battlefield");
         for (Permanent permanent : permanents) {
             permanentNames.add(permanent.getName());

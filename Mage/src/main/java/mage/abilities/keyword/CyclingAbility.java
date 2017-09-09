@@ -29,7 +29,7 @@ package mage.abilities.keyword;
 
 import mage.abilities.ActivatedAbilityImpl;
 import mage.abilities.costs.Cost;
-import mage.abilities.costs.common.DiscardSourceCost;
+import mage.abilities.costs.common.CyclingDiscardCost;
 import mage.abilities.costs.mana.ManaCost;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.abilities.effects.common.search.SearchLibraryPutInHandEffect;
@@ -48,14 +48,14 @@ public class CyclingAbility extends ActivatedAbilityImpl {
 
     public CyclingAbility(Cost cost) {
         super(Zone.HAND, new DrawCardSourceControllerEffect(1), cost);
-        this.addCost(new DiscardSourceCost(false));
+        this.addCost(new CyclingDiscardCost());
         this.cost = cost;
         this.text = "Cycling";
     }
 
     public CyclingAbility(Cost cost, FilterCard filter, String text) {
         super(Zone.HAND, new SearchLibraryPutInHandEffect(new TargetCardInLibrary(filter), true, true), cost);
-        this.addCost(new DiscardSourceCost(false));
+        this.addCost(new CyclingDiscardCost());
         this.cost = cost;
         this.text = text;
     }

@@ -37,7 +37,7 @@ import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SetTargetPointer;
 import mage.constants.Zone;
-import mage.filter.FilterSpell;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterLandPermanent;
 import mage.filter.predicate.permanent.ControllerIdPredicate;
 import mage.game.Game;
@@ -56,7 +56,7 @@ public class ManaBreach extends CardImpl {
         super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{2}{U}");
 
         // Whenever a player casts a spell, that player returns a land he or she controls to its owner's hand.
-        this.addAbility(new SpellCastAllTriggeredAbility(new ManaBreachEffect(), new FilterSpell(), false, SetTargetPointer.PLAYER));
+        this.addAbility(new SpellCastAllTriggeredAbility(new ManaBreachEffect(), StaticFilters.FILTER_SPELL, false, SetTargetPointer.PLAYER));
     }
 
     public ManaBreach(final ManaBreach card) {

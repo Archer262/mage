@@ -58,7 +58,7 @@ public class HondenOfNightsReach extends CardImpl {
     public HondenOfNightsReach(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{3}{B}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Shrine");
+        this.subtype.add(SubType.SHRINE);
 
 
         // At the beginning of your upkeep, target opponent discards a card for each Shrine you control.

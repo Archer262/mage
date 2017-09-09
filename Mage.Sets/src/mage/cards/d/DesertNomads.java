@@ -68,7 +68,7 @@ public class DesertNomads extends CardImpl {
         this.addAbility(new LandwalkAbility(filter));        
         
         // Prevent all damage that would be dealt to Desert Nomads by Deserts.
-        this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new PreventDamageToSourceBySubtypeEffect("Desert")));
+        this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new PreventDamageToSourceBySubtypeEffect(SubType.DESERT)));
     }
 
     public DesertNomads(final DesertNomads card) {
@@ -83,13 +83,9 @@ public class DesertNomads extends CardImpl {
 
 class PreventDamageToSourceBySubtypeEffect extends PreventAllDamageToSourceEffect {
     
-    private String subtype;
-      
-    public PreventDamageToSourceBySubtypeEffect(){
-        this("a");
-    }
+    private SubType subtype;
 
-    public PreventDamageToSourceBySubtypeEffect(String sub){
+    public PreventDamageToSourceBySubtypeEffect(SubType sub){
         super(Duration.WhileOnBattlefield);
         subtype = sub;
     }

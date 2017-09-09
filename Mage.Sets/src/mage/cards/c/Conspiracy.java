@@ -36,7 +36,6 @@ import mage.abilities.effects.common.ChooseCreatureTypeEffect;
 import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.constants.*;
 import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.game.Game;
@@ -44,6 +43,7 @@ import mage.game.permanent.Permanent;
 import mage.game.stack.Spell;
 import mage.game.stack.StackObject;
 import mage.players.Player;
+import mage.util.SubTypeList;
 
 import java.util.Iterator;
 import java.util.List;
@@ -93,7 +93,7 @@ class ConspiracyEffect extends ContinuousEffectImpl {
     @Override
     public boolean apply(Layer layer, SubLayer sublayer, Ability source, Game game) {
         Player controller = game.getPlayer(source.getControllerId());
-        String choice = (String) game.getState().getValue(source.getSourceId().toString() + "_type");
+        SubType choice = (SubType) game.getState().getValue(source.getSourceId().toString() + "_type");
         if (controller != null && choice != null) {
             // Creature cards you own that aren't on the battlefield
             // in graveyard
@@ -152,7 +152,7 @@ class ConspiracyEffect extends ContinuousEffectImpl {
         return false;
     }
 
-    private void setCreatureSubtype(MageObject object, String subtype, Game game) {
+    private void setCreatureSubtype(MageObject object, SubType subtype, Game game) {
         if (object != null) {
             if (object instanceof Card) {
                 Card card = (Card) object;
@@ -165,9 +165,9 @@ class ConspiracyEffect extends ContinuousEffectImpl {
         }
     }
 
-    private void setChosenSubtype(List<String> subtype, String choice) {
+    private void setChosenSubtype(SubTypeList subtype, SubType choice) {
         if (subtype.size() != 1 ||  !subtype.contains(choice)) {
-            subtype.removeAll(CardRepository.instance.getCreatureTypes());
+            subtype.removeAll(SubType.getCreatureTypes(false));
             subtype.add(choice);
         }
     }

@@ -36,10 +36,7 @@ import mage.abilities.effects.common.continuous.BoostAllEffect;
 import mage.abilities.keyword.EnchantAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -89,7 +86,7 @@ class AttachedToBasicMountainCondition implements Condition {
         if (enchantment != null) {
             Permanent enchanted = game.getPermanent(enchantment.getAttachedTo());
             if (enchanted != null) {
-                if (enchanted.hasSubtype("Mountain", game) && enchanted.isBasic()) {
+                if (enchanted.hasSubtype(SubType.MOUNTAIN, game) && enchanted.isBasic()) {
                     return true;
                 }
             }

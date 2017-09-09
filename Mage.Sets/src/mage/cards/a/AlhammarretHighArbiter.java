@@ -27,6 +27,8 @@
  */
 package mage.cards.a;
 
+import java.util.Objects;
+import java.util.UUID;
 import mage.MageInt;
 import mage.MageObject;
 import mage.abilities.Ability;
@@ -47,9 +49,6 @@ import mage.target.TargetCard;
 import mage.util.CardUtil;
 import mage.util.GameLog;
 
-import java.util.Objects;
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -59,7 +58,7 @@ public class AlhammarretHighArbiter extends CardImpl {
     public AlhammarretHighArbiter(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{5}{U}{U}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Sphinx");
+        this.subtype.add(SubType.SPHINX);
         this.power = new MageInt(5);
         this.toughness = new MageInt(5);
 

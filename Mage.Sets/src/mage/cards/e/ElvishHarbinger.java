@@ -27,6 +27,7 @@
  */
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
 import mage.abilities.costs.common.TapSourceCost;
@@ -40,8 +41,6 @@ import mage.filter.FilterCard;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.target.common.TargetCardInLibrary;
 
-import java.util.UUID;
-
 /**
  *
  * @author Plopman
@@ -50,7 +49,7 @@ public class ElvishHarbinger extends CardImpl {
 
     static final FilterCard filter = new FilterCard("Elf card");
     static {
-        filter.add(new SubtypePredicate(SubType.ELEMENTAL));
+        filter.add(new SubtypePredicate(SubType.ELF));
     }
     public ElvishHarbinger(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{G}");

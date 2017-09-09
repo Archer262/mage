@@ -5,8 +5,12 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
 import java.nio.file.AccessDeniedException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +26,6 @@ import mage.client.constants.Constants;
 import mage.client.dialog.PreferencesDialog;
 import mage.client.util.sets.ConstructedFormats;
 import mage.remote.Connection;
-import mage.util.RandomUtil;
 import net.java.truevfs.access.TFile;
 import net.java.truevfs.access.TFileOutputStream;
 import net.java.truevfs.access.TVFS;
@@ -103,7 +106,7 @@ public class DownloadPictures extends DefaultBoundedRangeModel implements Runnab
         p0.add(jLabel1);
         p0.add(Box.createVerticalStrut(5));
         ComboBoxModel jComboBox1Model = new DefaultComboBoxModel(new String[]{
-            "magiccards.info",
+            // "magiccards.info",
             "wizards.com",
             "mythicspoiler.com",
             "tokens.mtg.onl", //"mtgimage.com (HQ)",
@@ -111,8 +114,7 @@ public class DownloadPictures extends DefaultBoundedRangeModel implements Runnab
             "alternative.mtg.onl",
             "GrabBag",
             "magidex.com",
-            "scryfall.com",
-        //"mtgathering.ru HQ",
+            "scryfall.com", //"mtgathering.ru HQ",
         //"mtgathering.ru MQ",
         //"mtgathering.ru LQ",
         });
@@ -124,7 +126,7 @@ public class DownloadPictures extends DefaultBoundedRangeModel implements Runnab
         jComboBox1.setAlignmentX(Component.LEFT_ALIGNMENT);
         jComboBox1.addActionListener(e -> {
             JComboBox cb = (JComboBox) e.getSource();
-            switch (cb.getSelectedIndex()) {
+            switch (cb.getSelectedIndex() + 1) {
                 case 0:
                     cardImageSource = MagicCardsImageSource.instance;
                     break;
@@ -604,7 +606,6 @@ public class DownloadPictures extends DefaultBoundedRangeModel implements Runnab
                 } else {
                     cardImageSource.doPause(url.getPath());
                     httpConn = url.openConnection(p);
-                    setUpConnection(httpConn);
                     httpConn.connect();
                     responseCode = ((HttpURLConnection) httpConn).getResponseCode();
                 }
@@ -678,33 +679,6 @@ public class DownloadPictures extends DefaultBoundedRangeModel implements Runnab
             }
             synchronized (sync) {
                 update(cardIndex + 1, count);
-            }
-        }
-
-        private void setUpConnection(URLConnection httpConn) {
-            // images download from magiccards.info may not work with default 'User-Agent: Java/1.x.x' request header
-            switch (RandomUtil.nextInt(3)) {
-                // chrome
-                case 0:
-                    httpConn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-                    httpConn.setRequestProperty("Accept-Encoding", "gzip, deflate, sdch");
-                    httpConn.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
-                    httpConn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
-                    break;
-                // ff
-                case 1:
-                    httpConn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-                    httpConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-                    httpConn.setRequestProperty("Accept-Language", "en-US;q=0.5,en;q=0.3");
-                    httpConn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0");
-                    break;
-                // ie
-                case 2:
-                    httpConn.setRequestProperty("Accept", "text/html, application/xhtml+xml, */*");
-                    httpConn.setRequestProperty("Accept-Encoding", "gzip, deflate");
-                    httpConn.setRequestProperty("Accept-Language", "en-US");
-                    httpConn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko");
-                    break;
             }
         }
 

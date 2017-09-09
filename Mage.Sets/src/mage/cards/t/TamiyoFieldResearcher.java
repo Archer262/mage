@@ -27,9 +27,6 @@
  */
 package mage.cards.t;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import mage.MageObjectReference;
 import mage.abilities.Ability;
 import mage.abilities.DelayedTriggeredAbility;
@@ -46,7 +43,7 @@ import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.Outcome;
 import mage.filter.FilterPermanent;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.game.Game;
@@ -57,6 +54,11 @@ import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetCreaturePermanent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import mage.constants.SuperType;
 
 /**
  *
@@ -72,13 +74,14 @@ public class TamiyoFieldResearcher extends CardImpl {
 
     public TamiyoFieldResearcher(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{1}{G}{W}{U}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Tamiyo");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
 
         // +1: Choose up to two target creatures. Until your next turn, whenever either of those creatures deals combat damage, you draw a card.
         Ability ability = new LoyaltyAbility(new TamiyoFieldResearcherEffect1(), 1);
-        ability.addTarget(new TargetCreaturePermanent(0, 2, new FilterCreaturePermanent("creatures"), false));
+        ability.addTarget(new TargetCreaturePermanent(0, 2, StaticFilters.FILTER_PERMANENT_CREATURES, false));
         this.addAbility(ability);
 
         // -2: Tap up to two target nonland permanents. They don't untap during their controller's next untap step.
@@ -123,7 +126,7 @@ class TamiyoFieldResearcherEffect1 extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            ArrayList<MageObjectReference> creatures = new ArrayList<>();
+            List<MageObjectReference> creatures = new ArrayList<>();
             for (UUID uuid : getTargetPointer().getTargets(game, source)) {
                 creatures.add(new MageObjectReference(uuid, game));
             }

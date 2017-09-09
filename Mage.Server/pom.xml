@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.mage</groupId>
         <artifactId>mage-root</artifactId>
-        <version>1.4.23</version>
+        <version>1.4.26</version>
     </parent>
 
     <artifactId>mage-server</artifactId>
@@ -145,6 +145,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>mage-game-canadianhighlanderduel</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mage-game-pennydreadfulcommanderfreeforall</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

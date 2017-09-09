@@ -27,6 +27,7 @@
  */
 package mage.cards.d;
 
+import java.util.UUID;
 import mage.abilities.common.SimpleStaticAbility;
 import mage.abilities.effects.common.CantBeTargetedAllEffect;
 import mage.cards.CardImpl;
@@ -35,9 +36,7 @@ import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.Zone;
 import mage.filter.FilterSpell;
-import mage.filter.common.FilterCreaturePermanent;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -50,7 +49,7 @@ public class DenseFoliage extends CardImpl {
 
 
         // Creatures can't be the targets of spells.
-        CantBeTargetedAllEffect cantTargetEffect = new CantBeTargetedAllEffect(new FilterCreaturePermanent("Creatures"), new FilterSpell("spells"), Duration.WhileOnBattlefield);
+        CantBeTargetedAllEffect cantTargetEffect = new CantBeTargetedAllEffect(StaticFilters.FILTER_PERMANENT_CREATURES, new FilterSpell("spells"), Duration.WhileOnBattlefield);
         this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, cantTargetEffect));
     }
 

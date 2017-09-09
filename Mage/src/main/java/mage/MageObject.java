@@ -1,21 +1,23 @@
 package mage;
 
+import java.io.Serializable;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.UUID;
 import mage.abilities.Abilities;
 import mage.abilities.Ability;
 import mage.abilities.costs.mana.ManaCost;
 import mage.abilities.costs.mana.ManaCosts;
 import mage.abilities.keyword.ChangelingAbility;
+import mage.abilities.text.TextPart;
 import mage.cards.Card;
 import mage.cards.FrameStyle;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.game.Game;
 import mage.game.events.ZoneChangeEvent;
-
-import java.io.Serializable;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.UUID;
+import mage.util.SubTypeList;
 
 public interface MageObject extends MageItem, Serializable {
 
@@ -31,9 +33,9 @@ public interface MageObject extends MageItem, Serializable {
 
     EnumSet<CardType> getCardType();
 
-    List<String> getSubtype(Game game);
+    SubTypeList getSubtype(Game game);
 
-    boolean hasSubtype(String subtype, Game game);
+    boolean hasSubtype(SubType subtype, Game game);
 
     EnumSet<SuperType> getSuperType();
 
@@ -56,7 +58,6 @@ public interface MageObject extends MageItem, Serializable {
     MageInt getToughness();
 
     int getStartingLoyalty();
-
 
     void adjustCosts(Ability ability, Game game);
 
@@ -83,7 +84,6 @@ public interface MageObject extends MageItem, Serializable {
     void updateZoneChangeCounter(Game game, ZoneChangeEvent event);
 
     void setZoneChangeCounter(int value, Game game);
-
 
     default boolean isCreature() {
         return getCardType().contains(CardType.CREATURE);
@@ -162,7 +162,6 @@ public interface MageObject extends MageItem, Serializable {
         return false;
     }
 
-
     default boolean shareSubtypes(Card otherCard, Game game) {
 
         if (otherCard == null) {
@@ -171,13 +170,13 @@ public interface MageObject extends MageItem, Serializable {
 
         if (this.isCreature() && otherCard.isCreature()) {
             if (this.getAbilities().contains(ChangelingAbility.getInstance())
-                    || this.getSubtype(game).contains(ChangelingAbility.ALL_CREATURE_TYPE)
+                    || this.isAllCreatureTypes()
                     || otherCard.getAbilities().contains(ChangelingAbility.getInstance())
-                    || otherCard.getSubtype(game).contains(ChangelingAbility.ALL_CREATURE_TYPE)) {
+                    || otherCard.isAllCreatureTypes()) {
                 return true;
             }
         }
-        for (String subtype : this.getSubtype(game)) {
+        for (SubType subtype : this.getSubtype(game)) {
             if (otherCard.getSubtype(game).contains(subtype)) {
                 return true;
             }
@@ -186,7 +185,19 @@ public interface MageObject extends MageItem, Serializable {
         return false;
     }
 
-    default void addCardTypes(EnumSet<CardType> cardType){
+    boolean isAllCreatureTypes();
+
+    void setIsAllCreatureTypes(boolean value);
+
+    default void addCardTypes(EnumSet<CardType> cardType) {
         getCardType().addAll(cardType);
+    }
+
+    List<TextPart> getTextParts();
+
+    TextPart addTextPart(TextPart textPart);
+
+    default void changeSubType(SubType fromSubType, SubType toSubType) {
+
     }
 }

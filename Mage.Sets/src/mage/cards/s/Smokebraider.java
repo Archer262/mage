@@ -27,9 +27,7 @@
  */
 package mage.cards.s;
 
-import java.util.UUID;
 import mage.ConditionalMana;
-import mage.constants.CardType;
 import mage.MageInt;
 import mage.MageObject;
 import mage.Mana;
@@ -39,7 +37,11 @@ import mage.abilities.mana.ConditionalAnyColorManaAbility;
 import mage.abilities.mana.builder.ConditionalManaBuilder;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.game.Game;
+
+import java.util.UUID;
 
 /**
  *
@@ -96,7 +98,7 @@ class SmokebraiderManaCondition implements Condition {
     @Override
     public boolean apply(Game game, Ability source) {
         MageObject object = game.getObject(source.getSourceId());
-        if (object != null && object.hasSubtype("Elemental", game)) {
+        if (object != null && object.hasSubtype(SubType.ELEMENTAL, game)) {
             return true;
         }
         return false;

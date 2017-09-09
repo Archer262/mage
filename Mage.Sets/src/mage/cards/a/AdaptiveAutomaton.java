@@ -58,7 +58,7 @@ public class AdaptiveAutomaton extends CardImpl {
 
     public AdaptiveAutomaton(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.ARTIFACT, CardType.CREATURE}, "{3}");
-        this.subtype.add("Construct");
+        this.subtype.add(SubType.CONSTRUCT);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
@@ -99,7 +99,7 @@ class AdaptiveAutomatonAddSubtypeEffect extends ContinuousEffectImpl {
     public boolean apply(Game game, Ability source) {
         Permanent permanent = game.getPermanent(source.getSourceId());
         if (permanent != null) {
-            String subtype = (String) game.getState().getValue(permanent.getId() + "_type");
+            SubType subtype = (SubType) game.getState().getValue(permanent.getId() + "_type");
             if (subtype != null && !permanent.getSubtype(game).contains(subtype)) {
                 permanent.getSubtype(game).add(subtype);
             }

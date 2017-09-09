@@ -28,6 +28,7 @@
 
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.SpellCastControllerTriggeredAbility;
 import mage.abilities.dynamicvalue.common.StaticValue;
@@ -36,23 +37,19 @@ import mage.abilities.keyword.FlyingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterCreaturePermanent;
-import mage.filter.common.FilterSpiritOrArcaneCard;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.AbilityPredicate;
-
-import java.util.UUID;
 
 /**
  * @author Loki
  */
 public class Earthshaker extends CardImpl {
-
-    private static final FilterSpiritOrArcaneCard filter = new FilterSpiritOrArcaneCard();    
     private static final FilterCreaturePermanent creatureFilter = new FilterCreaturePermanent("creature without flying");
 
     static {
-        filter.add(Predicates.not(new AbilityPredicate(FlyingAbility.class)));
+        creatureFilter.add(Predicates.not(new AbilityPredicate(FlyingAbility.class)));
     }
 
     public Earthshaker(UUID ownerId, CardSetInfo setInfo) {
@@ -62,7 +59,7 @@ public class Earthshaker extends CardImpl {
         this.power = new MageInt(4);
         this.toughness = new MageInt(5);
         // Whenever you cast a Spirit or Arcane spell, Earthshaker deals 2 damage to each creature without flying.
-        this.addAbility(new SpellCastControllerTriggeredAbility(new DamageAllEffect(new StaticValue(2) , creatureFilter), filter, false));
+        this.addAbility(new SpellCastControllerTriggeredAbility(new DamageAllEffect(new StaticValue(2) , creatureFilter), StaticFilters.SPIRIT_OR_ARCANE_CARD, false));
     }
 
     public Earthshaker(final Earthshaker card) {

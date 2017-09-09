@@ -42,9 +42,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.Zone;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.target.TargetSpell;
 
 /**
@@ -52,14 +50,6 @@ import mage.target.TargetSpell;
  * @author fireshoes
  */
 public class MischievousQuanar extends CardImpl {
-    
-    private static final FilterSpell filter = new FilterSpell("instant or sorcery spell");
-
-    static {
-        filter.add(Predicates.or(
-                new CardTypePredicate(CardType.INSTANT),
-                new CardTypePredicate(CardType.SORCERY)));
-    }
 
     public MischievousQuanar(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{U}");
@@ -79,7 +69,7 @@ public class MischievousQuanar extends CardImpl {
         Effect effect2 = new CopyTargetSpellEffect();
         effect2.setText("copy target instant or sorcery spell. You may choose new targets for that copy");
         Ability ability = new TurnedFaceUpSourceTriggeredAbility(effect2);
-        ability.addTarget(new TargetSpell(filter));
+        ability.addTarget(new TargetSpell(StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL));
         this.addAbility(ability);
     }
 

@@ -27,6 +27,8 @@
  */
 package mage.cards.e;
 
+import java.util.Iterator;
+import java.util.UUID;
 import mage.MageObjectReference;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -46,9 +48,6 @@ import mage.filter.common.FilterControlledPermanent;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
-
-import java.util.Iterator;
-import java.util.UUID;
 
 /**
  *
@@ -152,19 +151,19 @@ class ElsewhereFlaskContinuousEffect extends ContinuousEffectImpl {
                             if (sublayer == SubLayer.NA) {
                                 land.getAbilities().clear();
                                 if (choice.equals("Forest")) {
-                                    land.addAbility(new GreenManaAbility(), id, game);
+                                    land.addAbility(new GreenManaAbility(), source.getSourceId(), game);
                                 }
                                 if (choice.equals("Plains")) {
-                                    land.addAbility(new WhiteManaAbility(), id, game);
+                                    land.addAbility(new WhiteManaAbility(), source.getSourceId(), game);
                                 }
                                 if (choice.equals("Mountain")) {
-                                    land.addAbility(new RedManaAbility(), id, game);
+                                    land.addAbility(new RedManaAbility(), source.getSourceId(), game);
                                 }
                                 if (choice.equals("Island")) {
-                                    land.addAbility(new BlueManaAbility(), id, game);
+                                    land.addAbility(new BlueManaAbility(), source.getSourceId(), game);
                                 }
                                 if (choice.equals("Swamp")) {
-                                    land.addAbility(new BlackManaAbility(), id, game);
+                                    land.addAbility(new BlackManaAbility(), source.getSourceId(), game);
                                 }
                             }
                             break;

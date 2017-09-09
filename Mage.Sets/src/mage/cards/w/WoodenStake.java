@@ -39,6 +39,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -96,7 +97,7 @@ class WoodenStakeBlocksOrBecomesBlockedTriggeredAbility extends TriggeredAbility
         if (equipment != null && equipment.getAttachedTo() != null) {
             if (event.getSourceId().equals(equipment.getAttachedTo())) {
                 Permanent blocks = game.getPermanent(event.getTargetId());
-                if (blocks != null && blocks.hasSubtype("Vampire", game)) {
+                if (blocks != null && blocks.hasSubtype(SubType.VAMPIRE, game)) {
                     for (Effect effect : this.getEffects()) {
                         effect.setTargetPointer(new FixedTarget(event.getTargetId()));
                     }
@@ -106,7 +107,7 @@ class WoodenStakeBlocksOrBecomesBlockedTriggeredAbility extends TriggeredAbility
             }
             if (event.getTargetId().equals(equipment.getAttachedTo())) {
                 Permanent blockedBy = game.getPermanent(event.getSourceId());
-                if (blockedBy != null && blockedBy.hasSubtype("Vampire", game)) {
+                if (blockedBy != null && blockedBy.hasSubtype(SubType.VAMPIRE, game)) {
                     for (Effect effect : this.getEffects()) {
                         effect.setTargetPointer(new FixedTarget(event.getSourceId()));
                     }

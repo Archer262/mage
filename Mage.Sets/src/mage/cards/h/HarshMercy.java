@@ -36,9 +36,8 @@ import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.DestroyAllEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.choices.Choice;
-import mage.choices.ChoiceImpl;
+import mage.choices.ChoiceCreatureType;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
@@ -97,9 +96,7 @@ class HarshMercyEffect extends OneShotEffect {
             PlayerIteration:
             for (UUID playerId : game.getState().getPlayersInRange(controller.getId(), game)) {
                 Player player = game.getPlayer(playerId);
-                Choice typeChoice = new ChoiceImpl(true);
-                typeChoice.setMessage("Choose a creature type");
-                typeChoice.setChoices(SubType.getCreatureTypes(false));
+                Choice typeChoice = new ChoiceCreatureType();
                 while (!player.choose(Outcome.DestroyPermanent, typeChoice, game)) {
                     if (!player.canRespond()) {
                         continue PlayerIteration;

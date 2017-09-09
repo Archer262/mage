@@ -32,7 +32,6 @@ import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
 import mage.abilities.costs.common.TapSourceCost;
-
 import mage.abilities.effects.common.CantBeRegeneratedTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
@@ -49,7 +48,7 @@ public class HurrJackal extends CardImpl {
 
     public HurrJackal(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{R}");
-        this.subtype.add("Hound");
+        this.subtype.add("Jackal");
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);
 

@@ -39,9 +39,10 @@ import mage.abilities.keyword.LifelinkAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.game.command.emblems.SorinSolemnVisitorEmblem;
 import mage.constants.Duration;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.constants.SuperType;
+import mage.filter.StaticFilters;
+import mage.game.command.emblems.SorinSolemnVisitorEmblem;
 import mage.game.permanent.token.SorinSolemnVisitorVampireToken;
 
 /**
@@ -52,15 +53,16 @@ public class SorinSolemnVisitor extends CardImpl {
 
     public SorinSolemnVisitor(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{W}{B}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Sorin");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
 
         // +1: Until your next turn, creatures you control get +1/+0 and gain lifelink.
-        Effect effect = new BoostControlledEffect(1, 0, Duration.UntilYourNextTurn, new FilterCreaturePermanent());
+        Effect effect = new BoostControlledEffect(1, 0, Duration.UntilYourNextTurn, StaticFilters.FILTER_PERMANENT_CREATURES);
         effect.setText("Until your next turn, creatures you control get +1/+0");
         LoyaltyAbility loyaltyAbility = new LoyaltyAbility(effect, 1);
-        effect = new GainAbilityControlledEffect(LifelinkAbility.getInstance(), Duration.UntilYourNextTurn, new FilterCreaturePermanent());
+        effect = new GainAbilityControlledEffect(LifelinkAbility.getInstance(), Duration.UntilYourNextTurn, StaticFilters.FILTER_PERMANENT_CREATURES);
         effect.setText("and gain lifelink");
         loyaltyAbility.addEffect(effect);
         this.addAbility(loyaltyAbility);

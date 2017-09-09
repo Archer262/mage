@@ -69,6 +69,7 @@ public class Guildpact extends ExpansionSet {
         cards.add(new SetCardInfo("Castigate", 106, Rarity.COMMON, mage.cards.c.Castigate.class));
         cards.add(new SetCardInfo("Caustic Rain", 44, Rarity.UNCOMMON, mage.cards.c.CausticRain.class));
         cards.add(new SetCardInfo("Cerebral Vortex", 107, Rarity.RARE, mage.cards.c.CerebralVortex.class));
+        cards.add(new SetCardInfo("Crash Landing", 82, Rarity.UNCOMMON, mage.cards.c.CrashLanding.class));
         cards.add(new SetCardInfo("Cremate", 45, Rarity.COMMON, mage.cards.c.Cremate.class));
         cards.add(new SetCardInfo("Cry of Contrition", 46, Rarity.COMMON, mage.cards.c.CryOfContrition.class));
         cards.add(new SetCardInfo("Crystal Seer", 23, Rarity.UNCOMMON, mage.cards.c.CrystalSeer.class));
@@ -170,6 +171,7 @@ public class Guildpact extends ExpansionSet {
         cards.add(new SetCardInfo("Skarrgan Skybreaker", 130, Rarity.UNCOMMON, mage.cards.s.SkarrganSkybreaker.class));
         cards.add(new SetCardInfo("Skarrg, the Rage Pits", 163, Rarity.UNCOMMON, mage.cards.s.SkarrgTheRagePits.class));
         cards.add(new SetCardInfo("Skeletal Vampire", 62, Rarity.RARE, mage.cards.s.SkeletalVampire.class));
+        cards.add(new SetCardInfo("Sky Swallower", 34, Rarity.RARE, mage.cards.s.SkySwallower.class));
         cards.add(new SetCardInfo("Skyrider Trainee", 17, Rarity.COMMON, mage.cards.s.SkyriderTrainee.class));
         cards.add(new SetCardInfo("Smogsteed Rider", 63, Rarity.UNCOMMON, mage.cards.s.SmogsteedRider.class));
         cards.add(new SetCardInfo("Souls of the Faultless", 131, Rarity.UNCOMMON, mage.cards.s.SoulsOfTheFaultless.class));

@@ -61,9 +61,7 @@ public class ZulaportChainmage extends CardImpl {
 
     public ZulaportChainmage(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{B}");
-        this.subtype.add("Human");
-        this.subtype.add("Shaman");
-        this.subtype.add("Ally");
+        this.subtype.add(SubType.HUMAN, SubType.SHAMAN, SubType.ALLY);
         this.power = new MageInt(4);
         this.toughness = new MageInt(2);
 

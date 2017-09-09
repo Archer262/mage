@@ -39,10 +39,9 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.SubType;
 import mage.constants.Zone;
-import mage.filter.FilterSpell;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.filter.predicate.permanent.TappedPredicate;
 import mage.target.TargetSpell;
@@ -54,14 +53,10 @@ import mage.target.common.TargetControlledCreaturePermanent;
 public class SigilTracer extends CardImpl {
 
     private static final FilterControlledCreaturePermanent filter = new FilterControlledCreaturePermanent("untapped Wizards you control");
-    private static final FilterSpell filterInstorSorc = new FilterSpell("instant or sorcery spell");
 
     static {
         filter.add(Predicates.not(new TappedPredicate()));
         filter.add(new SubtypePredicate(SubType.WIZARD));
-        filterInstorSorc.add(Predicates.or(
-                new CardTypePredicate(CardType.INSTANT),
-                new CardTypePredicate(CardType.SORCERY)));
     }
 
     public SigilTracer(UUID ownerId, CardSetInfo setInfo) {
@@ -74,7 +69,7 @@ public class SigilTracer extends CardImpl {
 
         // {1}{U}, Tap two untapped Wizards you control: Copy target instant or sorcery spell. You may choose new targets for the copy.
         Ability ability = new SimpleActivatedAbility(Zone.BATTLEFIELD, new CopyTargetSpellEffect(), new ManaCostsImpl("{1}{U}"));
-        ability.addTarget(new TargetSpell(filterInstorSorc));
+        ability.addTarget(new TargetSpell(StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL));
         ability.addCost(new TapTargetCost(new TargetControlledCreaturePermanent(2, 2, filter, false)));
         this.addAbility(ability);
     }

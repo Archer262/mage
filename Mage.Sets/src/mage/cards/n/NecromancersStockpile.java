@@ -41,6 +41,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.common.FilterCreatureCard;
 import mage.game.Game;
@@ -97,7 +98,7 @@ class NecromancersStockpileDiscardTargetCost extends CostImpl {
                 if (card == null) {
                     return false;
                 }
-                isZombieCard = card.hasSubtype("Zombie", game);
+                isZombieCard = card.hasSubtype(SubType.ZOMBIE, game);
                 paid |= player.discard(card, null, game);
 
             }

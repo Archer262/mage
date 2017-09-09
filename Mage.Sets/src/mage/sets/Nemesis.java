@@ -56,7 +56,9 @@ public class Nemesis extends ExpansionSet {
         this.ratioBoosterMythic = 0;
         cards.add(new SetCardInfo("Accumulated Knowledge", 26, Rarity.COMMON, mage.cards.a.AccumulatedKnowledge.class));
         cards.add(new SetCardInfo("Aether Barrier", 27, Rarity.RARE, mage.cards.a.AetherBarrier.class));
+        cards.add(new SetCardInfo("Air Bladder", 28, Rarity.COMMON, mage.cards.a.AirBladder.class));
         cards.add(new SetCardInfo("Ancient Hydra", 76, Rarity.UNCOMMON, mage.cards.a.AncientHydra.class));
+        cards.add(new SetCardInfo("Angelic Favor", 1, Rarity.UNCOMMON, mage.cards.a.AngelicFavor.class));
         cards.add(new SetCardInfo("Animate Land", 101, Rarity.UNCOMMON, mage.cards.a.AnimateLand.class));
         cards.add(new SetCardInfo("Arc Mage", 77, Rarity.UNCOMMON, mage.cards.a.ArcMage.class));
         cards.add(new SetCardInfo("Ascendant Evincar", 51, Rarity.RARE, mage.cards.a.AscendantEvincar.class));
@@ -66,12 +68,18 @@ public class Nemesis extends ExpansionSet {
         cards.add(new SetCardInfo("Belbe's Portal", 127, Rarity.RARE, mage.cards.b.BelbesPortal.class));
         cards.add(new SetCardInfo("Blastoderm", 102, Rarity.COMMON, mage.cards.b.Blastoderm.class));
         cards.add(new SetCardInfo("Blinding Angel", 3, Rarity.RARE, mage.cards.b.BlindingAngel.class));
+        cards.add(new SetCardInfo("Bola Warrior", 78, Rarity.COMMON, mage.cards.b.BolaWarrior.class));
         cards.add(new SetCardInfo("Carrion Wall", 54, Rarity.UNCOMMON, mage.cards.c.CarrionWall.class));
+        cards.add(new SetCardInfo("Chieftain en-Dal", 4, Rarity.UNCOMMON, mage.cards.c.ChieftainEnDal.class));
         cards.add(new SetCardInfo("Cloudskate", 29, Rarity.COMMON, mage.cards.c.Cloudskate.class));
+        cards.add(new SetCardInfo("Coiling Woodworm", 103, Rarity.UNCOMMON, mage.cards.c.CoilingWoodworm.class));
+        cards.add(new SetCardInfo("Complex Automaton", 128, Rarity.RARE, mage.cards.c.ComplexAutomaton.class));
+        cards.add(new SetCardInfo("Dark Triumph", 55, Rarity.UNCOMMON, mage.cards.d.DarkTriumph.class));
         cards.add(new SetCardInfo("Daze", 30, Rarity.COMMON, mage.cards.d.Daze.class));
         cards.add(new SetCardInfo("Death Pit Offering", 56, Rarity.RARE, mage.cards.d.DeathPitOffering.class));
         cards.add(new SetCardInfo("Defender en-Vec", 5, Rarity.COMMON, mage.cards.d.DefenderEnVec.class));
         cards.add(new SetCardInfo("Defiant Falcon", 6, Rarity.COMMON, mage.cards.d.DefiantFalcon.class));
+        cards.add(new SetCardInfo("Defiant Vanguard", 7, Rarity.UNCOMMON, mage.cards.d.DefiantVanguard.class));
         cards.add(new SetCardInfo("Divining Witch", 57, Rarity.RARE, mage.cards.d.DiviningWitch.class));
         cards.add(new SetCardInfo("Dominate", 31, Rarity.UNCOMMON, mage.cards.d.Dominate.class));
         cards.add(new SetCardInfo("Downhill Charge", 79, Rarity.COMMON, mage.cards.d.DownhillCharge.class));
@@ -103,6 +111,7 @@ public class Nemesis extends ExpansionSet {
         cards.add(new SetCardInfo("Oracle's Attendants", 16, Rarity.RARE, mage.cards.o.OraclesAttendants.class));
         cards.add(new SetCardInfo("Oraxid", 35, Rarity.COMMON, mage.cards.o.Oraxid.class));
         cards.add(new SetCardInfo("Overlaid Terrain", 108, Rarity.RARE, mage.cards.o.OverlaidTerrain.class));
+        cards.add(new SetCardInfo("Pack Hunt", 109, Rarity.RARE, mage.cards.p.PackHunt.class));
         cards.add(new SetCardInfo("Parallax Dementia", 62, Rarity.COMMON, mage.cards.p.ParallaxDementia.class));
         cards.add(new SetCardInfo("Parallax Inhibitor", 134, Rarity.RARE, mage.cards.p.ParallaxInhibitor.class));
         cards.add(new SetCardInfo("Parallax Nexus", 63, Rarity.RARE, mage.cards.p.ParallaxNexus.class));

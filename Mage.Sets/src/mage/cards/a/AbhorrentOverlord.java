@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -39,11 +40,10 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.ColoredManaSymbol;
+import mage.constants.SubType;
 import mage.constants.TargetController;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.permanent.token.Token;
-
-import java.util.UUID;
 
 /**
  *
@@ -52,8 +52,8 @@ import java.util.UUID;
 public class AbhorrentOverlord extends CardImpl {
 
     public AbhorrentOverlord(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{5}{B}{B}");
-        this.subtype.add("Demon");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{5}{B}{B}");
+        this.subtype.add(SubType.DEMON);
 
         this.power = new MageInt(6);
         this.toughness = new MageInt(6);
@@ -65,7 +65,7 @@ public class AbhorrentOverlord extends CardImpl {
         effect.setText("create a number of 1/1 black Harpy creature tokens with flying equal to your devotion to black. <i>(Each {B} in the mana costs of permanents you control counts toward your devotion to black.)</i>");
         this.addAbility(new EntersBattlefieldTriggeredAbility(effect));
         // At the beginning of your upkeep, sacrifice a creature.
-        this.addAbility(new BeginningOfUpkeepTriggeredAbility(new SacrificeControllerEffect(new FilterCreaturePermanent(), 1, null), TargetController.YOU, false));
+        this.addAbility(new BeginningOfUpkeepTriggeredAbility(new SacrificeControllerEffect(StaticFilters.FILTER_PERMANENT_CREATURE, 1, null), TargetController.YOU, false));
     }
 
     public AbhorrentOverlord(final AbhorrentOverlord card) {
@@ -84,7 +84,7 @@ class AbhorrentOverlordHarpyToken extends Token {
         super("Harpy", "1/1 black Harpy creature tokens with flying");
         cardType.add(CardType.CREATURE);
         color.setBlack(true);
-        subtype.add("Harpy");
+        subtype.add(SubType.HARPY);
         power = new MageInt(1);
         toughness = new MageInt(1);
 

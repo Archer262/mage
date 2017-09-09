@@ -36,16 +36,13 @@ import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.Zone;
 import mage.filter.FilterCard;
-import mage.filter.common.FilterEnchantmentPermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.TargetCard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  *
@@ -89,12 +86,12 @@ class HarmonicConvergenceEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        List<Permanent> enchantments = game.getBattlefield().getActivePermanents(new FilterEnchantmentPermanent(),
+        List<Permanent> enchantments = game.getBattlefield().getActivePermanents(StaticFilters.FILTER_ENCHANTMENT_PERMANENT,
                 source.getControllerId(),
                 source.getSourceId(),
                 game);
 
-        HashMap<UUID, List<Permanent>> moveList = new HashMap<>();
+        Map<UUID, List<Permanent>> moveList = new HashMap<>();
         for (Permanent permanent : enchantments) {
             List<Permanent> list = moveList.computeIfAbsent(permanent.getControllerId(), k -> new ArrayList<>());
             list.add(permanent);

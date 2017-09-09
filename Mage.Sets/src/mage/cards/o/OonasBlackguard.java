@@ -38,10 +38,7 @@ import mage.abilities.effects.common.discard.DiscardTargetEffect;
 import mage.abilities.keyword.FlyingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.CounterType;
 import mage.game.Game;
 import mage.game.events.DamagedPlayerEvent;
@@ -105,7 +102,7 @@ class OonasBlackguardReplacementEffect extends ReplacementEffectImpl {
         Permanent creature = ((EntersTheBattlefieldEvent) event).getTarget();
         if (creature != null && creature.getControllerId().equals(source.getControllerId())
                 && creature.isCreature()
-                && creature.hasSubtype("Rogue", game)
+                && creature.hasSubtype(SubType.ROGUE, game)
                 && !event.getTargetId().equals(source.getSourceId())) {
             return true;
         }

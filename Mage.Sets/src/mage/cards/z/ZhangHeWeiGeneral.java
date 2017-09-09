@@ -27,6 +27,7 @@
  */
 package mage.cards.z;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.AttacksTriggeredAbility;
 import mage.abilities.effects.common.continuous.BoostControlledEffect;
@@ -35,10 +36,9 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.constants.SuperType;
-import mage.filter.common.FilterCreaturePermanent;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -47,10 +47,9 @@ import java.util.UUID;
 public class ZhangHeWeiGeneral extends CardImpl {
 
     public ZhangHeWeiGeneral(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{B}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{3}{B}{B}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Human");
-        this.subtype.add("Soldier");
+        this.subtype.add(SubType.HUMAN, SubType.SOLDIER);
         this.power = new MageInt(4);
         this.toughness = new MageInt(2);
 
@@ -58,7 +57,7 @@ public class ZhangHeWeiGeneral extends CardImpl {
         this.addAbility(HorsemanshipAbility.getInstance());
         // Whenever Zhang He, Wei General attacks, each other creature you control gets +1/+0 until end of turn.
         this.addAbility(new AttacksTriggeredAbility(new BoostControlledEffect(1, 0, Duration.EndOfTurn,
-            new FilterCreaturePermanent(), true), false));
+                StaticFilters.FILTER_PERMANENT_CREATURE, true), false));
     }
 
     public ZhangHeWeiGeneral(final ZhangHeWeiGeneral card) {

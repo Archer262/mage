@@ -29,16 +29,12 @@ package mage.abilities.effects.common.continuous;
 
 import mage.abilities.Ability;
 import mage.abilities.effects.ContinuousEffectImpl;
-import mage.constants.Duration;
-import mage.constants.Layer;
-import mage.constants.Outcome;
-import mage.constants.SubLayer;
+import mage.constants.*;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 
 /**
- * @author JRHerlehy
- *         Created on 4/8/17.
+ * @author JRHerlehy Created on 4/8/17.
  */
 public class BecomesBlackZombieAdditionEffect extends ContinuousEffectImpl {
 
@@ -58,16 +54,21 @@ public class BecomesBlackZombieAdditionEffect extends ContinuousEffectImpl {
 
     @Override
     public boolean apply(Layer layer, SubLayer sublayer, Ability source, Game game) {
-        Permanent creature = game.getPermanent(source.getTargets().getFirstTarget());
-        if (creature == null) {
-            creature = game.getPermanentEntering(source.getTargets().getFirstTarget());
+        Permanent creature;
+        if (source.getTargets().getFirstTarget() == null) {
+            creature = game.getPermanent(getTargetPointer().getFirst(game, source));
+        } else {
+            creature = game.getPermanent(source.getTargets().getFirstTarget());
+            if (creature == null) {
+                creature = game.getPermanentEntering(source.getTargets().getFirstTarget());
+            }
         }
         if (creature != null) {
             switch (layer) {
                 case TypeChangingEffects_4:
                     if (sublayer == SubLayer.NA) {
-                        if (!creature.hasSubtype("Zombie", game)) {
-                            creature.getSubtype(game).add("Zombie");
+                        if (!creature.hasSubtype(SubType.ZOMBIE, game)) {
+                            creature.getSubtype(game).add(SubType.ZOMBIE);
                         }
                     }
                     break;

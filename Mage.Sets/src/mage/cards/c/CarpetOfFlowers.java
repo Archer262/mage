@@ -49,6 +49,7 @@ import mage.players.Player;
 import mage.target.common.TargetOpponent;
 
 import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -164,7 +165,7 @@ class CarpetOfFlowersEffect extends ManaEffect {
             }
             int countMax = game.getBattlefield().count(filter, source.getSourceId(), source.getTargets().getFirstTarget(), game);
             ChoiceImpl choiceCount = new ChoiceImpl(true);
-            LinkedHashSet<String> set = new LinkedHashSet<>(countMax + 1);
+            Set<String> set = new LinkedHashSet<>(countMax + 1);
             for (int i = 0; i <= countMax; i++) {
                 set.add(Integer.toString(i));
             }

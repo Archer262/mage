@@ -28,13 +28,13 @@
 package mage.cards.r;
 
 import java.util.UUID;
-import mage.constants.CardType;
 import mage.MageInt;
 import mage.abilities.common.DealsDamageToOpponentTriggeredAbility;
 import mage.abilities.effects.common.SacrificeControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.filter.common.FilterLandPermanent;
+import mage.constants.CardType;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -51,7 +51,7 @@ public class RuinousMinotaur extends CardImpl {
         this.toughness = new MageInt(2);
 
         // Whenever Ruinous Minotaur deals damage to an opponent, sacrifice a land.
-        this.addAbility(new DealsDamageToOpponentTriggeredAbility(new SacrificeControllerEffect(new FilterLandPermanent(), 1, ""), false, false));
+        this.addAbility(new DealsDamageToOpponentTriggeredAbility(new SacrificeControllerEffect(StaticFilters.FILTER_LAND, 1, ""), false, false));
 
     }
 

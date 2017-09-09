@@ -48,7 +48,7 @@ public class UncheckedGrowth extends CardImpl {
 
     public UncheckedGrowth(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.INSTANT},"{2}{G}");
-        this.subtype.add("Arcane");
+        this.subtype.add(SubType.ARCANE);
 
         
         // Target creature gets +4/+4 until end of turn. 
@@ -88,7 +88,7 @@ public class UncheckedGrowth extends CardImpl {
             int affectedTargets = 0;
             for (UUID permanentId : targetPointer.getTargets(game, source)) {
                 Permanent permanent = game.getPermanent(permanentId);
-                if (permanent != null && permanent.hasSubtype("Spirit", game)) {
+                if (permanent != null && permanent.hasSubtype(SubType.SPIRIT, game)) {
                     permanent.addAbility(TrampleAbility.getInstance(), game);
                     affectedTargets++;
                 }

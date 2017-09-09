@@ -29,8 +29,6 @@
 package mage.cards.t;
 
 import java.util.UUID;
-
-import mage.constants.CardType;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SpellCastControllerTriggeredAbility;
@@ -39,7 +37,8 @@ import mage.abilities.effects.common.LoseLifeTargetEffect;
 import mage.abilities.keyword.SoulshiftAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.constants.CardType;
+import mage.filter.StaticFilters;
 import mage.target.common.TargetOpponent;
 
 /**
@@ -47,15 +46,13 @@ import mage.target.common.TargetOpponent;
  */
 public class ThiefOfHope extends CardImpl {
 
-    private static final FilterSpiritOrArcaneCard filter = new FilterSpiritOrArcaneCard();
-
     public ThiefOfHope(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{B}");
         this.subtype.add("Spirit");
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
-        Ability ability = new SpellCastControllerTriggeredAbility(new LoseLifeTargetEffect(1), filter, false);
+        Ability ability = new SpellCastControllerTriggeredAbility(new LoseLifeTargetEffect(1), StaticFilters.SPIRIT_OR_ARCANE_CARD, false);
         ability.addEffect(new GainLifeEffect(1));
         ability.addTarget(new TargetOpponent());
         this.addAbility(ability);

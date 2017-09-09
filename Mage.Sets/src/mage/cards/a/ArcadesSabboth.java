@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -45,8 +46,6 @@ import mage.filter.predicate.permanent.AttackingPredicate;
 import mage.filter.predicate.permanent.ControllerPredicate;
 import mage.filter.predicate.permanent.TappedPredicate;
 
-import java.util.UUID;
-
 /**
  * @author fireshoes
  */
@@ -63,8 +62,8 @@ public class ArcadesSabboth extends CardImpl {
     public ArcadesSabboth(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{G}{G}{W}{W}{U}{U}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Elder");
-        this.subtype.add("Dragon");
+        this.subtype.add(SubType.ELDER);
+        this.subtype.add(SubType.DRAGON);
         this.power = new MageInt(7);
         this.toughness = new MageInt(7);
 

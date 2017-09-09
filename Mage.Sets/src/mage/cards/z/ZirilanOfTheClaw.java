@@ -27,6 +27,7 @@
  */
 package mage.cards.z;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.DelayedTriggeredAbility;
@@ -51,8 +52,6 @@ import mage.players.Player;
 import mage.target.common.TargetCardInLibrary;
 import mage.target.targetpointer.FixedTarget;
 
-import java.util.UUID;
-
 /**
  *
  * @author fireshoes
@@ -62,8 +61,7 @@ public class ZirilanOfTheClaw extends CardImpl {
     public ZirilanOfTheClaw(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{R}{R}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Viashino");
-        this.subtype.add("Shaman");
+        this.subtype.add(SubType.VIASHINO, SubType.SHAMAN);
         this.power = new MageInt(3);
         this.toughness = new MageInt(4);
 

@@ -37,10 +37,7 @@ import mage.abilities.effects.ReplacementEffectImpl;
 import mage.abilities.effects.common.DrawCardSourceControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.CounterType;
 import mage.game.Game;
 import mage.game.events.EntersTheBattlefieldEvent;
@@ -56,9 +53,7 @@ public class ZameckGuildmage extends CardImpl {
 
     public ZameckGuildmage(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{G}{U}");
-        this.subtype.add("Elf");
-        this.subtype.add("Wizard");
-
+        this.subtype.add(SubType.ELF, SubType.WIZARD);
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
 

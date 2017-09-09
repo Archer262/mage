@@ -31,21 +31,16 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.util.*;
+import java.util.stream.Collectors;
 import mage.ObjectColor;
 import mage.abilities.Ability;
 import mage.abilities.SpellAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
-import mage.cards.Card;
-import mage.cards.CardGraphicInfo;
-import mage.cards.CardImpl;
-import mage.cards.CardSetInfo;
-import mage.cards.FrameStyle;
+import mage.cards.*;
 import mage.cards.mock.MockCard;
 import mage.cards.mock.MockSplitCard;
-import mage.constants.CardType;
-import mage.constants.Rarity;
-import mage.constants.SpellAbilityType;
-import mage.constants.SuperType;
+import mage.constants.*;
+import mage.util.SubTypeList;
 import org.apache.log4j.Logger;
 
 /**
@@ -54,7 +49,7 @@ import org.apache.log4j.Logger;
 @DatabaseTable(tableName = "card")
 public class CardInfo {
 
-    private static final int MAX_RULE_LENGTH = 700;
+    private static final int MAX_RULE_LENGTH = 750;
 
     private static final String SEPARATOR = "@@@";
     @DatabaseField(indexName = "name_index")
@@ -156,18 +151,35 @@ public class CardInfo {
         this.white = card.getColor(null).isWhite();
 
         this.setTypes(card.getCardType());
-        this.setSubtypes(card.getSubtype(null));
+        this.setSubtypes(card.getSubtype(null).stream().map(SubType::toString).collect(Collectors.toList()));
         this.setSuperTypes(card.getSuperType());
         this.setManaCosts(card.getManaCost().getSymbols());
 
         int length = 0;
-        for (String rule : card.getRules()) {
-            length += rule.length();
+        List<String> rulesList = new ArrayList<>();
+        if (card instanceof SplitCard) {
+            for (String rule : ((SplitCard) card).getLeftHalfCard().getRules()) {
+                length += rule.length();
+                rulesList.add(rule);
+            }
+            for (String rule : ((SplitCard) card).getRightHalfCard().getRules()) {
+                length += rule.length();
+                rulesList.add(rule);
+            }
+            for (String rule : card.getRules()) {
+                length += rule.length();
+                rulesList.add(rule);
+            }
+        } else {
+            for (String rule : card.getRules()) {
+                length += rule.length();
+                rulesList.add(rule);
+            }
         }
         if (length > MAX_RULE_LENGTH) {
             length = 0;
             ArrayList<String> shortRules = new ArrayList<>();
-            for (String rule : card.getRules()) {
+            for (String rule : rulesList) {
                 if (length + rule.length() + 3 <= MAX_RULE_LENGTH) {
                     shortRules.add(rule);
                     length += rule.length() + 3;
@@ -179,7 +191,7 @@ public class CardInfo {
             Logger.getLogger(CardInfo.class).warn("Card rule text was cut - cardname: " + card.getName());
             this.setRules(shortRules);
         } else {
-            this.setRules(card.getRules());
+            this.setRules(rulesList);
         }
 
         SpellAbility spellAbility = card.getSpellAbility();
@@ -308,8 +320,15 @@ public class CardInfo {
         this.rules = joinList(rules);
     }
 
-    public final List<String> getSubTypes() {
-        return parseList(subtypes);
+    public final SubTypeList getSubTypes() {
+        SubTypeList sl = new SubTypeList();
+        if (subtypes.trim().isEmpty()) {
+            return sl;
+        }
+        for (String s : subtypes.split(SEPARATOR)) {
+            sl.add(s);
+        }
+        return sl;
     }
 
     public final void setSubtypes(List<String> subtypes) {

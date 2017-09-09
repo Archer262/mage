@@ -34,7 +34,7 @@ import mage.abilities.effects.common.PutLandFromHandOntoBattlefieldEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -50,7 +50,7 @@ public class LoamDweller extends CardImpl {
         this.toughness = new MageInt(2);
 
         // Whenever you cast a Spirit or Arcane spell, you may put a land card from your hand onto the battlefield tapped.
-        this.addAbility(new SpellCastControllerTriggeredAbility(new PutLandFromHandOntoBattlefieldEffect(true), new FilterSpiritOrArcaneCard(), true));
+        this.addAbility(new SpellCastControllerTriggeredAbility(new PutLandFromHandOntoBattlefieldEffect(true), StaticFilters.SPIRIT_OR_ARCANE_CARD, true));
     }
 
     public LoamDweller(final LoamDweller card) {

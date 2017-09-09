@@ -27,6 +27,7 @@
  */
 package mage.cards.d;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.Mode;
 import mage.abilities.effects.common.search.SearchTargetGraveyardHandLibraryForCardNameAndExileEffect;
@@ -34,13 +35,12 @@ import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.common.TargetEnchantmentPermanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -92,7 +92,7 @@ class DeicideExileEffect extends SearchTargetGraveyardHandLibraryForCardNameAndE
                 // if it is a God. For each of the Gods in the Theros block, it won’t matter what your 
                 // devotion to its color(s) was. The card is a God card when not on the battlefield.
                 Card cardInExile = game.getExile().getCard(targetEnchantment.getId(), game);
-                if (cardInExile != null && cardInExile.hasSubtype("God", game)) {
+                if (cardInExile != null && cardInExile.hasSubtype(SubType.GOD, game)) {
                     Player enchantmentController = game.getPlayer(targetEnchantment.getControllerId());                
                     return super.applySearchAndExile(game, source, cardInExile.getName(), enchantmentController.getId());
                 }

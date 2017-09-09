@@ -35,9 +35,7 @@ import mage.abilities.effects.common.CounterTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.target.TargetSpell;
 
 /**
@@ -45,14 +43,6 @@ import mage.target.TargetSpell;
  * @author fireshoes
  */
 public class InsidiousWill extends CardImpl {
-
-    private static final FilterSpell filter = new FilterSpell("instant or sorcery spell");
-
-    static {
-        filter.add(Predicates.or(
-                new CardTypePredicate(CardType.INSTANT),
-                new CardTypePredicate(CardType.SORCERY)));
-    }
 
     public InsidiousWill(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.INSTANT},"{2}{U}{U}");
@@ -74,7 +64,7 @@ public class InsidiousWill extends CardImpl {
         // Copy target instant or sorcery spell. You may choose new targets for the copy.
         mode = new Mode();
         mode.getEffects().add(new CopyTargetSpellEffect());
-        mode.getTargets().add(new TargetSpell(filter));
+        mode.getTargets().add(new TargetSpell(StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL));
         this.getSpellAbility().getModes().addMode(mode);
     }
 

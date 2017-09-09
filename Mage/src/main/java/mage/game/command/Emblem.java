@@ -27,6 +27,10 @@
  */
 package mage.game.command;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.UUID;
 import mage.MageInt;
 import mage.MageObject;
 import mage.ObjectColor;
@@ -36,18 +40,16 @@ import mage.abilities.Ability;
 import mage.abilities.costs.mana.ManaCost;
 import mage.abilities.costs.mana.ManaCosts;
 import mage.abilities.costs.mana.ManaCostsImpl;
+import mage.abilities.text.TextPart;
 import mage.cards.Card;
 import mage.cards.FrameStyle;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.game.Game;
 import mage.game.events.ZoneChangeEvent;
 import mage.util.GameLog;
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.UUID;
+import mage.util.SubTypeList;
 
 /**
  * @author nantuko
@@ -55,7 +57,7 @@ import java.util.UUID;
 public class Emblem implements CommandObject {
 
     private static EnumSet<CardType> emptySet = EnumSet.noneOf(CardType.class);
-    private static List emptyList  = new ArrayList();
+    private static List emptyList = new ArrayList();
     private static ObjectColor emptyColor = new ObjectColor();
     private static ManaCosts emptyCost = new ManaCostsImpl();
 
@@ -157,12 +159,12 @@ public class Emblem implements CommandObject {
     }
 
     @Override
-    public List<String> getSubtype(Game game) {
-        return emptyList;
+    public SubTypeList getSubtype(Game game) {
+        return new SubTypeList();
     }
 
     @Override
-    public boolean hasSubtype(String subtype, Game game) {
+    public boolean hasSubtype(SubType subtype, Game game) {
         return false;
     }
 
@@ -264,6 +266,23 @@ public class Emblem implements CommandObject {
     @Override
     public void setZoneChangeCounter(int value, Game game) {
         throw new UnsupportedOperationException("Unsupported operation");
+    }
+
+    public boolean isAllCreatureTypes() {
+        return false;
+    }
+
+    public void setIsAllCreatureTypes(boolean value) {
+    }
+
+    @Override
+    public List<TextPart> getTextParts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public TextPart addTextPart(TextPart textPart) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

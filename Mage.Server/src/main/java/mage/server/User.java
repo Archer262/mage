@@ -27,6 +27,10 @@
  */
 package mage.server;
 
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import mage.cards.decks.Deck;
 import mage.constants.ManaType;
 import mage.constants.TableState;
@@ -51,11 +55,6 @@ import mage.server.util.SystemUtil;
 import mage.view.TableClientMessage;
 import org.apache.log4j.Logger;
 
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author BetaSteward_at_googlemail.com
  */
@@ -65,7 +64,10 @@ public class User {
 
     public enum UserState {
 
-        Created, Connected, Disconnected, Reconnected, Expired
+        Created, // Used if user is created an not connected to the session
+        Connected, // Used if user is correctly connected
+        Disconnected, // Used if the user lost connection
+        Offline // set if the user was disconnected and expired or regularly left XMage. Removed is the user later after some time
     }
 
     private final UUID userId;
@@ -73,7 +75,7 @@ public class User {
     private final String host;
     private final Date connectionTime;
     private final Map<UUID, Table> tables;
-    private final ArrayList<UUID> tablesToDelete;
+    private final List<UUID> tablesToDelete;
     private final Map<UUID, GameSessionPlayer> gameSessions;
     private final Map<UUID, DraftSession> draftSessions;
     private final Map<UUID, UUID> userTournaments; // playerId, tournamentId
@@ -157,15 +159,15 @@ public class User {
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
         if (sessionId.isEmpty()) {
-            userState = UserState.Disconnected;
+            setUserState(UserState.Disconnected);
             lostConnection();
             logger.trace("USER - lost connection: " + userName + " id: " + userId);
 
         } else if (userState == UserState.Created) {
-            userState = UserState.Connected;
+            setUserState(UserState.Connected);
             logger.trace("USER - created: " + userName + " id: " + userId);
         } else {
-            userState = UserState.Reconnected;
+            setUserState(UserState.Connected);
             reconnect();
             logger.trace("USER - reconnected: " + userName + " id: " + userId);
         }
@@ -213,23 +215,14 @@ public class User {
     }
 
     public boolean isConnected() {
-        return userState == UserState.Connected || userState == UserState.Reconnected;
+        return userState == UserState.Connected;
     }
 
     public String getDisconnectDuration() {
         long secondsDisconnected = getSecondsDisconnected();
-        long secondsLeft;
-        String sign = "";
-        if (secondsDisconnected > (3 * 60)) {
-            sign = "-";
-            secondsLeft = secondsDisconnected - (3 * 60);
-        } else {
-            secondsLeft = (3 * 60) - secondsDisconnected;
-        }
-
-        int minutes = (int) secondsLeft / 60;
-        int seconds = (int) secondsLeft % 60;
-        return new StringBuilder(sign).append(Integer.toString(minutes)).append(':').append(seconds > 9 ? seconds : '0' + Integer.toString(seconds)).toString();
+        int minutes = (int) secondsDisconnected / 60;
+        int seconds = (int) secondsDisconnected % 60;
+        return Integer.toString(minutes) + ':' + (seconds > 9 ? seconds : '0' + Integer.toString(seconds));
     }
 
     public long getSecondsDisconnected() {
@@ -240,10 +233,24 @@ public class User {
         return connectionTime;
     }
 
+    public Date getLastActivity() {
+        return lastActivity;
+    }
+
+    public String getConnectionDuration() {
+        int minutes = (int) SystemUtil.getDateDiff(connectionTime, new Date(), TimeUnit.SECONDS) / 60;
+        int hours = 0;
+        if (minutes > 59) {
+            hours = (int) minutes / 60;
+            minutes = minutes - (hours * 60);
+        }
+        return Integer.toString(hours) + ":" + (minutes > 9 ? Integer.toString(minutes) : '0' + Integer.toString(minutes));
+    }
+
     public void fireCallback(final ClientCallback call) {
         if (isConnected()) {
-            SessionManager.instance.getSession(sessionId).ifPresent(session ->
-                session.fireCallback(call)
+            SessionManager.instance.getSession(sessionId).ifPresent(session
+                    -> session.fireCallback(call)
             );
         }
     }
@@ -332,19 +339,17 @@ public class User {
         }
         lastActivity = new Date();
         if (userState == UserState.Disconnected) { // this can happen if user reconnects very fast after disconnect
-            userState = UserState.Reconnected;
+            setUserState(UserState.Connected);
         }
     }
 
     public boolean isExpired(Date expired) {
         if (lastActivity.before(expired)) {
             logger.trace(userName + " is expired!");
-            userState = UserState.Expired;
             return true;
         }
         logger.trace("isExpired: User " + userName + " lastActivity: " + lastActivity + " expired: " + expired);
         return false;
-        /*userState == UserState.Disconnected && */
 
     }
 
@@ -378,11 +383,12 @@ public class User {
         }
         for (Entry<UUID, Deck> entry : sideboarding.entrySet()) {
             Optional<TableController> controller = TableManager.instance.getController(entry.getKey());
-            if(controller.isPresent()) {
+            if (controller.isPresent()) {
                 ccSideboard(entry.getValue(), entry.getKey(), controller.get().getRemainingTime(), controller.get().getOptions().isLimited());
-            }
-            else{
-                logger.error("sideboarding id not found : "+entry.getKey());
+            } else {
+                // Table is missing after connection was lost during sideboard.
+                // Means other players were removed or conceded the game?
+                logger.debug(getName() + " reconnects during sideboarding but tableId not found: " + entry.getKey());
             }
         }
         ServerMessagesUtil.instance.incReconnects();
@@ -433,7 +439,7 @@ public class User {
         sideboarding.remove(tableId);
     }
 
-    public void remove(DisconnectReason reason) {
+    public void removeUserFromAllTables(DisconnectReason reason) {
         logger.trace("REMOVE " + userName + " Draft sessions " + draftSessions.size());
         for (DraftSession draftSession : draftSessions.values()) {
             draftSession.setKilled();
@@ -444,12 +450,14 @@ public class User {
             TournamentManager.instance.quit(tournamentId, userId);
         }
         userTournaments.clear();
+        constructing.clear();
         logger.trace("REMOVE " + userName + " Tables " + tables.size());
         for (Entry<UUID, Table> entry : tables.entrySet()) {
             logger.debug("-- leave tableId: " + entry.getValue().getId());
             TableManager.instance.leaveTable(userId, entry.getValue().getId());
         }
         tables.clear();
+        sideboarding.clear();
         logger.trace("REMOVE " + userName + " Game sessions: " + gameSessions.size());
         for (GameSessionPlayer gameSessionPlayer : gameSessions.values()) {
             logger.debug("-- kill game session of gameId: " + gameSessionPlayer.getGameId());
@@ -458,7 +466,8 @@ public class User {
         }
         gameSessions.clear();
         logger.trace("REMOVE " + userName + " watched Games " + watchedGames.size());
-        for (UUID gameId : watchedGames) {
+        for (Iterator<UUID> it = watchedGames.iterator(); it.hasNext();) { // Iterator to prevent ConcurrentModificationException
+            UUID gameId = it.next();
             GameManager.instance.stopWatching(gameId, userId);
         }
         watchedGames.clear();
@@ -512,11 +521,15 @@ public class User {
                                             tournament++;
                                             break;
                                     }
-
-                                    if (!isConnected()) {
-                                        tournamentPlayer.setDisconnectInfo(" (discon. " + getDisconnectDuration() + ')');
-                                    } else {
-                                        tournamentPlayer.setDisconnectInfo("");
+                                    switch (getUserState()) {
+                                        case Disconnected:
+                                            tournamentPlayer.setDisconnectInfo(" (discon. " + getDisconnectDuration() + ')');
+                                            break;
+                                        case Offline:
+                                            tournamentPlayer.setDisconnectInfo(" Offline");
+                                            break;
+                                        default:
+                                            tournamentPlayer.setDisconnectInfo("");
                                     }
                                 }
                             } else {
@@ -587,11 +600,18 @@ public class User {
         return userState;
     }
 
+    public void setUserState(UserState userState) {
+        this.userState = userState;
+    }
+
     public String getPingInfo() {
-        if (isConnected()) {
-            return pingInfo;
-        } else {
-            return " (discon. " + getDisconnectDuration() + ')';
+        switch (getUserState()) {
+            case Disconnected:
+                return " (discon. " + getDisconnectDuration() + ')';
+            case Offline:
+                return " Offline";
+            default:
+                return pingInfo + " " + getConnectionDuration();
         }
     }
 
@@ -789,10 +809,9 @@ public class User {
                 number++;
             } else {
                 Optional<TableController> tableController = TableManager.instance.getController(table.getId());
-                if(!tableController.isPresent()){
-                    logger.error("table not found : "+table.getId());
-                }
-                else if (tableController.get().isUserStillActive(userId)) {
+                if (!tableController.isPresent()) {
+                    logger.error("table not found : " + table.getId());
+                } else if (tableController.get().isUserStillActive(userId)) {
                     number++;
                 }
             }

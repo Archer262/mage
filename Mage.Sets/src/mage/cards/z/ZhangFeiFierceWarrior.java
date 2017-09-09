@@ -34,6 +34,7 @@ import mage.abilities.keyword.VigilanceAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 
 /**
@@ -45,9 +46,7 @@ public class ZhangFeiFierceWarrior extends CardImpl {
     public ZhangFeiFierceWarrior(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{W}{W}");
         this.addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Human");
-        this.subtype.add("Soldier");
-        this.subtype.add("Warrior");
+        this.subtype.add(SubType.HUMAN, SubType.SOLDIER, SubType.WARRIOR);
         this.power = new MageInt(4);
         this.toughness = new MageInt(4);
 

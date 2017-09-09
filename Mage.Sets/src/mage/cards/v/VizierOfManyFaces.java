@@ -43,6 +43,7 @@ import mage.abilities.keyword.EmbalmAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.WatcherScope;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -102,8 +103,8 @@ class VizierOfManyFacesApplyToPermanent extends ApplyToPermanent {
                     for (MageObjectReference mor : watcher.getEmbalmedThisTurnCards()) {
                         if (mor.getSourceId().equals(originalCardId) && game.getState().getZoneChangeCounter(originalCardId) == mor.getZoneChangeCounter()) {
                             permanent.getManaCost().clear();
-                            if (!permanent.hasSubtype("Zombie", game)) {
-                                permanent.getSubtype(game).add("Zombie");
+                            if (!permanent.hasSubtype(SubType.ZOMBIE, game)) {
+                                permanent.getSubtype(game).add(SubType.ZOMBIE);
                             }
                             permanent.getColor(game).setColor(ObjectColor.WHITE);
 

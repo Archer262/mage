@@ -39,7 +39,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.*;
 import mage.counters.CounterType;
 import mage.filter.FilterSpell;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.filter.predicate.permanent.ControllerPredicate;
 import mage.game.Game;
@@ -102,11 +102,11 @@ class AddCounterAbility extends TriggeredAbilityImpl {
     public boolean checkTrigger(GameEvent event, Game game) {
         Permanent doorOfDestinies = game.getPermanent(getSourceId());
         if (doorOfDestinies != null) {
-            String subtype = (String) game.getState().getValue(doorOfDestinies.getId() + "_type");
+            SubType subtype = (SubType) game.getState().getValue(doorOfDestinies.getId() + "_type");
             if (subtype != null) {
                 FilterSpell filter = new FilterSpell();
                 filter.add(new ControllerPredicate(TargetController.YOU));
-                filter.add(new SubtypePredicate(SubType.byDescription(subtype)));
+                filter.add(new SubtypePredicate(subtype));
                 Spell spell = game.getStack().getSpell(event.getTargetId());
                 if (spell != null && filter.match(spell, getSourceId(), getControllerId(), game)) {
                     return true;
@@ -124,7 +124,6 @@ class AddCounterAbility extends TriggeredAbilityImpl {
 
 class BoostCreatureEffectEffect extends ContinuousEffectImpl {
 
-    private static final FilterCreaturePermanent filter = new FilterCreaturePermanent();
 
     public BoostCreatureEffectEffect() {
         super(Duration.WhileOnBattlefield, Layer.PTChangingEffects_7, SubLayer.ModifyPT_7c, Outcome.BoostCreature);
@@ -144,9 +143,9 @@ class BoostCreatureEffectEffect extends ContinuousEffectImpl {
     public boolean apply(Game game, Ability source) {
         Permanent permanent = game.getPermanent(source.getSourceId());
         if (permanent != null) {
-            String subtype = (String) game.getState().getValue(permanent.getId() + "_type");
+            SubType subtype = (SubType) game.getState().getValue(permanent.getId() + "_type");
             if (subtype != null) {
-                for (Permanent perm : game.getBattlefield().getAllActivePermanents(filter, source.getControllerId(), game)) {
+                for (Permanent perm : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURES, source.getControllerId(), game)) {
                     if (perm.hasSubtype(subtype, game)) {
                         int boost = permanent.getCounters(game).getCount(CounterType.CHARGE);
                         perm.addPower(boost);

@@ -29,11 +29,11 @@
 package mage.cards.s;
 
 import java.util.UUID;
-import mage.constants.CardType;
 import mage.abilities.effects.common.DestroyTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.filter.common.FilterLandPermanent;
+import mage.constants.CardType;
+import mage.filter.StaticFilters;
 import mage.target.TargetPermanent;
 
 /**
@@ -45,7 +45,7 @@ public class StoneRain extends CardImpl {
     public StoneRain (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{2}{R}");
 
-        this.getSpellAbility().addTarget(new TargetPermanent(new FilterLandPermanent()));
+        this.getSpellAbility().addTarget(new TargetPermanent(StaticFilters.FILTER_LAND));
         this.getSpellAbility().addEffect(new DestroyTargetEffect());
     }
 

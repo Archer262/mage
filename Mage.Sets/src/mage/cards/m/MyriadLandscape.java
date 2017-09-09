@@ -27,9 +27,6 @@
  */
 package mage.cards.m;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTappedAbility;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -44,19 +41,22 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.cards.Cards;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.FilterCard;
-import mage.filter.common.FilterBasicLandCard;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.target.common.TargetCardInLibrary;
+import mage.util.SubTypeList;
+
+import java.util.Iterator;
+import java.util.UUID;
 
 /**
  *
  * @author LevelX2
  */
 public class MyriadLandscape extends CardImpl {
-
-    private static final FilterBasicLandCard filter = new FilterBasicLandCard();
 
     public MyriadLandscape(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.LAND},"");
@@ -68,7 +68,7 @@ public class MyriadLandscape extends CardImpl {
         this.addAbility(new ColorlessManaAbility());
 
         // {2}, {tap}, Sacrifice Myriad Landscape: Search your library for up to two basic land cards that share a land type, put them onto the battlefield tapped, then shuffle your library.
-        Effect effect = new SearchLibraryPutInPlayEffect(new TargetCardInLibrarySharingLandType(0, 2, filter), true);
+        Effect effect = new SearchLibraryPutInPlayEffect(new TargetCardInLibrarySharingLandType(0, 2, StaticFilters.FILTER_BASIC_LAND_CARD), true);
         effect.setText("Search your library for up to two basic land cards that share a land type, put them onto the battlefield tapped, then shuffle your library");
         Ability ability = new SimpleActivatedAbility(Zone.BATTLEFIELD, effect, new GenericManaCost(2));
         ability.addCost(new TapSourceCost());
@@ -103,12 +103,11 @@ class TargetCardInLibrarySharingLandType extends TargetCardInLibrary {
         if (super.canTarget(id, cards, game)) {
             if (!getTargets().isEmpty()) {
                 // check if new target shares a Land Type
-                HashSet<String> landTypes = null;
+                SubTypeList landTypes = new SubTypeList();
                 for (UUID landId: getTargets()) {
                     Card landCard = game.getCard(landId);
                     if (landCard != null) {
-                        if (landTypes == null) {
-                            landTypes = new HashSet<>();
+                        if (landTypes.isEmpty()) {
                             landTypes.addAll(landCard.getSubtype(game));
                         } else {
                             landTypes.removeIf(next -> !landCard.getSubtype(game).contains(next));
@@ -116,9 +115,9 @@ class TargetCardInLibrarySharingLandType extends TargetCardInLibrary {
                     }
                 }
                 Card card = game.getCard(id);
-                if (card != null && landTypes != null) {
-                    for (Iterator<String> iterator = landTypes.iterator(); iterator.hasNext();) {
-                        String next = iterator.next();
+                if (card != null && !landTypes.isEmpty()) {
+                    for (Iterator<SubType> iterator = landTypes.iterator(); iterator.hasNext();) {
+                        SubType next = iterator.next();
                         if (card.getSubtype(game).contains(next)) {
                             return true;
                         }

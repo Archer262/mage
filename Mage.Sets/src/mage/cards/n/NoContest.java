@@ -27,13 +27,16 @@
  */
 package mage.cards.n;
 
+import java.util.Set;
+import java.util.UUID;
 import mage.abilities.Ability;
-import mage.constants.ComparisonType;
 import mage.abilities.effects.common.FightTargetsEffect;
 import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.ComparisonType;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.mageobject.PowerPredicate;
 import mage.game.Game;
@@ -41,9 +44,6 @@ import mage.game.permanent.Permanent;
 import mage.game.stack.Spell;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetControlledCreaturePermanent;
-
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author Styxo
@@ -84,7 +84,7 @@ class TargetCreatureWithLessPowerPermanent extends TargetPermanent {
     public boolean canChoose(UUID sourceId, UUID sourceControllerId, Game game) {
         int maxPower = Integer.MIN_VALUE; // get the most poerful controlled creature that can be targeted
         Card sourceCard = game.getCard(sourceId);
-        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), sourceControllerId, game)) {
+        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURES, sourceControllerId, game)) {
             if (permanent.getPower().getValue() > maxPower && permanent.canBeTargetedBy(sourceCard, sourceControllerId, game)) {
                 maxPower = permanent.getPower().getValue();
             }

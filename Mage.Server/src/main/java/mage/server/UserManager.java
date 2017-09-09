@@ -29,10 +29,14 @@ package mage.server;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import mage.server.User.UserState;
 import mage.server.record.UserStats;
 import mage.server.record.UserStatsRepository;
 import mage.server.util.ThreadExecutor;
+import mage.view.UserView;
 import org.apache.log4j.Logger;
 
 /**
@@ -44,16 +48,24 @@ import org.apache.log4j.Logger;
 public enum UserManager {
     instance;
 
+    private static final Logger logger = Logger.getLogger(UserManager.class);
+
     protected final ScheduledExecutorService expireExecutor = Executors.newSingleThreadScheduledExecutor();
+    protected final ScheduledExecutorService userListExecutor = Executors.newSingleThreadScheduledExecutor();
+
+    private List<UserView> userInfoList = new ArrayList<>();
 
     private static final Logger LOGGER = Logger.getLogger(UserManager.class);
 
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final ConcurrentHashMap<UUID, User> users = new ConcurrentHashMap<>();
 
     private static final ExecutorService USER_EXECUTOR = ThreadExecutor.instance.getCallExecutor();
 
     UserManager() {
         expireExecutor.scheduleAtFixedRate(this::checkExpired, 60, 60, TimeUnit.SECONDS);
+
+        userListExecutor.scheduleAtFixedRate(this::updateUserInfoList, 4, 4, TimeUnit.SECONDS);
     }
 
     public Optional<User> createUser(String userName, String host, AuthorizedUser authorizedUser) {
@@ -61,7 +73,13 @@ public enum UserManager {
             return Optional.empty(); //user already exists
         }
         User user = new User(userName, host, authorizedUser);
-        users.put(user.getId(), user);
+        final Lock w = lock.writeLock();
+        w.lock();
+        try {
+            users.put(user.getId(), user);
+        } finally {
+            w.unlock();
+        }
         return Optional.of(user);
     }
 
@@ -75,17 +93,32 @@ public enum UserManager {
     }
 
     public Optional<User> getUserByName(String userName) {
-        Optional<User> u = users.values().stream().filter(user -> user.getName().equals(userName))
-                .findFirst();
-        if (u.isPresent()) {
-            return u;
-        } else {
-            return Optional.empty();
+        final Lock r = lock.readLock();
+        r.lock();
+        try {
+            Optional<User> u = users.values().stream().filter(user -> user.getName().equals(userName))
+                    .findFirst();
+            if (u.isPresent()) {
+                return u;
+            } else {
+                return Optional.empty();
+            }
+        } finally {
+            r.unlock();
         }
+
     }
 
     public Collection<User> getUsers() {
-        return users.values();
+        ArrayList<User> userList = new ArrayList<>();
+        final Lock r = lock.readLock();
+        r.lock();
+        try {
+            userList.addAll(users.values());
+        } finally {
+            r.unlock();
+        }
+        return userList;
     }
 
     public boolean connectToSession(String sessionId, UUID userId) {
@@ -100,10 +133,14 @@ public enum UserManager {
     }
 
     public void disconnect(UUID userId, DisconnectReason reason) {
-        if (userId != null) {
-            getUser(userId).ifPresent(user -> user.setSessionId(""));// Session will be set again with new id if user reconnects
+        Optional<User> user = UserManager.instance.getUser(userId);
+        if (user.isPresent()) {
+            user.get().setSessionId("");
+            if (reason == DisconnectReason.Disconnected) {
+                removeUserFromAllTablesAndChat(userId, reason);
+                user.get().setUserState(UserState.Offline);
+            }
         }
-        ChatManager.instance.removeUser(userId, reason);
     }
 
     public boolean isAdmin(UUID userId) {
@@ -116,19 +153,18 @@ public enum UserManager {
         return false;
     }
 
-    public void removeUser(final UUID userId, final DisconnectReason reason) {
+    public void removeUserFromAllTablesAndChat(final UUID userId, final DisconnectReason reason) {
         if (userId != null) {
             getUser(userId).ifPresent(user
                     -> USER_EXECUTOR.execute(
                             () -> {
                                 try {
                                     LOGGER.info("USER REMOVE - " + user.getName() + " (" + reason.toString() + ")  userId: " + userId + " [" + user.getGameInfo() + ']');
-                                    user.remove(reason);
+                                    user.removeUserFromAllTables(reason);
+                                    ChatManager.instance.removeUser(user.getId(), reason);
                                     LOGGER.debug("USER REMOVE END - " + user.getName());
                                 } catch (Exception ex) {
                                     handleException(ex);
-                                } finally {
-                                    users.remove(userId);
                                 }
                             }
                     ));
@@ -148,18 +184,95 @@ public enum UserManager {
     }
 
     /**
-     * Is the connection lost for more than 3 minutes, the user will be removed
-     * (within 3 minutes the user can reconnect)
+     * Is the connection lost for more than 3 minutes, the user will be set to
+     * offline status. The user will be removed in validity check after 15
+     * minutes of no activities
+     *
      */
     private void checkExpired() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, -3);
-        List<User> usersToCheck = new ArrayList<>(users.values());
-        for (User user : usersToCheck) {
-            if (user.getUserState() != UserState.Expired && user.isExpired(calendar.getTime())) {
-                removeUser(user.getId(), DisconnectReason.SessionExpired);
+        try {
+            Calendar calendarExp = Calendar.getInstance();
+            calendarExp.add(Calendar.MINUTE, -3);
+            Calendar calendarRemove = Calendar.getInstance();
+            calendarRemove.add(Calendar.MINUTE, -8);
+            List<User> toRemove = new ArrayList<>();
+            logger.debug("Start Check Expired");
+            ArrayList<User> userList = new ArrayList<>();
+            final Lock r = lock.readLock();
+            r.lock();
+            try {
+                userList.addAll(users.values());
+            } finally {
+                r.unlock();
             }
+            for (User user : userList) {
+                try {
+                    if (user.getUserState() == UserState.Offline) {
+                        if (user.isExpired(calendarRemove.getTime())) {
+                            toRemove.add(user);
+                        }
+                    } else {
+                        if (user.isExpired(calendarExp.getTime())) {
+                            if (user.getUserState() == UserState.Connected) {
+                                user.lostConnection();
+                                disconnect(user.getId(), DisconnectReason.BecameInactive);
+                            }
+                            removeUserFromAllTablesAndChat(user.getId(), DisconnectReason.SessionExpired);
+                            user.setUserState(UserState.Offline);
+                            // Remove the user from all tournaments
+
+                        }
+                    }
+                } catch (Exception ex) {
+                    handleException(ex);
+                }
+            }
+            logger.debug("Users to remove " + toRemove.size());
+            final Lock w = lock.readLock();
+            w.lock();
+            try {
+                for (User user : toRemove) {
+                    users.remove(user.getId());
+                }
+            } finally {
+                w.unlock();
+            }
+            logger.debug("End Check Expired");
+        } catch (Exception ex) {
+            handleException(ex);
         }
+    }
+
+    /**
+     * This method recreated the user list that will be send to all clients
+     *
+     */
+    private void updateUserInfoList() {
+        try {
+            List<UserView> newUserInfoList = new ArrayList<>();
+            for (User user : UserManager.instance.getUsers()) {
+                newUserInfoList.add(new UserView(
+                        user.getName(),
+                        user.getHost(),
+                        user.getSessionId(),
+                        user.getConnectionTime(),
+                        user.getLastActivity(),
+                        user.getGameInfo(),
+                        user.getUserState().toString(),
+                        user.getChatLockedUntil(),
+                        user.getClientVersion(),
+                        user.getEmail(),
+                        user.getUserIdStr()
+                ));
+            }
+            userInfoList = newUserInfoList;
+        } catch (Exception ex) {
+            handleException(ex);
+        }
+    }
+
+    public List<UserView> getUserInfoList() {
+        return userInfoList;
     }
 
     public void handleException(Exception ex) {

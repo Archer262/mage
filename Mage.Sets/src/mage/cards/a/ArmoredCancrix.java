@@ -28,12 +28,12 @@
 
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -44,7 +44,7 @@ public class ArmoredCancrix extends CardImpl {
     public ArmoredCancrix(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{U}");
 
-        this.subtype.add("Crab");
+        this.subtype.add(SubType.CRAB);
         this.power = new MageInt(2);
         this.toughness = new MageInt(5);
     }

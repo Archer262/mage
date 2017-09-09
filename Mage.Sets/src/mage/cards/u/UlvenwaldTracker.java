@@ -28,8 +28,6 @@
 package mage.cards.u;
 
 import java.util.UUID;
-import mage.constants.CardType;
-import mage.constants.Zone;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -38,6 +36,8 @@ import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.effects.common.FightTargetsEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
+import mage.constants.Zone;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.mageobject.AnotherTargetPredicate;
 import mage.target.Target;
@@ -51,7 +51,7 @@ import mage.target.common.TargetCreaturePermanent;
 public class UlvenwaldTracker extends CardImpl {
 
     public UlvenwaldTracker(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{G}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{G}");
         this.subtype.add("Human");
         this.subtype.add("Shaman");
 
@@ -64,7 +64,7 @@ public class UlvenwaldTracker extends CardImpl {
         Target controlledTarget = new TargetControlledCreaturePermanent();
         controlledTarget.setTargetTag(1);
         ability.addTarget(controlledTarget);
-        FilterCreaturePermanent filter = new FilterCreaturePermanent("another creature to fight");
+        FilterCreaturePermanent filter = new FilterCreaturePermanent();
         filter.add(new AnotherTargetPredicate(2));
         Target secondTarget = new TargetCreaturePermanent(filter);
         secondTarget.setTargetTag(2);

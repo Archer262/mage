@@ -28,6 +28,7 @@
 
 package mage.cards.k;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SpellCastControllerTriggeredAbility;
@@ -39,17 +40,12 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.SuperType;
-import mage.filter.common.FilterCreaturePermanent;
-import mage.filter.common.FilterSpiritOrArcaneCard;
-
-import java.util.UUID;
+import mage.filter.StaticFilters;
 
 /**
  * @author Loki
  */
 public class KodamaOfTheSouthTree extends CardImpl {
-
-    private static final FilterSpiritOrArcaneCard filter = new FilterSpiritOrArcaneCard();
 
     public KodamaOfTheSouthTree(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{G}{G}");
@@ -58,8 +54,8 @@ public class KodamaOfTheSouthTree extends CardImpl {
 
         this.power = new MageInt(4);
         this.toughness = new MageInt(4);
-        Ability ability = new SpellCastControllerTriggeredAbility(new BoostControlledEffect(1, 1, Duration.EndOfTurn, new FilterCreaturePermanent(), true), filter, false);
-        ability.addEffect(new GainAbilityControlledEffect(TrampleAbility.getInstance(), Duration.EndOfTurn, new FilterCreaturePermanent(), true));
+        Ability ability = new SpellCastControllerTriggeredAbility(new BoostControlledEffect(1, 1, Duration.EndOfTurn, StaticFilters.FILTER_PERMANENT_CREATURE, true), StaticFilters.SPIRIT_OR_ARCANE_CARD, false);
+        ability.addEffect(new GainAbilityControlledEffect(TrampleAbility.getInstance(), Duration.EndOfTurn, StaticFilters.FILTER_PERMANENT_CREATURE, true));
         this.addAbility(ability);
     }
 

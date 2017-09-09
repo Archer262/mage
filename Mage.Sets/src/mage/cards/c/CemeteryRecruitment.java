@@ -34,6 +34,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.common.FilterCreatureCard;
 import mage.game.Game;
@@ -89,7 +90,7 @@ class CemeteryRecruitmentEffect extends OneShotEffect {
             Card card = game.getCard(targetPointer.getFirst(game, source));
             if (card != null) {
                 if (controller.moveCards(card, Zone.HAND, source, game)
-                        && card.hasSubtype("Zombie", game)) {
+                        && card.hasSubtype(SubType.ZOMBIE, game)) {
                     controller.drawCards(1, game);
                 }
             }

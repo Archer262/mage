@@ -53,6 +53,7 @@ import mage.choices.Choice;
 import mage.choices.ChoiceColor;
 import mage.constants.*;
 import mage.filter.FilterPermanent;
+import mage.filter.StaticFilters;
 import mage.filter.common.*;
 import mage.filter.predicate.permanent.ControllerIdPredicate;
 import mage.game.Game;
@@ -351,7 +352,8 @@ public class ComputerPlayer extends PlayerImpl implements Player {
             return target.isChosen();
         }
 
-        if (target.getOriginalTarget() instanceof TargetCardInYourGraveyard) {
+        if (target.getOriginalTarget() instanceof TargetCardInYourGraveyard
+                || target.getOriginalTarget() instanceof TargetCardInASingleGraveyard) {
             List<UUID> alreadyTargetted = target.getTargets();
             List<Card> cards = new ArrayList<>(game.getPlayer(abilityControllerId).getGraveyard().getCards(game));
             while (!cards.isEmpty()) {
@@ -678,7 +680,7 @@ public class ComputerPlayer extends PlayerImpl implements Player {
         if (target.getOriginalTarget() instanceof TargetDefender) {
             // TODO: Improve, now planeswalker is always chosen if it exits
             List<Permanent> targets;
-            targets = game.getBattlefield().getActivePermanents(new FilterPlaneswalkerPermanent(), randomOpponentId, game);
+            targets = game.getBattlefield().getActivePermanents(StaticFilters.FILTER_PERMANENT_PLANESWALKER, randomOpponentId, game);
             if (targets != null && !targets.isEmpty()) {
                 for (Permanent planeswalker : targets) {
                     if (target.canTarget(getId(), planeswalker.getId(), source, game)) {
@@ -780,9 +782,9 @@ public class ComputerPlayer extends PlayerImpl implements Player {
             }
             List<Permanent> targets;
             if (outcome.isGood()) {
-                targets = threats(playerId, source.getSourceId(), new FilterCreaturePermanent(), game, target.getTargets());
+                targets = threats(playerId, source.getSourceId(), StaticFilters.FILTER_PERMANENT_CREATURE, game, target.getTargets());
             } else {
-                targets = threats(opponentId, source.getSourceId(), new FilterCreaturePermanent(), game, target.getTargets());
+                targets = threats(opponentId, source.getSourceId(), StaticFilters.FILTER_PERMANENT_CREATURE, game, target.getTargets());
             }
             for (Permanent permanent : targets) {
                 if (target.canTarget(getId(), permanent.getId(), source, game)) {
@@ -1120,6 +1122,18 @@ public class ComputerPlayer extends PlayerImpl implements Player {
                     }
                 }
             }
+            // pay snow covered mana
+            for (ActivatedManaAbilityImpl manaAbility : mageObject.getAbilities().getAvailableActivatedManaAbilities(Zone.BATTLEFIELD, game)) {
+                if (cost instanceof SnowManaCost) {
+                    for (Mana netMana : manaAbility.getNetMana(game)) {
+                        if (cost.testPay(netMana) || spendAnyMana) {
+                            if (activateAbility(manaAbility, game)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
             // then pay hybrid
             for (ActivatedManaAbilityImpl manaAbility : mageObject.getAbilities().getAvailableActivatedManaAbilities(Zone.BATTLEFIELD, game)) {
                 if (cost instanceof HybridManaCost) {
@@ -1340,8 +1354,8 @@ public class ComputerPlayer extends PlayerImpl implements Player {
                 if (game.getOpponents(this.getId()).contains(permanent.getControllerId())
                         && permanent.getCardType().contains(CardType.CREATURE)
                         && !permanent.getSubtype(game).isEmpty()) {
-                    if (choice.getChoices().contains(permanent.getSubtype(game).get(0))) {
-                        choice.setChoice(permanent.getSubtype(game).get(0));
+                    if (choice.getChoices().contains(permanent.getSubtype(game).get(0).toString())) {
+                        choice.setChoice(permanent.getSubtype(game).get(0).toString());
                         break;
                     }
                 }
@@ -1352,8 +1366,8 @@ public class ComputerPlayer extends PlayerImpl implements Player {
                     Player opponent = game.getPlayer(opponentId);
                     for (Card card : opponent.getGraveyard().getCards(game)) {
                         if (card != null && card.getCardType().contains(CardType.CREATURE) && !card.getSubtype(game).isEmpty()) {
-                            if (choice.getChoices().contains(card.getSubtype(game).get(0))) {
-                                choice.setChoice(card.getSubtype(game).get(0));
+                            if (choice.getChoices().contains(card.getSubtype(game).get(0).toString())) {
+                                choice.setChoice(card.getSubtype(game).get(0).toString());
                                 break;
                             }
                         }
@@ -1368,8 +1382,8 @@ public class ComputerPlayer extends PlayerImpl implements Player {
             for (UUID cardId : this.getHand()) {
                 Card card = game.getCard(cardId);
                 if (card != null && card.getCardType().contains(CardType.CREATURE) && !card.getSubtype(game).isEmpty()) {
-                    if (choice.getChoices().contains(card.getSubtype(game).get(0))) {
-                        choice.setChoice(card.getSubtype(game).get(0));
+                    if (choice.getChoices().contains(card.getSubtype(game).get(0).toString())) {
+                        choice.setChoice(card.getSubtype(game).get(0).toString());
                         break;
                     }
                 }
@@ -1378,8 +1392,8 @@ public class ComputerPlayer extends PlayerImpl implements Player {
                 for (UUID cardId : this.getLibrary().getCardList()) {
                     Card card = game.getCard(cardId);
                     if (card != null && card.getCardType().contains(CardType.CREATURE) && !card.getSubtype(game).isEmpty()) {
-                        if (choice.getChoices().contains(card.getSubtype(game).get(0))) {
-                            choice.setChoice(card.getSubtype(game).get(0));
+                        if (choice.getChoices().contains(card.getSubtype(game).get(0).toString())) {
+                            choice.setChoice(card.getSubtype(game).get(0).toString());
                             break;
                         }
                     }
@@ -1500,7 +1514,7 @@ public class ComputerPlayer extends PlayerImpl implements Player {
                 if (object != null) {
                     LinkedHashMap<UUID, ActivatedAbility> useableAbilities = getSpellAbilities(object, game.getState().getZone(object.getId()), game);
                     if (useableAbilities != null && !useableAbilities.isEmpty()) {
-                        game.fireGetChoiceEvent(playerId, name, object, new ArrayList<>(useableAbilities.values()));
+                        // game.fireGetChoiceEvent(playerId, name, object, new ArrayList<>(useableAbilities.values()));
                         // TODO: Improve this
                         return (SpellAbility) useableAbilities.values().iterator().next();
                     }

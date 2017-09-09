@@ -34,9 +34,8 @@ import mage.abilities.common.SimpleActivatedAbility;
 import mage.abilities.costs.common.TapSourceCost;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.*;
-import mage.cards.repository.CardRepository;
 import mage.choices.Choice;
-import mage.choices.ChoiceImpl;
+import mage.choices.ChoiceCreatureType;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
@@ -57,9 +56,7 @@ public class BloodlineShaman extends CardImpl {
     public BloodlineShaman(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{1}{G}");
 
-        this.subtype.add("Elf");
-        this.subtype.add("Wizard");
-        this.subtype.add("Shaman");
+        this.subtype.add(SubType.ELF, SubType.WIZARD, SubType.SHAMAN);
         this.power = new MageInt(1);
         this.toughness = new MageInt(1);
 
@@ -101,9 +98,7 @@ class BloodlineShamanEffect extends OneShotEffect {
         MageObject sourceObject = game.getObject(source.getSourceId());
         if (controller != null) {
             // Choose a creature type.
-            Choice typeChoice = new ChoiceImpl(true);
-            typeChoice.setMessage("Choose a creature type:");
-            typeChoice.setChoices(CardRepository.instance.getCreatureTypes());
+            Choice typeChoice = new ChoiceCreatureType();
             while (!controller.choose(outcome, typeChoice, game)) {
                 if (!controller.canRespond()) {
                     return false;

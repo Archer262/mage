@@ -27,21 +27,20 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
-import mage.abilities.effects.common.PutTokenOntoBattlefieldCopyTargetEffect;
+import mage.abilities.effects.common.CreateTokenCopyTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.TargetPlayer;
 import mage.target.targetpointer.FixedTarget;
-
-import java.util.UUID;
 
 /**
  *
@@ -50,7 +49,7 @@ import java.util.UUID;
 public class CloneLegion extends CardImpl {
 
     public CloneLegion(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{7}{U}{U}");
+        super(ownerId, setInfo, new CardType[]{CardType.SORCERY}, "{7}{U}{U}");
 
         // For each creature target player controls, create a token that's a copy of that creature.
         this.getSpellAbility().addEffect(new CloneLegionEffect());
@@ -89,9 +88,9 @@ class CloneLegionEffect extends OneShotEffect {
         Player controller = game.getPlayer(source.getControllerId());
         Player targetPlayer = game.getPlayer(targetPointer.getFirst(game, source));
         if (controller != null && targetPlayer != null) {
-            for (Permanent permanent : game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), targetPlayer.getId(), game)) {
+            for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, targetPlayer.getId(), game)) {
                 if (permanent != null) {
-                    PutTokenOntoBattlefieldCopyTargetEffect effect = new PutTokenOntoBattlefieldCopyTargetEffect();
+                    CreateTokenCopyTargetEffect effect = new CreateTokenCopyTargetEffect();
                     effect.setTargetPointer(new FixedTarget(permanent, game));
                     effect.apply(game, source);
                 }

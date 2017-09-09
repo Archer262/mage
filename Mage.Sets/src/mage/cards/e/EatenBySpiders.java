@@ -27,6 +27,8 @@
  */
 package mage.cards.e;
 
+import java.util.LinkedList;
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.keyword.FlyingAbility;
@@ -34,14 +36,12 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.mageobject.AbilityPredicate;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.LinkedList;
-import java.util.UUID;
 
 /**
  *
@@ -99,7 +99,7 @@ class EatenBySpidersEffect extends OneShotEffect {
 
             for (UUID attachmentId : attachments) {
                 Permanent attachment = game.getPermanent(attachmentId);
-                if (attachment.hasSubtype("Equipment", game)) {
+                if (attachment.hasSubtype(SubType.EQUIPMENT, game)) {
                     attachment.destroy(source.getSourceId(), game, false);
                 }
             }

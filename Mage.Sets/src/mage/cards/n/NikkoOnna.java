@@ -37,17 +37,16 @@ import mage.abilities.effects.common.ReturnToHandSourceEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 import mage.target.common.TargetEnchantmentPermanent;
 
 /**
- *
  * @author Loki
  */
 public class NikkoOnna extends CardImpl {
 
     public NikkoOnna(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{W}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{W}");
         this.subtype.add("Spirit");
 
         this.power = new MageInt(2);
@@ -59,7 +58,7 @@ public class NikkoOnna extends CardImpl {
         this.addAbility(ability);
 
         // Whenever you cast a Spirit or Arcane spell, you may return Nikko-Onna to its owner's hand.
-        this.addAbility(new SpellCastControllerTriggeredAbility(new ReturnToHandSourceEffect(true), new FilterSpiritOrArcaneCard(), true));
+        this.addAbility(new SpellCastControllerTriggeredAbility(new ReturnToHandSourceEffect(true), StaticFilters.SPIRIT_OR_ARCANE_CARD, true));
     }
 
     public NikkoOnna(final NikkoOnna card) {

@@ -27,14 +27,15 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
-import mage.abilities.common.DiesCreatureTriggeredAbility;
+import mage.abilities.common.DiesTriggeredAbility;
 import mage.abilities.common.EntersBattlefieldAbility;
 import mage.abilities.condition.common.LastTimeCounterRemovedCondition;
 import mage.abilities.decorator.ConditionalTriggeredAbility;
 import mage.abilities.effects.Effect;
-import mage.abilities.effects.PutTokenOntoBattlefieldCopySourceEffect;
+import mage.abilities.effects.CreateTokenCopySourceEffect;
 import mage.abilities.effects.common.counter.AddCountersSourceEffect;
 import mage.abilities.keyword.FlyingAbility;
 import mage.abilities.keyword.VanishingSacrificeAbility;
@@ -43,8 +44,6 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.counters.CounterType;
-
-import java.util.UUID;
 
 /**
  *
@@ -61,16 +60,18 @@ public class Chronozoa extends CardImpl {
 
         // Flying
         this.addAbility(FlyingAbility.getInstance());
-        // Vanishing 3
+
+        // Vanishing 3 (This permanent enters the battlefield with three time counters on it. At the beginning of your upkeep, remove a time counter from it. When the last is removed, sacrifice it.)
         Ability ability = new EntersBattlefieldAbility(new AddCountersSourceEffect(CounterType.TIME.createInstance(3)));
         ability.setRuleVisible(false);
         this.addAbility(ability);
         this.addAbility(new VanishingUpkeepAbility(3));
         this.addAbility(new VanishingSacrificeAbility());
+
         // When Chronozoa is put into a graveyard from play, if it had no time counters on it, create two tokens that are copies of it.
-        Effect effect = new PutTokenOntoBattlefieldCopySourceEffect(2);
+        Effect effect = new CreateTokenCopySourceEffect(2);
         effect.setText("create two tokens that are copies of it");
-        this.addAbility(new ConditionalTriggeredAbility(new DiesCreatureTriggeredAbility(effect, false),
+        this.addAbility(new ConditionalTriggeredAbility(new DiesTriggeredAbility(effect, false),
                 LastTimeCounterRemovedCondition.instance,
                 "When {this} dies, if it had no time counters on it, create two tokens that are copies of it."));
     }

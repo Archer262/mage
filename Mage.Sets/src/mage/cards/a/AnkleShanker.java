@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.AttacksTriggeredAbility;
@@ -39,9 +40,8 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
-import mage.filter.common.FilterCreaturePermanent;
-
-import java.util.UUID;
+import mage.constants.SubType;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -51,8 +51,8 @@ public class AnkleShanker extends CardImpl {
 
     public AnkleShanker(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{R}{W}{B}");
-        this.subtype.add("Goblin");
-        this.subtype.add("Berserker");
+        this.subtype.add(SubType.GOBLIN);
+        this.subtype.add(SubType.BERSERKER);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
@@ -60,7 +60,7 @@ public class AnkleShanker extends CardImpl {
         // Haste
         this.addAbility(HasteAbility.getInstance());
         // Whenever Ankle Shanker attacks, creatures you control gain first strike and deathtouch until end of turn.
-        Effect effect = new GainAbilityControlledEffect(FirstStrikeAbility.getInstance(), Duration.EndOfTurn, new FilterCreaturePermanent("Creatures"));
+        Effect effect = new GainAbilityControlledEffect(FirstStrikeAbility.getInstance(), Duration.EndOfTurn, StaticFilters.FILTER_PERMANENT_CREATURES);
         effect.setText("creatures you control gain first strike");
         Ability ability = new AttacksTriggeredAbility(effect, false);
         effect = new GainAbilityControlledEffect(DeathtouchAbility.getInstance(), Duration.EndOfTurn);

@@ -36,7 +36,7 @@ import mage.abilities.effects.common.SacrificeSourceEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 
 /**
  *
@@ -52,7 +52,7 @@ public class Dreamcatcher extends CardImpl {
         this.toughness = new MageInt(1);
 
         // Whenever you cast a Spirit or Arcane spell, you may sacrifice Dreamcatcher. If you do, draw a card.
-        Ability ability = new SpellCastControllerTriggeredAbility(new SacrificeSourceEffect(), new FilterSpiritOrArcaneCard(), true,
+        Ability ability = new SpellCastControllerTriggeredAbility(new SacrificeSourceEffect(), StaticFilters.SPIRIT_OR_ARCANE_CARD, true,
                 "Whenever you cast a Spirit or Arcane spell, you may sacrifice {this}. If you do, draw a card.");
         ability.addEffect(new DrawCardSourceControllerEffect(1));
         this.addAbility(ability);

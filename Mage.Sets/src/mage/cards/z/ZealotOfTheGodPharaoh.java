@@ -36,6 +36,7 @@ import mage.abilities.effects.common.DamageTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.target.common.TargetOpponent;
 
@@ -48,8 +49,7 @@ public class ZealotOfTheGodPharaoh extends CardImpl {
     public ZealotOfTheGodPharaoh(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{3}{R}");
 
-        this.subtype.add("Minotaur");
-        this.subtype.add("Archer");
+        this.subtype.add(SubType.MINOTAUR, SubType.ARCHER);
         this.power = new MageInt(4);
         this.toughness = new MageInt(3);
 

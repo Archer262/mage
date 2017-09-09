@@ -44,6 +44,7 @@ import mage.abilities.keyword.DeathtouchAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.filter.StaticFilters;
@@ -61,8 +62,8 @@ public class AyliEternalPilgrim extends CardImpl {
     public AyliEternalPilgrim(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{W}{B}");
         this.addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Kor");
-        this.subtype.add("Cleric");
+        this.subtype.add(SubType.KOR);
+        this.subtype.add(SubType.CLERIC);
         this.power = new MageInt(2);
         this.toughness = new MageInt(3);
 

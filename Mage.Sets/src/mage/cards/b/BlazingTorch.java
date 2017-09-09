@@ -56,8 +56,8 @@ import java.util.UUID;
 public class BlazingTorch extends CardImpl {
 
     public BlazingTorch(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.ARTIFACT},"{1}");
-        this.subtype.add("Equipment");
+        super(ownerId, setInfo, new CardType[]{CardType.ARTIFACT}, "{1}");
+        this.subtype.add(SubType.EQUIPMENT);
 
         // Equipped creature can't be blocked by Vampires or Zombies. (!this is a static ability of the equipment)
         this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new BlazingTorchEvasionEffect()));
@@ -96,7 +96,7 @@ class BlazingTorchEvasionEffect extends RestrictionEffect {
         Permanent equipment = game.getPermanent(source.getSourceId());
         if (equipment != null && equipment.getAttachedTo() != null) {
             Permanent equipped = game.getPermanent(equipment.getAttachedTo());
-            if (permanent.getId().equals(equipped.getId())) {
+            if (equipped != null && permanent.getId().equals(equipped.getId())) {
                 return true;
             }
         }
@@ -105,7 +105,7 @@ class BlazingTorchEvasionEffect extends RestrictionEffect {
 
     @Override
     public boolean canBeBlocked(Permanent attacker, Permanent blocker, Ability source, Game game) {
-        return !blocker.hasSubtype("Vampire", game) && !blocker.hasSubtype("Zombie", game);
+        return !blocker.hasSubtype(SubType.VAMPIRE, game) && !blocker.hasSubtype(SubType.ZOMBIE, game);
     }
 
     @Override

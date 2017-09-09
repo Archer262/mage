@@ -27,9 +27,6 @@
  */
 package mage.cards.t;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
@@ -47,6 +44,11 @@ import mage.game.permanent.Permanent;
 import mage.game.permanent.token.ElephantToken;
 import mage.target.TargetPermanent;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
 /**
  *
  * @author jeffwadsworth
@@ -60,7 +62,7 @@ public class Terastodon extends CardImpl {
     }
 
     public Terastodon(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{6}{G}{G}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{6}{G}{G}");
         this.subtype.add("Elephant");
 
         this.power = new MageInt(9);
@@ -100,7 +102,7 @@ class TerastodonEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        HashMap<UUID, Integer> destroyedPermanents = new HashMap<>();
+        Map<UUID, Integer> destroyedPermanents = new HashMap<>();
         for (UUID targetID : this.targetPointer.getTargets(game, source)) {
             Permanent permanent = game.getPermanent(targetID);
             if (permanent != null) {
@@ -112,6 +114,7 @@ class TerastodonEffect extends OneShotEffect {
                 }
             }
         }
+        game.applyEffects();
         ElephantToken elephantToken = new ElephantToken();
         for (Entry<UUID, Integer> entry : destroyedPermanents.entrySet()) {
             elephantToken.putOntoBattlefield(entry.getValue(), game, source.getSourceId(), entry.getKey());

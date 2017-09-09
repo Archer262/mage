@@ -27,6 +27,7 @@
  */
 package mage.cards.s;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.DamageAsThoughNotBlockedAbility;
 import mage.abilities.common.SimpleStaticAbility;
@@ -39,8 +40,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.Zone;
-
-import java.util.UUID;
+import mage.filter.common.FilterCreaturePermanent;
 
 /**
  *
@@ -48,8 +48,10 @@ import java.util.UUID;
  */
 public class SiegeBehemoth extends CardImpl {
 
+    private static final FilterCreaturePermanent filter = new FilterCreaturePermanent("each creature you control");
+
     public SiegeBehemoth(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{5}{G}{G}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{5}{G}{G}");
         this.subtype.add("Beast");
 
         this.power = new MageInt(7);
@@ -62,7 +64,7 @@ public class SiegeBehemoth extends CardImpl {
         this.addAbility(new SimpleStaticAbility(
                 Zone.BATTLEFIELD,
                 new ConditionalContinuousEffect(
-                        new GainAbilityControlledEffect(DamageAsThoughNotBlockedAbility.getInstance(), Duration.WhileOnBattlefield),
+                        new GainAbilityControlledEffect(DamageAsThoughNotBlockedAbility.getInstance(), Duration.WhileOnBattlefield, filter),
                         SourceAttackingCondition.instance,
                         "As long as {this} is attacking, for each creature you control, you may have that creature assign its combat damage as though it weren't blocked"
                 )));

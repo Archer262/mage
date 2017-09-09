@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -46,8 +47,6 @@ import mage.game.permanent.token.Token;
 import mage.target.common.TargetControlledCreaturePermanent;
 import mage.target.common.TargetCreaturePermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -63,7 +62,7 @@ public class AmbushCommander extends CardImpl {
 
     public AmbushCommander(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{3}{G}{G}");
-        this.subtype.add("Elf");
+        this.subtype.add(SubType.ELF);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
@@ -94,7 +93,7 @@ class AmbushCommanderToken extends Token {
 
     public AmbushCommanderToken() {
         super("Elf", "1/1 green Elf creatures");
-        subtype.add("Elf");
+        subtype.add(SubType.ELF);
         cardType.add(CardType.CREATURE);
         power = new MageInt(1);
         toughness = new MageInt(1);

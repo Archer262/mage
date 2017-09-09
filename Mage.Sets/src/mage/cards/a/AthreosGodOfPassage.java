@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.TriggeredAbilityImpl;
@@ -38,6 +39,7 @@ import mage.abilities.effects.Effect;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.continuous.LoseCreatureTypeSourceEffect;
 import mage.abilities.keyword.IndestructibleAbility;
+import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.*;
@@ -48,11 +50,8 @@ import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.GameEvent.EventType;
 import mage.game.events.ZoneChangeEvent;
-import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.common.TargetOpponent;
-
-import java.util.UUID;
 
 /**
  *
@@ -68,9 +67,9 @@ public class AthreosGodOfPassage extends CardImpl {
     }
 
     public AthreosGodOfPassage(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT,CardType.CREATURE},"{1}{W}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT, CardType.CREATURE}, "{1}{W}{B}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("God");
+        this.subtype.add(SubType.GOD);
 
         this.power = new MageInt(5);
         this.toughness = new MageInt(4);
@@ -119,7 +118,7 @@ class AthreosGodOfPassageReturnEffect extends OneShotEffect {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
             UUID creatureId = (UUID) this.getValue("creatureId");
-            Permanent creature = game.getPermanentOrLKIBattlefield(creatureId);
+            Card creature = game.getCard(creatureId);
             if (creature != null) {
                 Player opponent = game.getPlayer(source.getFirstTarget());
                 boolean paid = false;
@@ -134,7 +133,7 @@ class AthreosGodOfPassageReturnEffect extends OneShotEffect {
                 }
                 if (opponent == null || !paid) {
                     if (game.getState().getZone(creature.getId()) == Zone.GRAVEYARD) {
-                        controller.moveCards(game.getCard(creatureId), Zone.HAND, source, game);
+                        controller.moveCards(creature, Zone.HAND, source, game);
                     }
                 }
             }
@@ -172,8 +171,7 @@ class AthreosDiesCreatureTriggeredAbility extends TriggeredAbilityImpl {
     public boolean checkTrigger(GameEvent event, Game game) {
         ZoneChangeEvent zEvent = (ZoneChangeEvent) event;
         if (zEvent.getFromZone() == Zone.BATTLEFIELD && zEvent.getToZone() == Zone.GRAVEYARD) {
-            Permanent permanent = (Permanent) game.getLastKnownInformation(event.getTargetId(), Zone.BATTLEFIELD);
-            if (permanent != null && filter.match(permanent, sourceId, controllerId, game)) {
+            if (zEvent.getTarget() != null && filter.match(zEvent.getTarget(), sourceId, controllerId, game)) {
                 for (Effect effect : this.getEffects()) {
                     effect.setValue("creatureId", event.getTargetId());
                 }

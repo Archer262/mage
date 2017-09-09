@@ -40,7 +40,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.TargetController;
 import mage.constants.Zone;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.GameEvent.EventType;
@@ -65,7 +65,7 @@ public class SmotheringAbomination extends CardImpl {
 
         // At the beginning of your upkeep, sacrifice a creature
         this.addAbility(new BeginningOfUpkeepTriggeredAbility(new SacrificeControllerEffect(
-                new FilterCreaturePermanent(), 1, null), TargetController.YOU, false));
+                StaticFilters.FILTER_PERMANENT_CREATURE, 1, null), TargetController.YOU, false));
 
         // Whenever you sacrifice a creature, draw a card.
         this.addAbility(new SmotheringAbominationTriggeredAbility());

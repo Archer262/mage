@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.CreatureEntersBattlefieldTriggeredAbility;
 import mage.abilities.effects.common.continuous.BecomesCreatureSourceEffect;
@@ -35,9 +36,8 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.game.permanent.token.Token;
-
-import java.util.UUID;
 
 /**
  *
@@ -70,7 +70,7 @@ class AngelTombToken extends Token {
         cardType.add(CardType.CREATURE);
         color.setWhite(true);
         
-        subtype.add("Angel");
+        subtype.add(SubType.ANGEL);
         power = new MageInt(3);
         toughness = new MageInt(3);
         addAbility(FlyingAbility.getInstance());

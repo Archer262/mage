@@ -27,6 +27,8 @@
  */
 package mage.cards.f;
 
+import java.util.UUID;
+import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.condition.common.FatefulHourCondition;
 import mage.abilities.effects.OneShotEffect;
@@ -46,8 +48,6 @@ import mage.game.Game;
 import mage.players.Player;
 import mage.target.common.TargetControlledPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author BetaSteward
@@ -55,11 +55,9 @@ import java.util.UUID;
 public class FaithsShield extends CardImpl {
 
     public FaithsShield(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.INSTANT},"{W}");
-
+        super(ownerId, setInfo, new CardType[]{CardType.INSTANT}, "{W}");
 
         // Target permanent you control gains protection from the color of your choice until end of turn.
-
         // Fateful hour - If you have 5 or less life, instead you and each permanent you control gain protection from the color of your choice until end of turn.
         this.getSpellAbility().addEffect(new FaithsShieldEffect());
         this.getSpellAbility().addTarget(new TargetControlledPermanent());
@@ -80,7 +78,7 @@ class FaithsShieldEffect extends OneShotEffect {
     public FaithsShieldEffect() {
         super(Outcome.Protect);
         staticText = "Target permanent you control gains protection from the color of your choice until end of turn."
-                 + "<br/><br/><i>Fateful hour</i> - If you have 5 or less life, instead you and each permanent you control gain protection from the color of your choice until end of turn";
+                + "<br/><br/><i>Fateful hour</i> - If you have 5 or less life, instead you and each permanent you control gain protection from the color of your choice until end of turn";
     }
 
     public FaithsShieldEffect(final FaithsShieldEffect effect) {
@@ -90,7 +88,8 @@ class FaithsShieldEffect extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
-        if (controller != null) {
+        MageObject mageObject = game.getObject(source.getSourceId());
+        if (controller != null && mageObject != null) {
             if (FatefulHourCondition.instance.apply(game, source)) {
                 ChoiceColor choice = new ChoiceColor();
                 while (!choice.isChosen()) {
@@ -99,18 +98,20 @@ class FaithsShieldEffect extends OneShotEffect {
                         return false;
                     }
                 }
-                FilterCard filter = new FilterCard();
-                filter.add(new ColorPredicate(choice.getColor()));
-                filter.setMessage(choice.getChoice());
-
-                Ability ability = new ProtectionAbility(filter) ;
-                game.addEffect(new GainAbilityControlledEffect(ability, Duration.EndOfTurn), source);
-                game.addEffect(new GainAbilityControllerEffect(ability, Duration.EndOfTurn), source);
-            }
-            else {
+                if (choice.getColor() != null) {
+                    game.informPlayers(mageObject.getLogName() + ": " + controller.getLogName() + " has chosen " + choice.getChoice());
+                    FilterCard filter = new FilterCard();
+                    filter.add(new ColorPredicate(choice.getColor()));
+                    filter.setMessage(choice.getChoice());
+                    Ability ability = new ProtectionAbility(filter);
+                    game.addEffect(new GainAbilityControlledEffect(ability, Duration.EndOfTurn), source);
+                    game.addEffect(new GainAbilityControllerEffect(ability, Duration.EndOfTurn), source);
+                    return true;
+                }
+            } else {
                 game.addEffect(new GainProtectionFromColorTargetEffect(Duration.EndOfTurn), source);
+                return true;
             }
-            return true;
 
         }
         return false;

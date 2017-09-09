@@ -27,6 +27,7 @@
  */
 package mage.cards.s;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.DelayedTriggeredAbility;
@@ -49,8 +50,6 @@ import mage.game.events.ZoneChangeEvent;
 import mage.game.permanent.Permanent;
 import mage.target.targetpointer.FixedTarget;
 
-import java.util.UUID;
-
 /**
  *
  * @author emerald000
@@ -58,7 +57,7 @@ import java.util.UUID;
 public class ShireiShizosCaretaker extends CardImpl {
 
     public ShireiShizosCaretaker(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{4}{B}");
         addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Spirit");
 
@@ -152,7 +151,7 @@ class ShireiShizosCaretakerEffect extends OneShotEffect {
             Effect effect = new ShireiShizosCaretakerReturnEffect(shireiId);
             effect.setText("return that card to the battlefield if {this} is still on the battlefield");
             DelayedTriggeredAbility delayedAbility = new AtTheBeginOfNextEndStepDelayedTriggeredAbility(effect);
-            delayedAbility.getEffects().get(0).setTargetPointer(new FixedTarget(card.getId()));
+            delayedAbility.getEffects().get(0).setTargetPointer(new FixedTarget(card.getId(), card.getZoneChangeCounter(game)));
             game.addDelayedTriggeredAbility(delayedAbility, source);
             return true;
         }

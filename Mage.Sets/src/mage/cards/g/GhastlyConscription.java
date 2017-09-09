@@ -93,7 +93,7 @@ class GhastlyConscriptionEffect extends OneShotEffect {
         Player controller = game.getPlayer(source.getControllerId());
         Player targetPlayer = game.getPlayer(getTargetPointer().getFirst(game, source));
         if (controller != null && targetPlayer != null) {
-            ArrayList<Card> cardsToManifest = new ArrayList<>();
+            List<Card> cardsToManifest = new ArrayList<>();
             for (Card card : targetPlayer.getGraveyard().getCards(new FilterCreatureCard(), game)) {
                 cardsToManifest.add(card);
                 controller.moveCardToExileWithInfo(card, null, "", source.getSourceId(), game, Zone.GRAVEYARD, true);

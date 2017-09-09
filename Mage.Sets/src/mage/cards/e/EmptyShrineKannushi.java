@@ -44,6 +44,7 @@ import mage.game.Game;
 import mage.game.permanent.Permanent;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -114,7 +115,7 @@ class EmptyShrineKannushiProtectionAbility extends ProtectionAbility {
             }
         }
 
-        ArrayList<Predicate<MageObject>> colorPredicates = new ArrayList<>();
+        List<Predicate<MageObject>> colorPredicates = new ArrayList<>();
         if (color.isBlack()) {
             colorPredicates.add(new ColorPredicate(ObjectColor.BLACK));
         }

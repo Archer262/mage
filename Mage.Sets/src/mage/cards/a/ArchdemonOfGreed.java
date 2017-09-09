@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.OnEventTriggeredAbility;
@@ -48,8 +49,6 @@ import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.common.TargetControlledPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author anonymous
@@ -65,7 +64,7 @@ public class ArchdemonOfGreed extends CardImpl {
 
     public ArchdemonOfGreed(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"");
-        this.subtype.add("Demon");
+        this.subtype.add(SubType.DEMON);
         this.color.setBlack(true);
 
         this.nightCard = true;

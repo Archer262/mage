@@ -29,6 +29,9 @@ package mage.server;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import mage.cards.repository.CardInfo;
@@ -50,6 +53,7 @@ public enum ChatManager {
     private static final HashMap<String, String> userMessages = new HashMap<>();
 
     private final ConcurrentHashMap<UUID, ChatSession> chatSessions = new ConcurrentHashMap<>();
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public UUID createChatSession(String info) {
         ChatSession chatSession = new ChatSession(info);
@@ -67,6 +71,10 @@ public enum ChatManager {
 
     }
 
+    public void clearUserMessageStorage() {
+        userMessages.clear();
+    }
+
     public void leaveChat(UUID chatId, UUID userId) {
         ChatSession chatSession = chatSessions.get(chatId);
         if (chatSession != null && chatSession.hasUser(userId)) {
@@ -78,13 +86,17 @@ public enum ChatManager {
         if (chatId != null) {
             ChatSession chatSession = chatSessions.get(chatId);
             if (chatSession != null) {
-                synchronized (chatSession) {
-                    if (chatSessions.containsKey(chatId)) {
+                if (chatSessions.containsKey(chatId)) {
+                    final Lock w = lock.writeLock();
+                    w.lock();
+                    try {
                         chatSessions.remove(chatId);
-                        logger.trace("Chat removed - chatId: " + chatId);
-                    } else {
-                        logger.trace("Chat to destroy does not exist - chatId: " + chatId);
+                    } finally {
+                        w.unlock();
                     }
+                    logger.trace("Chat removed - chatId: " + chatId);
+                } else {
+                    logger.trace("Chat to destroy does not exist - chatId: " + chatId);
                 }
             }
         }
@@ -262,10 +274,11 @@ public enum ChatManager {
      * @param userId
      * @param message
      * @param color
+     * @throws mage.server.exceptions.UserNotFoundException
      */
     public void broadcast(UUID userId, String message, MessageColor color) throws UserNotFoundException {
         UserManager.instance.getUser(userId).ifPresent(user -> {
-            chatSessions.values()
+            getChatSessions()
                     .stream()
                     .filter(chat -> chat.hasUser(userId))
                     .forEach(session -> session.broadcast(user.getName(), message, color, true, MessageType.TALK, null));
@@ -275,23 +288,29 @@ public enum ChatManager {
 
     public void sendReconnectMessage(UUID userId) {
         UserManager.instance.getUser(userId).ifPresent(user
-                -> chatSessions.values()
-                .stream()
-                .filter(chat -> chat.hasUser(userId))
-                .forEach(chatSession -> chatSession.broadcast(null, user.getName() + " has reconnected", MessageColor.BLUE, true, MessageType.STATUS, null)));
+                -> getChatSessions()
+                        .stream()
+                        .filter(chat -> chat.hasUser(userId))
+                        .forEach(chatSession -> chatSession.broadcast(null, user.getName() + " has reconnected", MessageColor.BLUE, true, MessageType.STATUS, null)));
 
     }
 
     public void removeUser(UUID userId, DisconnectReason reason) {
-        for (ChatSession chatSession : chatSessions.values()) {
+        for (ChatSession chatSession : getChatSessions()) {
             if (chatSession.hasUser(userId)) {
                 chatSession.kill(userId, reason);
             }
         }
     }
 
-    public ArrayList<ChatSession> getChatSessions() {
-        return new ArrayList<>(chatSessions.values());
+    public List<ChatSession> getChatSessions() {
+        final Lock r = lock.readLock();
+        r.lock();
+        try {
+            return new ArrayList<>(chatSessions.values());
+        } finally {
+            r.unlock();
+        }
     }
 
 }

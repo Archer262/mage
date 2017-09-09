@@ -45,6 +45,7 @@ import mage.filter.predicate.mageobject.SupertypePredicate;
 import mage.target.common.TargetCardInLibrary;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -85,7 +86,7 @@ public class DroidFactory extends CardImpl {
             addCost(new SacrificeSourceCost());
             FilterCard filter = new FilterCard("basic Plains, Island or Swamp");
             filter.add(new CardTypePredicate(CardType.LAND));
-            ArrayList<Predicate<MageObject>> subtypePredicates = new ArrayList<>();
+            List<Predicate<MageObject>> subtypePredicates = new ArrayList<>();
             subtypePredicates.add(new SubtypePredicate(SubType.SWAMP));
             subtypePredicates.add(new SubtypePredicate(SubType.PLAINS));
             subtypePredicates.add(new SubtypePredicate(SubType.ISLAND));

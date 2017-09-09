@@ -36,7 +36,8 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.constants.SubType;
+import mage.filter.StaticFilters;
 
 import java.util.UUID;
 
@@ -48,14 +49,14 @@ public class DanceOfShadows extends CardImpl {
 
     public DanceOfShadows (UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{3}{B}{B}");
-        this.subtype.add("Arcane");
+        this.subtype.add(SubType.ARCANE);
 
         
         // Creatures you control get +1/+0 and gain fear until end of turn. (They can't be blocked except by artifact creatures and/or black creatures.)
-        Effect effect = new BoostControlledEffect(1, 0, Duration.EndOfTurn, new FilterCreaturePermanent());
+        Effect effect = new BoostControlledEffect(1, 0, Duration.EndOfTurn, StaticFilters.FILTER_PERMANENT_CREATURES);
         effect.setText("Creatures you control get +1/+0");
         this.getSpellAbility().addEffect(effect);
-        effect = new GainAbilityControlledEffect(FearAbility.getInstance(), Duration.EndOfTurn, new FilterCreaturePermanent());
+        effect = new GainAbilityControlledEffect(FearAbility.getInstance(), Duration.EndOfTurn, StaticFilters.FILTER_PERMANENT_CREATURES);
         effect.setText("and gain fear until end of turn");
         this.getSpellAbility().addEffect(effect);
     }

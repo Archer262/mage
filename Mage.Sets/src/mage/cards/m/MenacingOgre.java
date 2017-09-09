@@ -28,13 +28,14 @@
 package mage.cards.m;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
 import mage.abilities.effects.OneShotEffect;
-import mage.abilities.keyword.TrampleAbility;
 import mage.abilities.keyword.HasteAbility;
+import mage.abilities.keyword.TrampleAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
@@ -100,7 +101,7 @@ class MenacingOgreEffect extends OneShotEffect {
         int number = 0;
         Permanent menacingOgre = game.getPermanent(source.getSourceId());
         String message = "Choose a number.";
-        HashMap<Player, Integer> numberChosen = new HashMap<>();
+        Map<Player, Integer> numberChosen = new HashMap<>();
 
         //players choose numbers
         for (Player player : game.getPlayers().values()) {
@@ -121,7 +122,7 @@ class MenacingOgreEffect extends OneShotEffect {
                 game.informPlayers(player.getLogName() + " chose number " + numberChosen.get(player));
                 if (numberChosen.get(player) >= highestNumber) {
                     player.loseLife(highestNumber, game, false);
-                    if (player.getId() == source.getControllerId()
+                    if (player.getId().equals(source.getControllerId())
                             && menacingOgre != null) {
                         menacingOgre.addCounters(CounterType.P1P1.createInstance(2), source, game);
                     }

@@ -39,7 +39,7 @@ import mage.constants.CardType;
 import mage.constants.SetTargetPointer;
 import mage.constants.Zone;
 import mage.filter.FilterPermanent;
-import mage.filter.FilterSpell;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.players.Player;
 
@@ -60,7 +60,7 @@ public class SpelltitheEnforcer extends CardImpl {
         this.addAbility(new SpellCastOpponentTriggeredAbility(
                 Zone.BATTLEFIELD,
                 new SpelltitheEnforcerEffect(),
-                new FilterSpell(),
+                StaticFilters.FILTER_SPELL,
                 false, 
                 SetTargetPointer.PLAYER
         ));

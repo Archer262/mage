@@ -27,6 +27,7 @@
  */
 package mage.cards.z;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.AttacksEachCombatStaticAbility;
 import mage.abilities.common.DealtDamageAndDiedTriggeredAbility;
@@ -39,13 +40,8 @@ import mage.abilities.keyword.HasteAbility;
 import mage.abilities.keyword.IndestructibleAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.SuperType;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.CounterType;
-
-import java.util.UUID;
 
 /**
  *
@@ -56,8 +52,7 @@ public class ZurgoHelmsmasher extends CardImpl {
     public ZurgoHelmsmasher(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{R}{W}{B}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Orc");
-        this.subtype.add("Warrior");
+        this.subtype.add(SubType.ORC, SubType.WARRIOR);
 
         this.power = new MageInt(7);
         this.toughness = new MageInt(2);

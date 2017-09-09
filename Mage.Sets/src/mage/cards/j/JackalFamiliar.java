@@ -42,7 +42,7 @@ public class JackalFamiliar extends CardImpl {
 
     public JackalFamiliar(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{R}");
-        this.subtype.add("Hound");
+        this.subtype.add("Jackal");
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

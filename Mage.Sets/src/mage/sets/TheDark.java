@@ -68,6 +68,7 @@ public class TheDark extends ExpansionSet {
         cards.add(new SetCardInfo("Carnivorous Plant", 38, Rarity.COMMON, mage.cards.c.CarnivorousPlant.class));
         cards.add(new SetCardInfo("Cave People", 59, Rarity.UNCOMMON, mage.cards.c.CavePeople.class));
         cards.add(new SetCardInfo("City of Shadows", 113, Rarity.RARE, mage.cards.c.CityOfShadows.class));
+        cards.add(new SetCardInfo("Cleansing", 77, Rarity.RARE, mage.cards.c.Cleansing.class));
         cards.add(new SetCardInfo("Coal Golem", 96, Rarity.UNCOMMON, mage.cards.c.CoalGolem.class));
         cards.add(new SetCardInfo("Dance of Many", 21, Rarity.RARE, mage.cards.d.DanceOfMany.class));
         cards.add(new SetCardInfo("Dark Heart of the Wood", 117, Rarity.COMMON, mage.cards.d.DarkHeartOfTheWood.class));
@@ -104,6 +105,7 @@ public class TheDark extends ExpansionSet {
         cards.add(new SetCardInfo("Marsh Viper", 44, Rarity.COMMON, mage.cards.m.MarshViper.class));
         cards.add(new SetCardInfo("Maze of Ith", 114, Rarity.UNCOMMON, mage.cards.m.MazeOfIth.class));
         cards.add(new SetCardInfo("Merfolk Assassin", 31, Rarity.UNCOMMON, mage.cards.m.MerfolkAssassin.class));
+        cards.add(new SetCardInfo("Mind Bomb", 32, Rarity.RARE, mage.cards.m.MindBomb.class));
         cards.add(new SetCardInfo("Morale", 87, Rarity.COMMON, mage.cards.m.Morale.class));
         cards.add(new SetCardInfo("Murk Dwellers", 11, Rarity.COMMON, mage.cards.m.MurkDwellers.class));
         cards.add(new SetCardInfo("Niall Silvain", 45, Rarity.RARE, mage.cards.n.NiallSilvain.class));

@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.ObjectColor;
 import mage.abilities.common.SimpleEvasionAbility;
@@ -35,12 +36,11 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.filter.predicate.mageobject.ColorPredicate;
-
-import java.util.UUID;
 
 /**
  *
@@ -61,8 +61,8 @@ public class AmrouSeekers extends CardImpl {
 
     public AmrouSeekers(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{W}");
-        this.subtype.add("Kithkin");
-        this.subtype.add("Rebel");
+        this.subtype.add(SubType.KITHKIN);
+        this.subtype.add(SubType.REBEL);
 
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);

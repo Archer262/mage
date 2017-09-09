@@ -27,7 +27,6 @@
  */
 package mage.cards.k;
 
-import java.util.ArrayList;
 import java.util.UUID;
 import mage.ObjectColor;
 import mage.abilities.AbilitiesImpl;
@@ -37,10 +36,11 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.game.permanent.token.Token;
+import mage.util.SubTypeList;
 
 /**
  *
@@ -49,12 +49,11 @@ import mage.game.permanent.token.Token;
 public class KinTreeInvocation extends CardImpl {
 
     public KinTreeInvocation(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{B}{G}");
-
+        super(ownerId, setInfo, new CardType[]{CardType.SORCERY}, "{B}{G}");
 
         // Create an X/X black and green Spirit Warrior creature token, where X is the greatest toughness among creatures you control.
         this.getSpellAbility().addEffect(new KinTreeInvocationCreateTokenEffect());
-        
+
     }
 
     public KinTreeInvocation(final KinTreeInvocation card) {
@@ -86,13 +85,13 @@ class KinTreeInvocationCreateTokenEffect extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         int value = Integer.MIN_VALUE;
-        for (Permanent permanent: game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), source.getControllerId(), game)) {
+        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, source.getControllerId(), game)) {
             if (value < permanent.getToughness().getValue()) {
                 value = permanent.getToughness().getValue();
             }
         }
 
-        ArrayList<String> list = new ArrayList<>();
+        SubTypeList list = new SubTypeList();
         list.add("Spirit");
         list.add("Warrior");
         ObjectColor objectColor = new ObjectColor();

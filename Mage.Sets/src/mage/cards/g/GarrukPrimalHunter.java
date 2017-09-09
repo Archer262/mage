@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
@@ -37,6 +38,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.filter.common.FilterControlledLandPermanent;
 import mage.filter.common.FilterControlledPermanent;
@@ -45,8 +47,6 @@ import mage.game.permanent.Permanent;
 import mage.game.permanent.token.BeastToken;
 import mage.game.permanent.token.WurmToken;
 import mage.players.Player;
-
-import java.util.UUID;
 
 /**
  *
@@ -58,6 +58,7 @@ public class GarrukPrimalHunter extends CardImpl {
 
     public GarrukPrimalHunter(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{2}{G}{G}{G}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Garruk");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(3));

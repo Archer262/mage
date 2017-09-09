@@ -37,6 +37,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.common.FilterCreatureCard;
 import mage.game.Game;
@@ -98,7 +99,7 @@ class MarduWoeReaperTriggeredAbility extends TriggeredAbilityImpl {
     public boolean checkTrigger(GameEvent event, Game game) {
         if (event.getPlayerId().equals(this.getControllerId())) {
             Permanent permanent = game.getPermanent(event.getTargetId());
-            if (permanent != null && (permanent.getId().equals(this.getSourceId()) || permanent.hasSubtype("Warrior", game))) {
+            if (permanent != null && (permanent.getId().equals(this.getSourceId()) || permanent.hasSubtype(SubType.WARRIOR, game))) {
                 return true;
             }
         }

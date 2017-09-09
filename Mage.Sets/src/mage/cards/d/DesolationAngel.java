@@ -27,6 +27,7 @@
  */
 package mage.cards.d;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.common.EntersBattlefieldTriggeredAbility;
 import mage.abilities.condition.common.KickedCondition;
@@ -38,17 +39,15 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.TargetController;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterLandPermanent;
 import mage.filter.predicate.permanent.ControllerPredicate;
-
-import java.util.UUID;
 
 /**
  * @author Loki
  */
 public class DesolationAngel extends CardImpl {
 
-    private static final FilterLandPermanent filter = new FilterLandPermanent("lands");
     private static final FilterLandPermanent filter2 = new FilterLandPermanent("lands you control");
 
     static {
@@ -69,7 +68,7 @@ public class DesolationAngel extends CardImpl {
         this.addAbility(FlyingAbility.getInstance());
 
         // When Desolation Angel enters the battlefield, destroy all lands you control. If it was kicked, destroy all lands instead.
-        this.addAbility(new EntersBattlefieldTriggeredAbility(new ConditionalOneShotEffect(new DestroyAllEffect(filter),
+        this.addAbility(new EntersBattlefieldTriggeredAbility(new ConditionalOneShotEffect(new DestroyAllEffect(StaticFilters.FILTER_LANDS),
                 new DestroyAllEffect(filter2), KickedCondition.instance, "destroy all lands you control. If it was kicked, destroy all lands instead.")));
     }
 

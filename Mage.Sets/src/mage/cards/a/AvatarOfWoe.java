@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.Mana;
 import mage.abilities.Ability;
@@ -45,8 +46,6 @@ import mage.filter.common.FilterCreatureCard;
 import mage.game.Game;
 import mage.target.common.TargetCreaturePermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author emerald000
@@ -55,7 +54,7 @@ public class AvatarOfWoe extends CardImpl {
 
     public AvatarOfWoe(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{6}{B}{B}");
-        this.subtype.add("Avatar");
+        this.subtype.add(SubType.AVATAR);
         this.power = new MageInt(6);
         this.toughness = new MageInt(5);
 

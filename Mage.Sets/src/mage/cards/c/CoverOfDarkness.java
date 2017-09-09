@@ -34,10 +34,7 @@ import mage.abilities.effects.common.continuous.GainAbilityAllEffect;
 import mage.abilities.keyword.FearAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -88,8 +85,8 @@ class FilterCoverOfDarkness extends FilterCreaturePermanent {
     @Override
     public boolean match(Permanent permanent, UUID sourceId, UUID playerId, Game game) {
         if (super.match(permanent, sourceId, playerId, game)) {
-            String subtype = (String) game.getState().getValue(sourceId + "_type");
-            if (subtype != null && !subtype.isEmpty() && permanent.hasSubtype(subtype, game)) {
+            SubType subtype = (SubType) game.getState().getValue(sourceId + "_type");
+            if (subtype != null  && permanent.hasSubtype(subtype, game)) {
                 return true;
             }
         }

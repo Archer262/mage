@@ -35,6 +35,7 @@ import mage.abilities.costs.common.ExileSourceFromGraveCost;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.Card;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.TimingRule;
 import mage.constants.Zone;
 import mage.game.Game;
@@ -78,7 +79,7 @@ public class EmbalmAbility extends ActivatedAbilityImpl {
         StringBuilder sb = new StringBuilder("Embalm ").append(cost.getText());
         sb.append(" <i>(").append(cost.getText());
         sb.append(", Exile this card from your graveyard: Create a token that's a copy of it, except it's a white Zombie ");
-        for (String subtype : card.getSubtype(null)) {
+        for (SubType subtype : card.getSubtype(null)) {
             sb.append(subtype).append(" ");
         }
         sb.append(" with no mana cost. Embalm only as a sorcery.)</i>");
@@ -109,8 +110,8 @@ class EmbalmEffect extends OneShotEffect {
             EmptyToken token = new EmptyToken();
             CardUtil.copyTo(token).from(card); // needed so that entersBattlefied triggered abilities see the attributes (e.g. Master Biomancer)
             token.getColor(game).setColor(ObjectColor.WHITE);
-            if (!token.getSubtype(game).contains("Zombie")) {
-                token.getSubtype(game).add(0, "Zombie");
+            if (!token.getSubtype(game).contains(SubType.ZOMBIE)) {
+                token.getSubtype(game).add(0, SubType.ZOMBIE);
             }
             token.getManaCost().clear();
             game.fireEvent(GameEvent.getEvent(GameEvent.EventType.EMBALMED_CREATURE, token.getId(), source.getSourceId(), controller.getId()));

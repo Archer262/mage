@@ -36,10 +36,7 @@ import mage.abilities.effects.common.continuous.BoostEquippedEffect;
 import mage.abilities.keyword.EquipAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 
@@ -88,7 +85,7 @@ class SlayersCleaverEffect extends RequirementEffect {
 
     @Override
     public boolean applies(Permanent permanent, Ability source, Game game) {
-        return permanent.canBlock(source.getSourceId(), game) && permanent.hasSubtype("Eldrazi", game);
+        return permanent.canBlock(source.getSourceId(), game) && permanent.hasSubtype(SubType.ELDRAZI, game);
     }
 
     @Override

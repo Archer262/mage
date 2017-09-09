@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldOrAttacksSourceTriggeredAbility;
@@ -44,8 +45,6 @@ import mage.players.Player;
 import mage.target.Target;
 import mage.target.TargetPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author spjspj
@@ -55,7 +54,7 @@ public class ArmoryAutomaton extends CardImpl {
     public ArmoryAutomaton(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.ARTIFACT, CardType.CREATURE}, "{3}");
 
-        this.subtype.add("Construct");
+        this.subtype.add(SubType.CONSTRUCT);
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
 

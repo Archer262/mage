@@ -27,21 +27,19 @@
  */
 package mage.cards.b;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleStaticAbility;
 import mage.abilities.effects.ContinuousEffectImpl;
 import mage.abilities.mana.RedManaAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.constants.*;
 import mage.filter.common.FilterLandPermanent;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.SupertypePredicate;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
-
-import java.util.UUID;
 
 /**
  *
@@ -101,7 +99,7 @@ class BloodMoonEffect extends ContinuousEffectImpl {
                     // 305.7 Note that this doesn't remove any abilities that were granted to the land by other effects
                     // So the ability removing has to be done before Layer 6
                     land.removeAllAbilities(source.getSourceId(), game);
-                    land.getSubtype(game).removeAll(CardRepository.instance.getLandTypes());
+                    land.getSubtype(game).removeAll(SubType.getLandTypes(false));
                     land.getSubtype(game).add("Mountain");
                     break;
                 case AbilityAddingRemovingEffects_6:

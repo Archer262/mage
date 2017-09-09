@@ -40,6 +40,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Duration;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.counters.CounterType;
 import mage.filter.common.FilterControlledCreaturePermanent;
@@ -113,7 +114,7 @@ class StensiaMasqueradeTriggeredAbility extends TriggeredAbilityImpl {
         DamagedPlayerEvent damageEvent = (DamagedPlayerEvent) event;
         Permanent permanent = game.getPermanent(event.getSourceId());
         if (damageEvent.isCombatDamage() && permanent != null
-                && permanent.hasSubtype("Vampire", game) && permanent.getControllerId().equals(controllerId)) {
+                && permanent.hasSubtype(SubType.VAMPIRE, game) && permanent.getControllerId().equals(controllerId)) {
             this.getEffects().clear();
             AddCountersTargetEffect effect = new AddCountersTargetEffect(CounterType.P1P1.createInstance());
             effect.setTargetPointer(new FixedTarget(permanent.getId()));

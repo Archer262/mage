@@ -27,6 +27,7 @@
  */
 package mage.cards.z;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
@@ -43,8 +44,6 @@ import mage.players.Player;
 import mage.target.TargetCard;
 import mage.target.common.TargetOpponent;
 
-import java.util.UUID;
-
 /**
  *
  * @author Styxo
@@ -54,8 +53,7 @@ public class ZamWesell extends CardImpl {
     public ZamWesell(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{2}{U}{U}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Shapeshifter");
-        this.subtype.add("Hunter");
+        this.subtype.add(SubType.SHAPESHIFTER, SubType.HUNTER);
         this.power = new MageInt(2);
         this.toughness = new MageInt(2);
 

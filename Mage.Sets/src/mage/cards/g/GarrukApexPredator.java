@@ -43,12 +43,12 @@ import mage.filter.FilterPermanent;
 import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.filter.predicate.permanent.AnotherPredicate;
 import mage.game.Game;
+import mage.game.command.emblems.GarrukApexPredatorEmblem;
 import mage.game.permanent.Permanent;
 import mage.game.permanent.token.GarrukApexPredatorBeastToken;
 import mage.players.Player;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetCreaturePermanent;
-import mage.game.command.emblems.GarrukApexPredatorEmblem;
 import mage.target.common.TargetOpponent;
 
 /**
@@ -66,6 +66,7 @@ public class GarrukApexPredator extends CardImpl {
 
     public GarrukApexPredator(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{5}{B}{G}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Garruk");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(5));

@@ -27,22 +27,22 @@
  */
 package mage.cards.d;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.effects.OneShotEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.TargetPlayer;
 import mage.target.common.TargetCreaturePermanent;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -89,7 +89,7 @@ class DoOrDieEffect extends OneShotEffect {
         Player player = game.getPlayer(source.getControllerId());
         Player targetPlayer = game.getPlayer(source.getFirstTarget());
         if (player != null && targetPlayer != null) {
-            int count = game.getBattlefield().countAll(new FilterCreaturePermanent(), targetPlayer.getId(), game);
+            int count = game.getBattlefield().countAll(StaticFilters.FILTER_PERMANENT_CREATURES, targetPlayer.getId(), game);
             TargetCreaturePermanent creatures = new TargetCreaturePermanent(0, count, new FilterCreaturePermanent("creatures to put in the first pile"), true);
             List<Permanent> pile1 = new ArrayList<>();
             creatures.setRequired(false);
@@ -103,7 +103,7 @@ class DoOrDieEffect extends OneShotEffect {
                 }
             }
             List<Permanent> pile2 = new ArrayList<>();
-            for (Permanent p : game.getBattlefield().getAllActivePermanents(new FilterCreaturePermanent(), targetPlayer.getId(), game)) {
+            for (Permanent p : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, targetPlayer.getId(), game)) {
                 if (!pile1.contains(p)) {
                     pile2.add(p);
                 }

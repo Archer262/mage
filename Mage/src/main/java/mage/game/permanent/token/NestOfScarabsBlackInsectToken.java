@@ -37,7 +37,7 @@ import mage.MageInt;
 public class NestOfScarabsBlackInsectToken extends Token {
 
     public NestOfScarabsBlackInsectToken() {
-        super("Insect", "1/1 black Insect token");
+        super("Insect", "1/1 black Insect creature token");
         cardType.add(CardType.CREATURE);
         color.setBlack(true);
         subtype.add("Insect");

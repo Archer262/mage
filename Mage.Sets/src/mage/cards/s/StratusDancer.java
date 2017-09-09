@@ -39,9 +39,7 @@ import mage.abilities.keyword.MorphAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-import mage.filter.FilterSpell;
-import mage.filter.predicate.Predicates;
-import mage.filter.predicate.mageobject.CardTypePredicate;
+import mage.filter.StaticFilters;
 import mage.target.TargetSpell;
 
 /**
@@ -49,13 +47,6 @@ import mage.target.TargetSpell;
  * @author jeffwadsworth
  */
 public class StratusDancer extends CardImpl {
-    
-    private final static FilterSpell filter = new FilterSpell("instant or sorcery spell");
-    
-    static {
-        filter.add(Predicates.or(new CardTypePredicate(CardType.INSTANT), 
-                new CardTypePredicate(CardType.SORCERY)));
-    }
 
     public StratusDancer(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{U}");
@@ -74,7 +65,7 @@ public class StratusDancer extends CardImpl {
         Effect effect = new CounterTargetEffect();
         effect.setText("counter target instant or sorcery spell");
         Ability ability = new TurnedFaceUpSourceTriggeredAbility(effect, false);
-        ability.addTarget(new TargetSpell(filter));
+        ability.addTarget(new TargetSpell(StaticFilters.FILTER_INSTANT_OR_SORCERY_SPELL));
         this.addAbility(ability);
         
     }

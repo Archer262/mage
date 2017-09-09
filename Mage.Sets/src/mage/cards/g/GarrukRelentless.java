@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.TriggeredAbilityImpl;
@@ -39,6 +40,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.counters.CounterType;
 import mage.game.Game;
@@ -48,8 +50,6 @@ import mage.game.permanent.Permanent;
 import mage.game.permanent.token.WolfToken;
 import mage.target.common.TargetCreaturePermanent;
 
-import java.util.UUID;
-
 /**
  * @author nantuko
  */
@@ -57,6 +57,7 @@ public class GarrukRelentless extends CardImpl {
 
     public GarrukRelentless(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{3}{G}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Garruk");
 
         this.transformable = true;

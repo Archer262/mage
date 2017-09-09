@@ -1,14 +1,12 @@
 package mage.sets;
 
+import java.util.List;
 import mage.cards.Card;
-import mage.cards.CardGraphicInfo;
 import mage.cards.ExpansionSet;
 import mage.cards.repository.CardCriteria;
 import mage.cards.repository.CardRepository;
 import mage.constants.Rarity;
 import mage.constants.SetType;
-
-import java.util.List;
 
 public class TimeSpiral extends ExpansionSet {
 
@@ -68,12 +66,14 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Coral Trickster", 54, Rarity.COMMON, mage.cards.c.CoralTrickster.class));
         cards.add(new SetCardInfo("Corpulent Corpse", 98, Rarity.COMMON, mage.cards.c.CorpulentCorpse.class));
         cards.add(new SetCardInfo("Crookclaw Transmuter", 55, Rarity.COMMON, mage.cards.c.CrookclawTransmuter.class));
+        cards.add(new SetCardInfo("Curse of the Cabal", 99, Rarity.RARE, mage.cards.c.CurseOfTheCabal.class));
         cards.add(new SetCardInfo("Dark Withering", 101, Rarity.COMMON, mage.cards.d.DarkWithering.class));
         cards.add(new SetCardInfo("D'Avenant Healer", 11, Rarity.COMMON, mage.cards.d.DAvenantHealer.class));
         cards.add(new SetCardInfo("Deathspore Thallid", 102, Rarity.COMMON, mage.cards.d.DeathsporeThallid.class));
         cards.add(new SetCardInfo("Deep-Sea Kraken", 56, Rarity.RARE, mage.cards.d.DeepSeaKraken.class));
         cards.add(new SetCardInfo("Dementia Sliver", 236, Rarity.UNCOMMON, mage.cards.d.DementiaSliver.class));
         cards.add(new SetCardInfo("Demonic Collusion", 103, Rarity.RARE, mage.cards.d.DemonicCollusion.class));
+        cards.add(new SetCardInfo("Divine Congregation", 13, Rarity.COMMON, mage.cards.d.DivineCongregation.class));
         cards.add(new SetCardInfo("Draining Whelk", 57, Rarity.RARE, mage.cards.d.DrainingWhelk.class));
         cards.add(new SetCardInfo("Dralnu, Lich Lord", 237, Rarity.RARE, mage.cards.d.DralnuLichLord.class));
         cards.add(new SetCardInfo("Dread Return", 104, Rarity.UNCOMMON, mage.cards.d.DreadReturn.class));
@@ -101,10 +101,10 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Fledgling Mawcor", 63, Rarity.UNCOMMON, mage.cards.f.FledglingMawcor.class));
         cards.add(new SetCardInfo("Flickering Spirit", 17, Rarity.COMMON, mage.cards.f.FlickeringSpirit.class));
         cards.add(new SetCardInfo("Fool's Demise", 64, Rarity.UNCOMMON, mage.cards.f.FoolsDemise.class));
-        cards.add(new SetCardInfo("Forest", 298, Rarity.LAND, mage.cards.basiclands.Forest.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Forest", 299, Rarity.LAND, mage.cards.basiclands.Forest.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Forest", 300, Rarity.LAND, mage.cards.basiclands.Forest.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Forest", 301, Rarity.LAND, mage.cards.basiclands.Forest.class, new CardGraphicInfo(null, true)));
+        cards.add(new SetCardInfo("Forest", 298, Rarity.LAND, mage.cards.basiclands.Forest.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Forest", 299, Rarity.LAND, mage.cards.basiclands.Forest.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Forest", 300, Rarity.LAND, mage.cards.basiclands.Forest.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Forest", 301, Rarity.LAND, mage.cards.basiclands.Forest.class, NON_FULL_USE_VARIOUS));
         cards.add(new SetCardInfo("Foriysian Interceptor", 18, Rarity.COMMON, mage.cards.f.ForiysianInterceptor.class));
         cards.add(new SetCardInfo("Foriysian Totem", 254, Rarity.UNCOMMON, mage.cards.f.ForiysianTotem.class));
         cards.add(new SetCardInfo("Fortify", 19, Rarity.COMMON, mage.cards.f.Fortify.class));
@@ -137,10 +137,10 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Icatian Crier", 23, Rarity.COMMON, mage.cards.i.IcatianCrier.class));
         cards.add(new SetCardInfo("Ignite Memories", 164, Rarity.UNCOMMON, mage.cards.i.IgniteMemories.class));
         cards.add(new SetCardInfo("Ironclaw Buzzardiers", 165, Rarity.COMMON, mage.cards.i.IronclawBuzzardiers.class));
-        cards.add(new SetCardInfo("Island", 286, Rarity.LAND, mage.cards.basiclands.Island.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Island", 287, Rarity.LAND, mage.cards.basiclands.Island.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Island", 288, Rarity.LAND, mage.cards.basiclands.Island.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Island", 289, Rarity.LAND, mage.cards.basiclands.Island.class, new CardGraphicInfo(null, true)));
+        cards.add(new SetCardInfo("Island", 286, Rarity.LAND, mage.cards.basiclands.Island.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Island", 287, Rarity.LAND, mage.cards.basiclands.Island.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Island", 288, Rarity.LAND, mage.cards.basiclands.Island.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Island", 289, Rarity.LAND, mage.cards.basiclands.Island.class, NON_FULL_USE_VARIOUS));
         cards.add(new SetCardInfo("Ith, High Arcanist", 241, Rarity.RARE, mage.cards.i.IthHighArcanist.class));
         cards.add(new SetCardInfo("Ivory Giant", 24, Rarity.COMMON, mage.cards.i.IvoryGiant.class));
         cards.add(new SetCardInfo("Ixidron", 65, Rarity.RARE, mage.cards.i.Ixidron.class));
@@ -176,10 +176,10 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Molten Slagheap", 276, Rarity.UNCOMMON, mage.cards.m.MoltenSlagheap.class));
         cards.add(new SetCardInfo("Momentary Blink", 29, Rarity.COMMON, mage.cards.m.MomentaryBlink.class));
         cards.add(new SetCardInfo("Moonlace", 68, Rarity.RARE, mage.cards.m.Moonlace.class));
-        cards.add(new SetCardInfo("Mountain", 294, Rarity.LAND, mage.cards.basiclands.Mountain.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Mountain", 295, Rarity.LAND, mage.cards.basiclands.Mountain.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Mountain", 296, Rarity.LAND, mage.cards.basiclands.Mountain.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Mountain", 297, Rarity.LAND, mage.cards.basiclands.Mountain.class, new CardGraphicInfo(null, true)));
+        cards.add(new SetCardInfo("Mountain", 294, Rarity.LAND, mage.cards.basiclands.Mountain.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Mountain", 295, Rarity.LAND, mage.cards.basiclands.Mountain.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Mountain", 296, Rarity.LAND, mage.cards.basiclands.Mountain.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Mountain", 297, Rarity.LAND, mage.cards.basiclands.Mountain.class, NON_FULL_USE_VARIOUS));
         cards.add(new SetCardInfo("Mwonvuli Acid-Moss", 207, Rarity.COMMON, mage.cards.m.MwonvuliAcidMoss.class));
         cards.add(new SetCardInfo("Mystical Teachings", 69, Rarity.COMMON, mage.cards.m.MysticalTeachings.class));
         cards.add(new SetCardInfo("Nantuko Shaman", 208, Rarity.COMMON, mage.cards.n.NantukoShaman.class));
@@ -191,9 +191,11 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Ophidian Eye", 70, Rarity.COMMON, mage.cards.o.OphidianEye.class));
         cards.add(new SetCardInfo("Orcish Cannonade", 172, Rarity.COMMON, mage.cards.o.OrcishCannonade.class));
         cards.add(new SetCardInfo("Outrider en-Kor", 31, Rarity.UNCOMMON, mage.cards.o.OutriderEnKor.class));
+        cards.add(new SetCardInfo("Paradise Plume", 260, Rarity.UNCOMMON, mage.cards.p.ParadisePlume.class));
         cards.add(new SetCardInfo("Paradox Haze", 71, Rarity.UNCOMMON, mage.cards.p.ParadoxHaze.class));
         cards.add(new SetCardInfo("Pardic Dragon", 173, Rarity.RARE, mage.cards.p.PardicDragon.class));
         cards.add(new SetCardInfo("Pendelhaven Elder", 209, Rarity.UNCOMMON, mage.cards.p.PendelhavenElder.class));
+        cards.add(new SetCardInfo("Pentarch Paladin", 32, Rarity.RARE, mage.cards.p.PentarchPaladin.class));
         cards.add(new SetCardInfo("Pentarch Ward", 33, Rarity.COMMON, mage.cards.p.PentarchWard.class));
         cards.add(new SetCardInfo("Penumbra Spider", 210, Rarity.COMMON, mage.cards.p.PenumbraSpider.class));
         cards.add(new SetCardInfo("Phantom Wurm", 211, Rarity.UNCOMMON, mage.cards.p.PhantomWurm.class));
@@ -201,10 +203,10 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Phyrexian Totem", 261, Rarity.UNCOMMON, mage.cards.p.PhyrexianTotem.class));
         cards.add(new SetCardInfo("Pit Keeper", 123, Rarity.COMMON, mage.cards.p.PitKeeper.class));
         cards.add(new SetCardInfo("Plague Sliver", 124, Rarity.RARE, mage.cards.p.PlagueSliver.class));
-        cards.add(new SetCardInfo("Plains", 282, Rarity.LAND, mage.cards.basiclands.Plains.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Plains", 283, Rarity.LAND, mage.cards.basiclands.Plains.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Plains", 284, Rarity.LAND, mage.cards.basiclands.Plains.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Plains", 285, Rarity.LAND, mage.cards.basiclands.Plains.class, new CardGraphicInfo(null, true)));
+        cards.add(new SetCardInfo("Plains", 282, Rarity.LAND, mage.cards.basiclands.Plains.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Plains", 283, Rarity.LAND, mage.cards.basiclands.Plains.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Plains", 284, Rarity.LAND, mage.cards.basiclands.Plains.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Plains", 285, Rarity.LAND, mage.cards.basiclands.Plains.class, NON_FULL_USE_VARIOUS));
         cards.add(new SetCardInfo("Plunder", 174, Rarity.COMMON, mage.cards.p.Plunder.class));
         cards.add(new SetCardInfo("Primal Forcemage", 212, Rarity.UNCOMMON, mage.cards.p.PrimalForcemage.class));
         cards.add(new SetCardInfo("Prismatic Lens", 262, Rarity.COMMON, mage.cards.p.PrismaticLens.class));
@@ -260,10 +262,10 @@ public class TimeSpiral extends ExpansionSet {
         cards.add(new SetCardInfo("Sudden Shock", 179, Rarity.UNCOMMON, mage.cards.s.SuddenShock.class));
         cards.add(new SetCardInfo("Sudden Spoiling", 135, Rarity.RARE, mage.cards.s.SuddenSpoiling.class));
         cards.add(new SetCardInfo("Sulfurous Blast", 180, Rarity.UNCOMMON, mage.cards.s.SulfurousBlast.class));
-        cards.add(new SetCardInfo("Swamp", 290, Rarity.LAND, mage.cards.basiclands.Swamp.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Swamp", 291, Rarity.LAND, mage.cards.basiclands.Swamp.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Swamp", 292, Rarity.LAND, mage.cards.basiclands.Swamp.class, new CardGraphicInfo(null, true)));
-        cards.add(new SetCardInfo("Swamp", 293, Rarity.LAND, mage.cards.basiclands.Swamp.class, new CardGraphicInfo(null, true)));
+        cards.add(new SetCardInfo("Swamp", 290, Rarity.LAND, mage.cards.basiclands.Swamp.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Swamp", 291, Rarity.LAND, mage.cards.basiclands.Swamp.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Swamp", 292, Rarity.LAND, mage.cards.basiclands.Swamp.class, NON_FULL_USE_VARIOUS));
+        cards.add(new SetCardInfo("Swamp", 293, Rarity.LAND, mage.cards.basiclands.Swamp.class, NON_FULL_USE_VARIOUS));
         cards.add(new SetCardInfo("Swarmyard", 278, Rarity.RARE, mage.cards.s.Swarmyard.class));
         cards.add(new SetCardInfo("Tectonic Fiend", 181, Rarity.UNCOMMON, mage.cards.t.TectonicFiend.class));
         cards.add(new SetCardInfo("Teferi, Mage of Zhalfir", 83, Rarity.RARE, mage.cards.t.TeferiMageOfZhalfir.class));

@@ -27,29 +27,19 @@
  */
 package mage.cards.n;
 
-import java.util.ArrayList;
-import java.util.UUID;
 import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.effects.ContinuousEffect;
-import mage.abilities.effects.ContinuousEffectImpl;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.ExileSpellEffect;
 import mage.abilities.effects.common.continuous.BecomesBlackZombieAdditionEffect;
-import mage.cards.Card;
-import mage.cards.CardImpl;
-import mage.cards.CardSetInfo;
-import mage.cards.Cards;
-import mage.cards.CardsImpl;
+import mage.cards.*;
 import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Layer;
 import mage.constants.Outcome;
-import mage.constants.SubLayer;
 import mage.constants.Zone;
 import mage.filter.FilterCard;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterCreatureCard;
-import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.Predicate;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.CardIdPredicate;
@@ -60,6 +50,10 @@ import mage.target.Target;
 import mage.target.common.TargetCardInGraveyard;
 import mage.target.targetpointer.FixedTarget;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 /**
  *
  * @author LevelX2
@@ -67,7 +61,7 @@ import mage.target.targetpointer.FixedTarget;
 public class NecromanticSelection extends CardImpl {
 
     public NecromanticSelection(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.SORCERY},"{4}{B}{B}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.SORCERY}, "{4}{B}{B}{B}");
 
         // Destroy all creatures, then return a creature card put into a graveyard this way to the battlefield under your control. It's a black Zombie in addition to its other colors and types. Exile Necromantic Selection.
         this.getSpellAbility().addEffect(new NecromanticSelectionEffect());
@@ -107,14 +101,14 @@ class NecromanticSelectionEffect extends OneShotEffect {
         MageObject sourceObject = game.getObject(source.getSourceId());
         if (sourceObject != null && controller != null) {
             Cards cards = new CardsImpl();
-            for (Permanent permanent : game.getBattlefield().getActivePermanents(new FilterCreaturePermanent(), controller.getId(), source.getSourceId(), game)) {
+            for (Permanent permanent : game.getBattlefield().getActivePermanents(StaticFilters.FILTER_PERMANENT_CREATURE, controller.getId(), source.getSourceId(), game)) {
                 permanent.destroy(source.getSourceId(), game, false);
                 if (game.getState().getZone(permanent.getId()) == Zone.GRAVEYARD) {
                     cards.add(permanent);
                 }
             }
             FilterCard filter = new FilterCreatureCard("creature card put into a graveyard with " + sourceObject.getLogName());
-            ArrayList<Predicate<MageObject>> cardIdPredicates = new ArrayList<>();
+            List<Predicate<MageObject>> cardIdPredicates = new ArrayList<>();
             for (UUID cardId : cards) {
                 cardIdPredicates.add(new CardIdPredicate(cardId));
             }

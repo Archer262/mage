@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.ObjectColor;
 import mage.abilities.Ability;
@@ -47,8 +48,6 @@ import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.target.common.TargetCardInLibrary;
 
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -62,7 +61,7 @@ public class GeneralTazri extends CardImpl {
     }
 
     public GeneralTazri(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{4}{W}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{4}{W}");
         addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Human");
         this.subtype.add("Ally");
@@ -74,9 +73,11 @@ public class GeneralTazri extends CardImpl {
                 new TargetCardInLibrary(filter), true, true), true));
         // {W}{U}{B}{R}{G}: Ally creatures you control get +X/+X until end of turn, where X is the number of colors among those creatures.
         DynamicValue xValue = new GeneralTazriColorCount();
+        BoostControlledEffect effect = new BoostControlledEffect(xValue, xValue, Duration.EndOfTurn, new FilterCreaturePermanent(SubType.ALLY, "Ally creatures"), false);
+        effect.setLockedIn(true);
         this.addAbility(new SimpleActivatedAbility(
                 Zone.BATTLEFIELD,
-                new BoostControlledEffect(xValue, xValue, Duration.EndOfTurn, new FilterCreaturePermanent(SubType.ALLY, "Ally creatures"), false),
+                effect,
                 new ManaCostsImpl("{W}{U}{B}{R}{G}")));
 
     }

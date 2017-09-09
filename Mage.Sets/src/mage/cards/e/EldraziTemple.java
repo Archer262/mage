@@ -27,6 +27,7 @@
  */
 package mage.cards.e;
 
+import java.util.UUID;
 import mage.ConditionalMana;
 import mage.MageObject;
 import mage.Mana;
@@ -39,9 +40,8 @@ import mage.abilities.mana.builder.ConditionalManaBuilder;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.game.Game;
-
-import java.util.UUID;
 
 /**
  *
@@ -95,6 +95,6 @@ class EldraziTempleCondition implements Condition {
     @Override
     public boolean apply(Game game, Ability source) {
         MageObject object = game.getObject(source.getSourceId());
-        return object != null && object.hasSubtype("Eldrazi", game) && object.getColor(game).isColorless();        
+        return object != null && object.hasSubtype(SubType.ELDRAZI, game) && object.getColor(game).isColorless();
     }
 }

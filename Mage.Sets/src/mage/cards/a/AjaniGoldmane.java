@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
@@ -49,8 +50,6 @@ import mage.game.permanent.Permanent;
 import mage.game.permanent.token.Token;
 import mage.players.Player;
 
-import java.util.UUID;
-
 /**
  *
  * @author BetaSteward_at_googlemail.com
@@ -59,7 +58,8 @@ public class AjaniGoldmane extends CardImpl {
 
     public AjaniGoldmane(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{W}{W}");
-        this.subtype.add("Ajani");
+        this.addSuperType(SuperType.LEGENDARY);
+        this.subtype.add(SubType.AJANI);
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
 
@@ -93,7 +93,7 @@ class AvatarToken extends Token {
     public AvatarToken() {
         super("Avatar", "white Avatar creature token with \"This creature's power and toughness are each equal to your life total.\"");
         cardType.add(CardType.CREATURE);
-        subtype.add("Avatar");
+        subtype.add(SubType.AVATAR);
         color.setWhite(true);
         this.addAbility(new SimpleStaticAbility(Zone.BATTLEFIELD, new AvatarTokenEffect()));
     }

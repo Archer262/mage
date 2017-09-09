@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.keyword.FirstStrikeAbility;
@@ -34,8 +35,7 @@ import mage.abilities.keyword.MorphAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -45,8 +45,8 @@ public class AinokTracker extends CardImpl {
 
     public AinokTracker(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{5}{R}");
-        this.subtype.add("Hound");
-        this.subtype.add("Scout");
+        this.subtype.add(SubType.HOUND);
+        this.subtype.add(SubType.SCOUT);
 
         this.power = new MageInt(3);
         this.toughness = new MageInt(3);

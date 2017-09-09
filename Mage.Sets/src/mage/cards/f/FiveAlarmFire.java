@@ -47,6 +47,7 @@ import mage.game.permanent.Permanent;
 import mage.target.common.TargetCreatureOrPlayer;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -83,7 +84,7 @@ class FiveAlarmFireTriggeredAbility extends TriggeredAbilityImpl {
 
     // Because a creature that is blocked by multiple creatures it deals damage to, only causes to add one counter to ,
     // it's neccessary to remember which creature already triggered
-    HashSet<UUID> triggeringCreatures = new HashSet<>();
+    Set<UUID> triggeringCreatures = new HashSet<>();
 
     private static final FilterControlledCreaturePermanent filter = new FilterControlledCreaturePermanent();
     

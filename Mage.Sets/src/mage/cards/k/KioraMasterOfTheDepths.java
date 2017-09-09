@@ -43,14 +43,15 @@ import mage.cards.Cards;
 import mage.cards.CardsImpl;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SuperType;
 import mage.constants.Zone;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterCreatureCard;
-import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.common.FilterLandCard;
 import mage.filter.common.FilterLandPermanent;
 import mage.game.Game;
-import mage.game.permanent.Permanent;
 import mage.game.command.emblems.KioraMasterOfTheDepthsEmblem;
+import mage.game.permanent.Permanent;
 import mage.game.permanent.token.OctopusToken;
 import mage.players.Player;
 import mage.target.TargetCard;
@@ -65,13 +66,14 @@ public class KioraMasterOfTheDepths extends CardImpl {
 
     public KioraMasterOfTheDepths(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.PLANESWALKER}, "{2}{G}{U}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Kiora");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
 
         // +1: Untap up to one target creature and up to one target land.
         LoyaltyAbility ability1 = new LoyaltyAbility(new KioraUntapEffect(), 1);
-        ability1.addTarget(new TargetCreaturePermanent(0, 1, new FilterCreaturePermanent(), false));
+        ability1.addTarget(new TargetCreaturePermanent(0, 1, StaticFilters.FILTER_PERMANENT_CREATURE, false));
         ability1.addTarget(new TargetLandPermanent(0, 1, new FilterLandPermanent(), false));
         this.addAbility(ability1);
 

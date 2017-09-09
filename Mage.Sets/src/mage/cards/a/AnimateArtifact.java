@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleStaticAbility;
 import mage.abilities.effects.ContinuousEffectImpl;
@@ -44,8 +45,6 @@ import mage.game.permanent.Permanent;
 import mage.target.TargetPermanent;
 import mage.target.common.TargetArtifactPermanent;
 
-import java.util.UUID;
-
 /**
  *
  * @author MTGfan
@@ -60,7 +59,7 @@ public class AnimateArtifact extends CardImpl {
 
     public AnimateArtifact(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT}, "{3}{U}");
-        this.subtype.add("Aura");
+        this.subtype.add(SubType.AURA);
 
         // Enchant artifact
         TargetPermanent auraTarget = new TargetArtifactPermanent();

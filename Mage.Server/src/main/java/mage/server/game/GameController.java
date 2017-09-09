@@ -27,6 +27,14 @@
  */
 package mage.server.game;
 
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.zip.GZIPOutputStream;
 import mage.MageException;
 import mage.abilities.Ability;
 import mage.cards.Card;
@@ -46,6 +54,7 @@ import mage.game.Table;
 import mage.game.events.Listener;
 import mage.game.events.PlayerQueryEvent;
 import mage.game.events.TableEvent;
+import mage.game.match.MatchPlayer;
 import mage.game.permanent.Permanent;
 import mage.interfaces.Action;
 import mage.players.Player;
@@ -59,13 +68,6 @@ import mage.view.*;
 import mage.view.ChatMessage.MessageColor;
 import mage.view.ChatMessage.MessageType;
 import org.apache.log4j.Logger;
-
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.*;
-import java.util.zip.GZIPOutputStream;
-import mage.game.match.MatchPlayer;
 
 /**
  * @author BetaSteward_at_googlemail.com
@@ -81,7 +83,11 @@ public class GameController implements GameCallback {
     protected static final ScheduledExecutorService timeoutIdleExecutor = ThreadExecutor.instance.getTimeoutIdleExecutor();
 
     private final ConcurrentHashMap<UUID, GameSessionPlayer> gameSessions = new ConcurrentHashMap<>();
+    private final ReadWriteLock gameSessionsLock = new ReentrantReadWriteLock();
+
     private final ConcurrentHashMap<UUID, GameSessionWatcher> watchers = new ConcurrentHashMap<>();
+    private final ReadWriteLock gameWatchersLock = new ReentrantReadWriteLock();
+
     private final ConcurrentHashMap<UUID, PriorityTimer> timers = new ConcurrentHashMap<>();
 
     private final ConcurrentHashMap<UUID, UUID> userPlayerMap;
@@ -108,19 +114,14 @@ public class GameController implements GameCallback {
         this.tableId = tableId;
         this.choosingPlayerId = choosingPlayerId;
         this.gameOptions = gameOptions;
-        for (Player player : game.getPlayers().values()) {
-            if (!player.isHuman()) {
-                useTimeout = false; // no timeout for AI players because of beeing idle
-                break;
-            }
-        }
+        useTimeout = game.getPlayers().values().stream().allMatch(Player::isHuman);
         init();
 
     }
 
     public void cleanUp() {
         cancelTimeout();
-        for (GameSessionPlayer gameSessionPlayer : gameSessions.values()) {
+        for (GameSessionPlayer gameSessionPlayer : getGameSessions()) {
             gameSessionPlayer.cleanUp();
         }
         ChatManager.instance.destroyChatSession(chatId);
@@ -276,8 +277,8 @@ public class GameController implements GameCallback {
         };
 
         PriorityTimer timer = new PriorityTimer(count, delayMs, executeOnNoTimeLeft);
-        timers.put(playerId, timer);
         timer.init(game.getId());
+        timers.put(playerId, timer);
         return timer;
     }
 
@@ -307,7 +308,13 @@ public class GameController implements GameCallback {
         String joinType;
         if (gameSession == null) {
             gameSession = new GameSessionPlayer(game, userId, playerId);
-            gameSessions.put(playerId, gameSession);
+            final Lock w = gameSessionsLock.writeLock();
+            w.lock();
+            try {
+                gameSessions.put(playerId, gameSession);
+            } finally {
+                w.unlock();
+            }
             joinType = "joined";
         } else {
             joinType = "rejoined";
@@ -320,11 +327,20 @@ public class GameController implements GameCallback {
 
     private synchronized void startGame() {
         if (gameFuture == null) {
-            for (final Entry<UUID, GameSessionPlayer> entry : gameSessions.entrySet()) {
-                entry.getValue().init();
+            for (GameSessionPlayer gameSessionPlayer : getGameSessions()) {
+                gameSessionPlayer.init();
             }
+
             GameWorker worker = new GameWorker(game, choosingPlayerId, this);
             gameFuture = gameExecutor.submit(worker);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+            }
+            if (game.getState().getChoosingPlayerId() != null) {
+                // start timer to force player to choose starting player otherwise loosing by being idle
+                setupTimeout(game.getState().getChoosingPlayerId());
+            }
         }
     }
 
@@ -410,7 +426,13 @@ public class GameController implements GameCallback {
         }
         UserManager.instance.getUser(userId).ifPresent(user -> {
             GameSessionWatcher gameWatcher = new GameSessionWatcher(userId, game, false);
-            watchers.put(userId, gameWatcher);
+            final Lock w = gameWatchersLock.writeLock();
+            w.lock();
+            try {
+                watchers.put(userId, gameWatcher);
+            } finally {
+                w.unlock();
+            }
             gameWatcher.init();
             user.addGameWatchInfo(game.getId());
             ChatManager.instance.broadcast(chatId, user.getName(), " has started watching", MessageColor.BLUE, true, ChatMessage.MessageType.STATUS, null);
@@ -419,7 +441,13 @@ public class GameController implements GameCallback {
     }
 
     public void stopWatching(UUID userId) {
-        watchers.remove(userId);
+        final Lock w = gameWatchersLock.writeLock();
+        w.lock();
+        try {
+            watchers.remove(userId);
+        } finally {
+            w.unlock();
+        }
         UserManager.instance.getUser(userId).ifPresent(user -> {
             ChatManager.instance.broadcast(chatId, user.getName(), " has stopped watching", MessageColor.BLUE, true, ChatMessage.MessageType.STATUS, null);
         });
@@ -619,7 +647,7 @@ public class GameController implements GameCallback {
         if (viewLimitedDeckPlayer != null) {
             if (viewLimitedDeckPlayer.isHuman()) {
                 for (MatchPlayer p : TableManager.instance.getTable(tableId).getMatch().getPlayers()) {
-                    if (p.getPlayer().getId() == userIdRequester) {
+                    if (p.getPlayer().getId().equals(userIdRequester)) {
                         Optional<User> u = UserManager.instance.getUser(origId);
                         if (u != null && u.isPresent() && p.getDeck() != null) {
                             u.get().ccViewLimitedDeck(p.getDeck(), tableId, requestsOpen, true);
@@ -670,11 +698,11 @@ public class GameController implements GameCallback {
     }
 
     public void endGame(final String message) throws MageException {
-        for (final GameSessionPlayer gameSession : gameSessions.values()) {
+        for (final GameSessionPlayer gameSession : getGameSessions()) {
             gameSession.gameOver(message);
             gameSession.removeGame();
         }
-        for (final GameSessionWatcher gameWatcher : watchers.values()) {
+        for (final GameSessionWatcher gameWatcher : getGameSessionWatchers()) {
             gameWatcher.gameOver(message);
         }
         TableManager.instance.endGame(tableId);
@@ -719,10 +747,10 @@ public class GameController implements GameCallback {
                 }
             }
         }
-        for (final GameSessionPlayer gameSession : gameSessions.values()) {
+        for (final GameSessionPlayer gameSession : getGameSessions()) {
             gameSession.update();
         }
-        for (final GameSessionWatcher gameWatcher : watchers.values()) {
+        for (final GameSessionWatcher gameWatcher : getGameSessionWatchers()) {
             gameWatcher.update();
         }
     }
@@ -731,12 +759,12 @@ public class GameController implements GameCallback {
         Table table = TableManager.instance.getTable(tableId);
         if (table != null) {
             if (table.getMatch() != null) {
-                for (final GameSessionPlayer gameSession : gameSessions.values()) {
+                for (final GameSessionPlayer gameSession : getGameSessions()) {
                     gameSession.endGameInfo(table);
                 }
+                // TODO: inform watchers about game end and who won
             }
         }
-        // TODO: inform watchers about game end and who won
     }
 
     private synchronized void ask(UUID playerId, final String question, final Map<String, Serializable> options) throws MageException {
@@ -811,12 +839,12 @@ public class GameController implements GameCallback {
             message.append(game.getStep().getType().toString()).append(" - ");
         }
         message.append("Waiting for ").append(game.getPlayer(playerId).getLogName());
-        for (final Entry<UUID, GameSessionPlayer> entry : gameSessions.entrySet()) {
+        for (final Entry<UUID, GameSessionPlayer> entry : getGameSessionsMap().entrySet()) {
             if (!entry.getKey().equals(playerId)) {
                 entry.getValue().inform(message.toString());
             }
         }
-        for (final GameSessionWatcher watcher : watchers.values()) {
+        for (final GameSessionWatcher watcher : getGameSessionWatchers()) {
             watcher.inform(message.toString());
         }
     }
@@ -831,19 +859,13 @@ public class GameController implements GameCallback {
             return;
         }
         final String message = new StringBuilder(game.getStep().getType().toString()).append(" - Waiting for ").append(controller.getName()).toString();
-        for (final Entry<UUID, GameSessionPlayer> entry : gameSessions.entrySet()) {
-            boolean skip = false;
-            for (UUID uuid : players) {
-                if (entry.getKey().equals(uuid)) {
-                    skip = true;
-                    break;
-                }
-            }
+        for (final Entry<UUID, GameSessionPlayer> entry : getGameSessionsMap().entrySet()) {
+            boolean skip = players.stream().anyMatch(playerId -> entry.getKey().equals(playerId));
             if (!skip) {
                 entry.getValue().inform(message);
             }
         }
-        for (final GameSessionWatcher watcher : watchers.values()) {
+        for (final GameSessionWatcher watcher : getGameSessionWatchers()) {
             watcher.inform(message);
         }
     }
@@ -860,7 +882,7 @@ public class GameController implements GameCallback {
         for (StackTraceElement e : ex.getStackTrace()) {
             sb.append(e.toString()).append('\n');
         }
-        for (final Entry<UUID, GameSessionPlayer> entry : gameSessions.entrySet()) {
+        for (final Entry<UUID, GameSessionPlayer> entry : getGameSessionsMap().entrySet()) {
             entry.getValue().gameError(sb.toString());
         }
     }
@@ -993,7 +1015,44 @@ public class GameController implements GameCallback {
 
     @FunctionalInterface
     interface Command {
+
         void execute(UUID player);
+    }
+
+    private Map<UUID, GameSessionPlayer> getGameSessionsMap() {
+        Map<UUID, GameSessionPlayer> newGameSessionsMap = new HashMap<>();
+        final Lock r = gameSessionsLock.readLock();
+        r.lock();
+        try {
+            newGameSessionsMap.putAll(gameSessions);
+        } finally {
+            r.unlock();
+        }
+        return newGameSessionsMap;
+    }
+
+    private List<GameSessionPlayer> getGameSessions() {
+        List<GameSessionPlayer> newGameSessions = new ArrayList<>();
+        final Lock r = gameSessionsLock.readLock();
+        r.lock();
+        try {
+            newGameSessions.addAll(gameSessions.values());
+        } finally {
+            r.unlock();
+        }
+        return newGameSessions;
+    }
+
+    private List<GameSessionWatcher> getGameSessionWatchers() {
+        List<GameSessionWatcher> newGameSessionWatchers = new ArrayList<>();
+        final Lock r = gameSessionsLock.readLock();
+        r.lock();
+        try {
+            newGameSessionWatchers.addAll(watchers.values());
+        } finally {
+            r.unlock();
+        }
+        return newGameSessionWatchers;
     }
 
     private GameSessionPlayer getGameSession(UUID playerId) {

@@ -37,10 +37,7 @@ import mage.abilities.effects.common.continuous.GainAbilitySourceEffect;
 import mage.abilities.keyword.FlyingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.CounterType;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -102,7 +99,7 @@ class FalkenrathTorturerEffect extends OneShotEffect {
             if (cost instanceof SacrificeTargetCost) {
                 Permanent sacrificedCreature = ((SacrificeTargetCost) cost).getPermanents().get(0);
                 Permanent sourceCreature = game.getPermanent(source.getSourceId());
-                if (sacrificedCreature.hasSubtype("Human", game) && sourceCreature != null) {
+                if (sacrificedCreature.hasSubtype(SubType.HUMAN, game) && sourceCreature != null) {
                     sourceCreature.addCounters(CounterType.P1P1.createInstance(), source, game);
                     return true;
                 }

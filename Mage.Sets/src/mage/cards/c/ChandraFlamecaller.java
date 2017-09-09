@@ -27,6 +27,8 @@
  */
 package mage.cards.c;
 
+import java.util.Set;
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.LoyaltyAbility;
 import mage.abilities.common.PlanswalkerEntersWithLoyalityCountersAbility;
@@ -42,13 +44,11 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.constants.SuperType;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.permanent.token.ElementalToken;
 import mage.players.Player;
-
-import java.util.Set;
-import java.util.UUID;
 
 /**
  *
@@ -58,6 +58,7 @@ public class ChandraFlamecaller extends CardImpl {
 
     public ChandraFlamecaller(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.PLANESWALKER},"{4}{R}{R}");
+        this.addSuperType(SuperType.LEGENDARY);
         this.subtype.add("Chandra");
 
         this.addAbility(new PlanswalkerEntersWithLoyalityCountersAbility(4));
@@ -69,7 +70,7 @@ public class ChandraFlamecaller extends CardImpl {
         this.addAbility(new LoyaltyAbility(new ChandraDrawEffect(), 0));
 
         // -X: Chandra, Flamecaller deals X damage to each creature.
-        this.addAbility(new LoyaltyAbility(new DamageAllEffect(ChandraXValue.getDefault(), new FilterCreaturePermanent("creature"))));
+        this.addAbility(new LoyaltyAbility(new DamageAllEffect(ChandraXValue.getDefault(), StaticFilters.FILTER_PERMANENT_CREATURE)));
     }
 
     public ChandraFlamecaller(final ChandraFlamecaller card) {

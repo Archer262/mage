@@ -27,7 +27,6 @@
  */
 package mage.cards.t;
 
-import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.TriggeredAbilityImpl;
 import mage.abilities.effects.OneShotEffect;
@@ -37,6 +36,7 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.Outcome;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.StaticFilters;
 import mage.game.Game;
@@ -47,7 +47,8 @@ import mage.players.Player;
 import mage.target.Target;
 import mage.target.TargetPermanent;
 import mage.target.TargetPlayer;
-import mage.target.targetpointer.FixedTarget;
+
+import java.util.UUID;
 
 /**
  *
@@ -58,8 +59,7 @@ public class TormentOfScarabs extends CardImpl {
     public TormentOfScarabs(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT}, "{3}{B}");
 
-        this.subtype.add("Aura");
-        this.subtype.add("Curse");
+        this.subtype.add(SubType.AURA, SubType.CURSE);
 
         // Enchant player
         TargetPlayer auraTarget = new TargetPlayer();
@@ -104,11 +104,9 @@ class TormentOfScarabsAbility extends TriggeredAbilityImpl {
 
     @Override
     public boolean checkTrigger(GameEvent event, Game game) {
-        Permanent enchantment = game.getPermanent(this.sourceId);
+        Permanent enchantment = game.getPermanent(this.getSourceId());
         if (enchantment != null && enchantment.getAttachedTo() != null) {
-            Player player = game.getPlayer(enchantment.getAttachedTo());
-            if (player != null && game.getActivePlayerId().equals(player.getId())) {
-                this.getEffects().get(0).setTargetPointer(new FixedTarget(player.getId()));
+            if (game.getActivePlayerId().equals(enchantment.getAttachedTo())) {
                 return true;
             }
         }
@@ -140,10 +138,14 @@ class TormentOfScarabsEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        Player enchantedPlayer = game.getPlayer(getTargetPointer().getFirst(game, source));
+        Permanent enchantment = game.getPermanent(source.getSourceId());
+        if (enchantment == null || enchantment.getAttachedTo() == null) {
+            return false;
+        }
+        Player enchantedPlayer = game.getPlayer(enchantment.getAttachedTo());
         if (enchantedPlayer != null) {
             int permanents = game.getBattlefield().countAll(StaticFilters.FILTER_PERMANENT_NON_LAND, enchantedPlayer.getId(), game);
-            if (permanents > 0 && enchantedPlayer.chooseUse(outcome, "Sacrifices a nonland permanent?",
+            if (permanents > 0 && enchantedPlayer.chooseUse(outcome, "Sacrifice a nonland permanent?",
                     "Otherwise you have to discard a card or lose 3 life.", "Sacrifice", "Discard or life loss", source, game)) {
                 Target target = new TargetPermanent(StaticFilters.FILTER_CONTROLLED_PERMANENT_NON_LAND);
                 if (enchantedPlayer.choose(outcome, target, source.getSourceId(), game)) {

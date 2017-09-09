@@ -27,6 +27,7 @@
  */
 package mage.cards.g;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -40,8 +41,6 @@ import mage.constants.Zone;
 import mage.target.Target;
 import mage.target.common.TargetCreatureOrPlayer;
 
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -51,6 +50,7 @@ public class GoblinTestPilot extends CardImpl {
     public GoblinTestPilot(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{U}{R}");
         this.subtype.add("Goblin");
+        this.subtype.add("Pilot");
         this.subtype.add("Wizard");
 
         this.power = new MageInt(0);

@@ -27,6 +27,7 @@
  */
 package mage.cards.d;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldControlledTriggeredAbility;
 import mage.abilities.effects.Effect;
@@ -46,8 +47,6 @@ import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.common.TargetCreatureOrPlayer;
 
-import java.util.UUID;
-
 /**
  *
  * @author LevelX2
@@ -61,7 +60,7 @@ public class DragonTempest extends CardImpl {
     }
 
     public DragonTempest(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.ENCHANTMENT},"{1}{R}");
+        super(ownerId, setInfo, new CardType[]{CardType.ENCHANTMENT}, "{1}{R}");
 
         // Whenever a creature with flying enters the battlefield under your control, it gains haste until the end of turn.
         Effect effect = new GainAbilityTargetEffect(HasteAbility.getInstance(), Duration.EndOfTurn);
@@ -74,7 +73,7 @@ public class DragonTempest extends CardImpl {
                 new DragonTempestDamageEffect(),
                 new FilterCreaturePermanent(SubType.DRAGON, "a Dragon"),
                 false,
-                SetTargetPointer.PERMANENT,
+                SetTargetPointer.NONE,
                 ""
         );
         ability.addTarget(new TargetCreatureOrPlayer());
@@ -118,15 +117,16 @@ class DragonTempestDamageEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
+            Permanent damageSource = (Permanent) getValue("permanentEnteringBattlefield");
             int amount = game.getBattlefield().countAll(dragonFilter, controller.getId(), game);
             if (amount > 0) {
-                Permanent targetCreature = game.getPermanent(source.getTargets().getFirstTarget());
+                Permanent targetCreature = game.getPermanent(getTargetPointer().getFirst(game, source));
                 if (targetCreature != null) {
-                    targetCreature.damage(amount, getTargetPointer().getFirst(game, source), game, false, true);
+                    targetCreature.damage(amount, damageSource.getId(), game, false, true);
                 } else {
                     Player player = game.getPlayer(source.getTargets().getFirstTarget());
                     if (player != null) {
-                        player.damage(amount, getTargetPointer().getFirst(game, source), game, false, true);
+                        player.damage(amount, damageSource.getId(), game, false, true);
                     }
                 }
             }

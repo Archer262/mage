@@ -28,18 +28,13 @@
 package mage.abilities.effects;
 
 import java.util.UUID;
-
 import mage.MageObject;
 import mage.abilities.Ability;
 import mage.abilities.SpellAbility;
 import mage.abilities.effects.common.AttachEffect;
 import mage.abilities.keyword.TransformAbility;
 import mage.cards.Card;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.SpellAbilityType;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.ZoneChangeEvent;
@@ -102,19 +97,23 @@ public class AuraReplacementEffect extends ReplacementEffectImpl {
         }
         // Aura enters the battlefield attached
         Object object = game.getState().getValue("attachTo:" + card.getId());
-        if (object != null && object instanceof PermanentCard) {
-            return false;
+        if (object != null) {
+            if (object instanceof PermanentCard) {
+                // Aura is attached to a permanent on the battlefield
+                return false;
+            }
+            if (object instanceof UUID) {
+                Player player = game.getPlayer((UUID) object);
+                if (player != null) {
+                    // Aura is attached to a player
+                    return false;
+                }
+            }
         }
 
         UUID targetId = null;
         MageObject sourceObject = game.getObject(sourceId);
         boolean enchantCardInGraveyard = false;
-//        if (sourceObject instanceof Spell) {
-//            if (fromZone.equals(Zone.EXILED)) {
-//                // cast from exile (e.g. Neightveil Spector) -> no replacement
-//                return false;
-//            }
-//        }
         if (sourceObject instanceof StackAbility) {
             StackAbility stackAbility = (StackAbility) sourceObject;
             if (!stackAbility.getEffects().isEmpty()) {
@@ -208,12 +207,12 @@ public class AuraReplacementEffect extends ReplacementEffectImpl {
         if (((ZoneChangeEvent) event).getToZone() == Zone.BATTLEFIELD
                 && (((ZoneChangeEvent) event).getFromZone() != Zone.STACK)) {
             Card card = game.getCard(event.getTargetId());
-            if (card != null && (card.isEnchantment() && card.hasSubtype("Aura", game)
+            if (card != null && (card.isEnchantment() && card.hasSubtype(SubType.AURA, game)
                     || // in case of transformable enchantments
                     (game.getState().getValue(TransformAbility.VALUE_KEY_ENTER_TRANSFORMED + card.getId()) != null
                             && card.getSecondCardFace() != null
                             && card.getSecondCardFace().isEnchantment()
-                            && card.getSecondCardFace().hasSubtype("Aura", game)))) {
+                            && card.getSecondCardFace().hasSubtype(SubType.AURA, game)))) {
                 return true;
             }
         }

@@ -27,7 +27,6 @@
  */
 package mage.cards.n;
 
-import java.util.UUID;
 import mage.Mana;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleStaticAbility;
@@ -38,15 +37,14 @@ import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.choices.Choice;
 import mage.choices.ChoiceColor;
-import mage.constants.CardType;
-import mage.constants.Duration;
-import mage.constants.Outcome;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.game.Game;
 import mage.game.events.GameEvent;
 import mage.game.events.ManaEvent;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
+
+import java.util.UUID;
 
 /**
  *
@@ -103,19 +101,19 @@ class NakedSingularityEffect extends ReplacementEffectImpl {
             Choice choice = new ChoiceColor(true);
             choice.getChoices().clear();
             choice.setMessage("Pick a color to produce");
-            if (permanent.hasSubtype("Plains", game)) {
+            if (permanent.hasSubtype(SubType.PLAINS, game)) {
                 choice.getChoices().add("Red");
             }
-            if (permanent.hasSubtype("Island", game)) {
+            if (permanent.hasSubtype(SubType.ISLAND, game)) {
                 choice.getChoices().add("Green");
             }
-            if (permanent.hasSubtype("Swamp", game)) {
+            if (permanent.hasSubtype(SubType.SWAMP, game)) {
                 choice.getChoices().add("White");
             }
-            if (permanent.hasSubtype("Mountain", game)) {
+            if (permanent.hasSubtype(SubType.MOUNTAIN, game)) {
                 choice.getChoices().add("Blue");
             }
-            if (permanent.hasSubtype("Forest", game)) {
+            if (permanent.hasSubtype(SubType.FOREST, game)) {
                 choice.getChoices().add("Black");
             }
             String chosenColor;
@@ -158,10 +156,10 @@ class NakedSingularityEffect extends ReplacementEffectImpl {
     public boolean applies(GameEvent event, Ability source, Game game) {
         Permanent permanent = game.getPermanent(event.getSourceId());
         return permanent != null
-                && (permanent.hasSubtype("Plains", game)
-                || permanent.hasSubtype("Island", game)
-                || permanent.hasSubtype("Swamp", game)
-                || permanent.hasSubtype("Mountain", game)
-                || permanent.hasSubtype("Forest", game));
+                && (permanent.hasSubtype(SubType.PLAINS, game)
+                || permanent.hasSubtype(SubType.ISLAND, game)
+                || permanent.hasSubtype(SubType.SWAMP, game)
+                || permanent.hasSubtype(SubType.MOUNTAIN, game)
+                || permanent.hasSubtype(SubType.FOREST, game));
     }
 }

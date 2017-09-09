@@ -119,13 +119,7 @@ class GainReboundEffect extends ContinuousEffectImpl {
 
     private void addReboundAbility(Card card, Ability source, Game game) {
         if (CastThroughTime.filter.match(card, game)) {
-            boolean found = false;
-            for (Ability ability : card.getAbilities()) {
-                if (ability instanceof ReboundAbility) {
-                    found = true;
-                    break;
-                }
-            }
+            boolean found = card.getAbilities().stream().anyMatch(ability -> ability instanceof ReboundAbility);
             if (!found) {
                 Ability ability = new ReboundAbility();
                 game.getState().addOtherAbility(card, ability);

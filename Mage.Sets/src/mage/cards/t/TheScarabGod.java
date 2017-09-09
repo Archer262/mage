@@ -35,12 +35,13 @@ import mage.abilities.DelayedTriggeredAbility;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.DiesTriggeredAbility;
 import mage.abilities.common.SimpleActivatedAbility;
-import mage.abilities.common.delayed.AtTheBeginOfNextUpkeepDelayedTriggeredAbility;
+import mage.abilities.common.delayed.AtTheBeginOfNextEndStepDelayedTriggeredAbility;
 import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.effects.Effect;
 import mage.abilities.effects.OneShotEffect;
-import mage.abilities.effects.common.PutTokenOntoBattlefieldCopyTargetEffect;
+import mage.abilities.effects.common.CreateTokenCopyTargetEffect;
 import mage.abilities.effects.common.ReturnToHandSourceEffect;
+import mage.abilities.effects.common.ReturnToHandTargetEffect;
 import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
@@ -80,7 +81,7 @@ public class TheScarabGod extends CardImpl {
         ability.addTarget(new TargetCardInGraveyard(1, 1, new FilterCreatureCard("creature card from a graveyard")));
         this.addAbility(ability);
 
-        // When The Scarab God dies, return it to its owner's hand at the beginning of the next upkeep.
+        // When The Scarab God dies, return it to its owner's hand at the beginning of the next end step.
         this.addAbility(new DiesTriggeredAbility(new TheScarabGodEffect3()));
     }
 
@@ -160,7 +161,7 @@ class TheScarabGodEffect2 extends OneShotEffect {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null && card != null) {
             controller.moveCards(card, Zone.EXILED, source, game); // Also if the move to exile is replaced, the copy takes place
-            PutTokenOntoBattlefieldCopyTargetEffect effect = new PutTokenOntoBattlefieldCopyTargetEffect(source.getControllerId(), null, false, 1, false, false, null, 4, 4, false);
+            CreateTokenCopyTargetEffect effect = new CreateTokenCopyTargetEffect(source.getControllerId(), null, false, 1, false, false, null, 4, 4, false);
             effect.setTargetPointer(new FixedTarget(card.getId(), card.getZoneChangeCounter(game)));
             effect.setOnlySubType("Zombie");
             effect.setOnlyColor(ObjectColor.BLACK);
@@ -174,7 +175,7 @@ class TheScarabGodEffect2 extends OneShotEffect {
 
 class TheScarabGodEffect3 extends OneShotEffect {
 
-    private static final String effectText = "return it to its owner's hand at the beginning of the next upkeep.";
+    private static final String effectText = "return it to its owner's hand at the beginning of the next end step";
 
     TheScarabGodEffect3() {
         super(Outcome.Benefit);
@@ -188,9 +189,10 @@ class TheScarabGodEffect3 extends OneShotEffect {
     @Override
     public boolean apply(Game game, Ability source) {
         // Create delayed triggered ability
-        Effect effect = new ReturnToHandSourceEffect(false, true);
-        effect.setText(staticText);
-        DelayedTriggeredAbility delayedAbility = new AtTheBeginOfNextUpkeepDelayedTriggeredAbility(effect);
+        Effect effect = new ReturnToHandTargetEffect();
+        effect.setText("return {this} to its owner's hand");
+        effect.setTargetPointer(new FixedTarget(source.getSourceId(), source.getSourceObjectZoneChangeCounter()));
+        DelayedTriggeredAbility delayedAbility = new AtTheBeginOfNextEndStepDelayedTriggeredAbility(effect);
         game.addDelayedTriggeredAbility(delayedAbility, source);
         return true;
     }

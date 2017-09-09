@@ -7,6 +7,7 @@ package mage.abilities.effects.common.cost;
 
 import mage.abilities.Ability;
 import mage.cards.Card;
+import mage.constants.SubType;
 import mage.filter.FilterCard;
 import mage.game.Game;
 
@@ -31,7 +32,7 @@ public class SpellsCostReductionAllOfChosenSubtypeEffect extends SpellsCostReduc
 
     @Override
     protected boolean selectedByRuntimeData(Card card, Ability source, Game game) {
-        String subtype = (String) game.getState().getValue(source.getSourceId() + "_type");
+        SubType subtype = (SubType) game.getState().getValue(source.getSourceId() + "_type");
         if (subtype != null) {
             return card.hasSubtype(subtype, game);
         }

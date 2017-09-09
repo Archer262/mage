@@ -36,10 +36,11 @@ import mage.abilities.keyword.DeathtouchAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.SuperType;
 import mage.constants.Zone;
 import mage.counters.CounterType;
-import mage.filter.common.FilterBasicLandCard;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledLandPermanent;
 import mage.game.Game;
 import mage.game.events.GameEvent;
@@ -58,8 +59,7 @@ public class Bossk extends CardImpl {
     public Bossk(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{G}{G}");
         addSuperType(SuperType.LEGENDARY);
-        this.subtype.add("Trandoshan");
-        this.subtype.add("Hunter");
+        this.subtype.add(SubType.TRANDOSHAN, SubType.HUNTER);
         this.power = new MageInt(3);
         this.toughness = new MageInt(3);
 
@@ -70,7 +70,7 @@ public class Bossk extends CardImpl {
         this.addAbility(new BosskTriggeredAbility());
 
         // <i>Bounty</i> &mdash; Whenever a creature an opponent controls with a bounty counter on it dies, you may search your library for a basic land card, reveal it, and put it in to your hand. If you do, shuffle your library.
-        this.addAbility(new BountyAbility(new SearchLibraryPutInHandEffect(new TargetCardInLibrary(new FilterBasicLandCard()), true, true), true));
+        this.addAbility(new BountyAbility(new SearchLibraryPutInHandEffect(new TargetCardInLibrary(StaticFilters.FILTER_BASIC_LAND_CARD), true, true), true));
     }
 
     public Bossk(final Bossk card) {

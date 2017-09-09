@@ -27,17 +27,18 @@
  */
 package mage.cards.r;
 
-import java.util.UUID;
-import mage.constants.CardType;
 import mage.ObjectColor;
 import mage.abilities.effects.common.DestroyTargetEffect;
 import mage.abilities.effects.common.LoseLifeSourceControllerEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
 import mage.filter.common.FilterCreaturePermanent;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.ColorPredicate;
 import mage.target.common.TargetCreaturePermanent;
+
+import java.util.UUID;
 
 /**
  *
@@ -45,7 +46,7 @@ import mage.target.common.TargetCreaturePermanent;
  */
 public class RecklessSpite extends CardImpl {
 
-    private static final FilterCreaturePermanent filter = new FilterCreaturePermanent("nonblack creature");
+    private static final FilterCreaturePermanent filter = new FilterCreaturePermanent("nonblack creatures");
 
     static {
         filter.add(Predicates.not(new ColorPredicate(ObjectColor.BLACK)));

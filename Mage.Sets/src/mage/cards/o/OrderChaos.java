@@ -35,7 +35,7 @@ import mage.cards.SplitCard;
 import mage.constants.CardType;
 import mage.constants.Duration;
 import mage.constants.SpellAbilityType;
-import mage.filter.common.FilterCreaturePermanent;
+import mage.filter.StaticFilters;
 import mage.target.Target;
 import mage.target.common.TargetAttackingCreature;
 
@@ -52,7 +52,7 @@ public class OrderChaos extends SplitCard {
 
         // Chaos
         // Creatures can't block this turn.
-        getRightHalfCard().getSpellAbility().addEffect(new CantBlockAllEffect(new FilterCreaturePermanent("Creatures"), Duration.EndOfTurn));
+        getRightHalfCard().getSpellAbility().addEffect(new CantBlockAllEffect(StaticFilters.FILTER_PERMANENT_CREATURES, Duration.EndOfTurn));
 
     }
 

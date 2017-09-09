@@ -34,6 +34,7 @@ import mage.abilities.mana.GreenManaAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 
 import java.util.UUID;
 
@@ -45,8 +46,7 @@ public class BlightsoilDruid extends CardImpl {
 
     public BlightsoilDruid(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{1}{B}");
-        this.subtype.add("Elf");
-        this.subtype.add("Druid");
+        this.subtype.add(SubType.ELF, SubType.DRUID);
 
         this.power = new MageInt(1);
         this.toughness = new MageInt(2);

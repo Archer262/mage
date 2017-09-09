@@ -28,6 +28,9 @@
 
 package mage.cards.m;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.common.EntersBattlefieldTappedAbility;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -49,10 +52,6 @@ import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.target.common.TargetCardInLibrary;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -115,7 +114,7 @@ class MazesEndEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         List<String> names = new ArrayList<>();
         for (Permanent permanent : game.getBattlefield().getAllActivePermanents(source.getControllerId())) {
-            if (permanent.hasSubtype("Gate", game)) {
+            if (permanent.hasSubtype(SubType.GATE, game)) {
                 if (!names.contains(permanent.getName())) {
                     names.add(permanent.getName());
                 }

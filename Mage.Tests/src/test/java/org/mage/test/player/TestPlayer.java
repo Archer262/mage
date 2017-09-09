@@ -33,13 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import mage.MageObject;
 import mage.MageObjectReference;
-import mage.abilities.Abilities;
-import mage.abilities.Ability;
-import mage.abilities.ActivatedAbility;
-import mage.abilities.Mode;
-import mage.abilities.Modes;
-import mage.abilities.SpellAbility;
-import mage.abilities.TriggeredAbility;
+import mage.abilities.*;
 import mage.abilities.costs.AlternativeSourceCosts;
 import mage.abilities.costs.Cost;
 import mage.abilities.costs.Costs;
@@ -52,21 +46,15 @@ import mage.cards.Card;
 import mage.cards.Cards;
 import mage.cards.decks.Deck;
 import mage.choices.Choice;
-import mage.constants.AbilityType;
-import mage.constants.ManaType;
-import mage.constants.Outcome;
-import mage.constants.PhaseStep;
-import mage.constants.RangeOfInfluence;
-import mage.constants.SpellAbilityType;
-import mage.constants.Zone;
+import mage.constants.*;
 import mage.counters.Counter;
 import mage.counters.Counters;
 import mage.filter.Filter;
 import mage.filter.FilterPermanent;
+import mage.filter.StaticFilters;
 import mage.filter.common.*;
 import mage.filter.predicate.Predicates;
 import mage.filter.predicate.mageobject.NamePredicate;
-import mage.filter.predicate.permanent.AttackingPredicate;
 import mage.filter.predicate.permanent.SummoningSicknessPredicate;
 import mage.game.Game;
 import mage.game.Graveyard;
@@ -83,20 +71,8 @@ import mage.players.Library;
 import mage.players.ManaPool;
 import mage.players.Player;
 import mage.players.net.UserData;
-import mage.target.Target;
-import mage.target.TargetAmount;
-import mage.target.TargetCard;
-import mage.target.TargetPermanent;
-import mage.target.TargetPlayer;
-import mage.target.TargetSource;
-import mage.target.TargetSpell;
-import mage.target.common.TargetCardInHand;
-import mage.target.common.TargetCardInLibrary;
-import mage.target.common.TargetCardInOpponentsGraveyard;
-import mage.target.common.TargetCardInYourGraveyard;
-import mage.target.common.TargetCreatureOrPlayer;
-import mage.target.common.TargetCreaturePermanentAmount;
-import mage.target.common.TargetPermanentOrPlayer;
+import mage.target.*;
+import mage.target.common.*;
 import org.junit.Ignore;
 
 /**
@@ -608,7 +584,9 @@ public class TestPlayer implements Player {
     public void selectAttackers(Game game, UUID attackingPlayerId) {
         // Loop through players and validate can attack/block this turn
         UUID defenderId = null;
-        for (PlayerAction action : actions) {
+        //List<PlayerAction>
+        for (Iterator<org.mage.test.player.PlayerAction> it = actions.iterator(); it.hasNext();) {
+            PlayerAction action = it.next();
             if (action.getTurnNum() == game.getTurnNum() && action.getAction().startsWith("attack:")) {
                 String command = action.getAction();
                 command = command.substring(command.indexOf("attack:") + 7);
@@ -617,7 +595,7 @@ public class TestPlayer implements Player {
                     String group = groups[i];
                     if (group.startsWith("planeswalker=")) {
                         String planeswalkerName = group.substring(group.indexOf("planeswalker=") + 13);
-                        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(new FilterPlaneswalkerPermanent(), game)) {
+                        for (Permanent permanent : game.getBattlefield().getAllActivePermanents(StaticFilters.FILTER_PERMANENT_PLANESWALKER, game)) {
                             if (permanent.getName().equals(planeswalkerName)) {
                                 defenderId = permanent.getId();
                             }
@@ -646,14 +624,16 @@ public class TestPlayer implements Player {
                 findPermanent(firstFilter, groups[0], computerPlayer.getId(), game);
                 // Second check to filter creature for combat - less strict to workaround issue in #3038
                 FilterCreatureForCombat secondFilter = new FilterCreatureForCombat();
-                secondFilter.add(Predicates.not(new AttackingPredicate()));
+                // secondFilter.add(Predicates.not(new AttackingPredicate()));
                 secondFilter.add(Predicates.not(new SummoningSicknessPredicate()));
                 // TODO: Cannot enforce legal attackers multiple times per combat. See issue #3038
                 Permanent attacker = findPermanent(secondFilter, groups[0], computerPlayer.getId(), game, false);
                 if (attacker != null && attacker.canAttack(defenderId, game)) {
                     computerPlayer.declareAttacker(attacker.getId(), defenderId, game, false);
+                    it.remove();
                 }
             }
+
         }
     }
 
@@ -1329,7 +1309,7 @@ public class TestPlayer implements Player {
     }
 
     @Override
-    public int drawCards(int num, Game game, ArrayList<UUID> appliedEffects) {
+    public int drawCards(int num, Game game, List<UUID> appliedEffects) {
         return computerPlayer.drawCards(num, game, appliedEffects);
     }
 
@@ -1619,7 +1599,7 @@ public class TestPlayer implements Player {
     }
 
     @Override
-    public int damage(int damage, UUID sourceId, Game game, boolean combatDamage, boolean preventable, ArrayList<UUID> appliedEffects) {
+    public int damage(int damage, UUID sourceId, Game game, boolean combatDamage, boolean preventable, List<UUID> appliedEffects) {
         return computerPlayer.damage(damage, sourceId, game, combatDamage, preventable, appliedEffects);
     }
 
@@ -2284,7 +2264,7 @@ public class TestPlayer implements Player {
     }
 
     @Override
-    public boolean moveCards(Card card, Zone toZone, Ability source, Game game, boolean tapped, boolean faceDown, boolean byOwner, ArrayList<UUID> appliedEffects) {
+    public boolean moveCards(Card card, Zone toZone, Ability source, Game game, boolean tapped, boolean faceDown, boolean byOwner, List<UUID> appliedEffects) {
         return computerPlayer.moveCards(card, toZone, source, game, tapped, faceDown, byOwner, appliedEffects);
     }
 
@@ -2299,7 +2279,7 @@ public class TestPlayer implements Player {
     }
 
     @Override
-    public boolean moveCards(Set<Card> cards, Zone toZone, Ability source, Game game, boolean tapped, boolean faceDown, boolean byOwner, ArrayList<UUID> appliedEffects) {
+    public boolean moveCards(Set<Card> cards, Zone toZone, Ability source, Game game, boolean tapped, boolean faceDown, boolean byOwner, List<UUID> appliedEffects) {
         return computerPlayer.moveCards(cards, toZone, source, game, tapped, faceDown, byOwner, appliedEffects);
     }
 

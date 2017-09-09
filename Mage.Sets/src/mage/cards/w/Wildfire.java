@@ -28,14 +28,14 @@
 package mage.cards.w;
 
 import java.util.UUID;
-import mage.constants.CardType;
 import mage.abilities.effects.common.DamageAllEffect;
 import mage.abilities.effects.common.SacrificeAllEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledLandPermanent;
 import mage.filter.common.FilterControlledPermanent;
-import mage.filter.common.FilterCreaturePermanent;
 
 /**
  *
@@ -52,7 +52,7 @@ public class Wildfire extends CardImpl {
         //Each player sacrifices four lands.
         this.getSpellAbility().addEffect(new SacrificeAllEffect(4, filter));
         //Wildfire deals 4 damage to each creature.
-        this.getSpellAbility().addEffect(new DamageAllEffect(4, new FilterCreaturePermanent()));
+        this.getSpellAbility().addEffect(new DamageAllEffect(4, StaticFilters.FILTER_PERMANENT_CREATURES));
     }
 
     public Wildfire(final Wildfire card) {

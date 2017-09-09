@@ -27,15 +27,15 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.SpellAbility;
 import mage.abilities.effects.Effect;
 import mage.abilities.effects.common.ReturnFromGraveyardToHandTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.cards.repository.CardRepository;
 import mage.choices.Choice;
-import mage.choices.ChoiceImpl;
+import mage.choices.ChoiceCreatureType;
 import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SubType;
@@ -44,8 +44,6 @@ import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.game.Game;
 import mage.players.Player;
 import mage.target.common.TargetCardInYourGraveyard;
-
-import java.util.UUID;
 
 /**
  *
@@ -67,9 +65,7 @@ public class AphettoDredging extends CardImpl {
         if (ability instanceof SpellAbility) {
             Player controller = game.getPlayer(ability.getControllerId());
             if (controller != null) {
-                Choice typeChoice = new ChoiceImpl(true);
-                typeChoice.setMessage("Choose a creature type");
-                typeChoice.setChoices(SubType.getCreatureTypes(false));
+                Choice typeChoice = new ChoiceCreatureType();
                 while (!controller.choose(Outcome.PutCreatureInPlay, typeChoice, game)) {
                     if (!controller.canRespond()) {
                         return;

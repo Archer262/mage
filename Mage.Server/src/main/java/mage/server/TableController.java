@@ -38,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 import mage.MageException;
 import mage.cards.decks.Deck;
 import mage.cards.decks.DeckCardLists;
-import mage.cards.decks.InvalidDeckException;
 import mage.constants.RangeOfInfluence;
 import mage.constants.TableState;
 import mage.game.*;
@@ -150,7 +149,7 @@ public class TableController {
         }
         Optional<User> _user = UserManager.instance.getUser(userId);
         if (!_user.isPresent()) {
-            logger.fatal(new StringBuilder("couldn't get user ").append(name).append(" for join tournament userId = ").append(userId).toString());
+            logger.fatal("couldn't get user " + name + " for join tournament userId = " + userId);
             return false;
         }
         User user = _user.get();
@@ -414,7 +413,17 @@ public class TableController {
             }
         }
         if (!Main.isTestMode() && !table.getValidator().validate(deck)) {
-            throw new InvalidDeckException("Invalid deck for this format", table.getValidator().getInvalid());
+            Optional<User> _user = UserManager.instance.getUser(userId);
+            if (!_user.isPresent()) {
+                return false;
+            }
+            StringBuilder sb = new StringBuilder("Invalid deck for the selected ").append(table.getValidator().getName()).append(" format. \n\n");
+            for (Map.Entry<String, String> entry : table.getValidator().getInvalid().entrySet()) {
+                sb.append(entry.getKey()).append(": ").append(entry.getValue()).append('\n');
+            }
+            sb.append("\n\nAdd enough cards and try again!");
+            _user.get().showUserMessage("Submit deck", sb.toString());
+            return false;
         }
         submitDeck(userId, playerId, deck);
         return true;
@@ -428,7 +437,7 @@ public class TableController {
         }
         Deck deck = Deck.load(deckList, false, false);
         validDeck = updateDeck(userId, playerId, deck);
-        if (!validDeck) {
+        if (!validDeck && getTableState() == TableState.SIDEBOARDING) {
             logger.warn(" userId: " + userId + " - Modified deck card list!");
         }
     }
@@ -511,7 +520,7 @@ public class TableController {
         if (this.userId != null && this.userId.equals(userId) // tourn. sub tables have no creator user
                 && (table.getState() == TableState.WAITING
                 || table.getState() == TableState.READY_TO_START)) {
-            // table not started yet and user is the owner, remove the table
+            // table not started yet and user is the owner, removeUserFromAllTablesAndChat the table
             TableManager.instance.removeTable(table.getId());
         } else {
             UUID playerId = userPlayerMap.get(userId);
@@ -826,7 +835,7 @@ public class TableController {
                                 }
                                 user.showUserMessage("Match info", sb.toString());
                             }
-                            // remove table from user - table manager holds table for display of finished matches
+                            // removeUserFromAllTablesAndChat table from user - table manager holds table for display of finished matches
                             if (!table.isTournamentSubTable()) {
                                 user.removeTable(entry.getValue());
                             }
@@ -913,7 +922,7 @@ public class TableController {
                     return false;
                 }
             } else {
-                // check if table creator is still a valid user, if not remove table
+                // check if table creator is still a valid user, if not removeUserFromAllTablesAndChat table
                 return UserManager.instance.getUser(userId).isPresent();
             }
         }

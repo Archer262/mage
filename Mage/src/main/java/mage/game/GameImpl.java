@@ -58,9 +58,9 @@ import mage.designations.Monarch;
 import mage.filter.Filter;
 import mage.filter.FilterCard;
 import mage.filter.FilterPermanent;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledCreaturePermanent;
 import mage.filter.common.FilterPlaneswalkerPermanent;
-import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.filter.predicate.mageobject.NamePredicate;
 import mage.filter.predicate.mageobject.SubtypePredicate;
 import mage.filter.predicate.mageobject.SupertypePredicate;
@@ -101,24 +101,6 @@ public abstract class GameImpl implements Game, Serializable {
     private static final int ROLLBACK_TURNS_MAX = 4;
 
     private static final Logger logger = Logger.getLogger(GameImpl.class);
-
-    private static final FilterPermanent FILTER_AURA = new FilterPermanent();
-    private static final FilterPermanent FILTER_EQUIPMENT = new FilterPermanent();
-    private static final FilterPermanent FILTER_FORTIFICATION = new FilterPermanent();
-    private static final FilterPermanent FILTER_LEGENDARY = new FilterPermanent();
-
-    static {
-        FILTER_AURA.add(new CardTypePredicate(CardType.ENCHANTMENT));
-        FILTER_AURA.add(new SubtypePredicate(SubType.AURA));
-
-        FILTER_EQUIPMENT.add(new CardTypePredicate(CardType.ARTIFACT));
-        FILTER_EQUIPMENT.add(new SubtypePredicate(SubType.EQUIPMENT));
-
-        FILTER_FORTIFICATION.add(new CardTypePredicate(CardType.ARTIFACT));
-        FILTER_FORTIFICATION.add(new SubtypePredicate(SubType.FORTIFICATION));
-
-        FILTER_LEGENDARY.add(new SupertypePredicate(SuperType.LEGENDARY));
-    }
 
     private transient Object customData;
     protected boolean simulation = false;
@@ -872,31 +854,33 @@ public abstract class GameImpl implements Game, Serializable {
         }
 
         //20091005 - 103.2
-        TargetPlayer targetPlayer = new TargetPlayer();
-        targetPlayer.setTargetName("starting player");
         Player choosingPlayer = null;
-        if (choosingPlayerId != null) {
-            choosingPlayer = this.getPlayer(choosingPlayerId);
-            if (choosingPlayer != null && !choosingPlayer.isInGame()) {
-                choosingPlayer = null;
+        if (startingPlayerId == null) {
+            TargetPlayer targetPlayer = new TargetPlayer();
+            targetPlayer.setTargetName("starting player");
+            if (choosingPlayerId != null) {
+                choosingPlayer = this.getPlayer(choosingPlayerId);
+                if (choosingPlayer != null && !choosingPlayer.isInGame()) {
+                    choosingPlayer = null;
+                }
             }
-        }
-        if (choosingPlayer == null) {
-            choosingPlayerId = pickChoosingPlayer();
-            if (choosingPlayerId == null) {
+            if (choosingPlayer == null) {
+                choosingPlayerId = pickChoosingPlayer();
+                if (choosingPlayerId == null) {
+                    return;
+                }
+                choosingPlayer = getPlayer(choosingPlayerId);
+            }
+            if (choosingPlayer == null) {
                 return;
             }
-            choosingPlayer = getPlayer(choosingPlayerId);
-        }
-        if (choosingPlayer == null) {
-            return;
-        }
-        getState().setChoosingPlayerId(choosingPlayerId); // needed to start/stop the timer if active
-        if (choosingPlayer.choose(Outcome.Benefit, targetPlayer, null, this)) {
-            startingPlayerId = targetPlayer.getTargets().get(0);
-        } else if (getState().getPlayers().size() < 3) {
-            // not possible to choose starting player, choosing player has probably conceded, so stop here
-            return;
+            getState().setChoosingPlayerId(choosingPlayerId); // needed to start/stop the timer if active
+            if (choosingPlayer.choose(Outcome.Benefit, targetPlayer, null, this)) {
+                startingPlayerId = targetPlayer.getTargets().get(0);
+            } else if (getState().getPlayers().size() < 3) {
+                // not possible to choose starting player, choosing player has probably conceded, so stop here
+                return;
+            }
         }
         if (startingPlayerId == null) {
             // choose any available player as starting player
@@ -915,15 +899,7 @@ public abstract class GameImpl implements Game, Serializable {
             logger.debug("Starting player not found. playerId:" + startingPlayerId);
             return;
         }
-        StringBuilder message = new StringBuilder(choosingPlayer.getLogName()).append(" chooses that ");
-        if (choosingPlayer.getId().equals(startingPlayerId)) {
-            message.append("he or she");
-        } else {
-            message.append(startingPlayer.getLogName());
-        }
-        message.append(" takes the first turn");
-
-        this.informPlayers(message.toString());
+        sendStartMessage(choosingPlayer, startingPlayer);
 
         //20091005 - 103.3
         int startingHandSize = 7;
@@ -1034,6 +1010,21 @@ public abstract class GameImpl implements Game, Serializable {
             }
         }
 
+    }
+
+    protected void sendStartMessage(Player choosingPlayer, Player startingPlayer) {
+        StringBuilder message = new StringBuilder();
+        if (choosingPlayer != null) {
+            message.append(choosingPlayer.getLogName()).append(" chooses that ");
+        }
+        if (choosingPlayer != null && choosingPlayer.getId().equals(startingPlayer.getId())) {
+            message.append("he or she");
+        } else {
+            message.append(startingPlayer.getLogName());
+        }
+        message.append(" takes the first turn");
+
+        this.informPlayers(message.toString());
     }
 
     protected UUID findWinnersAndLosers() {
@@ -1783,7 +1774,7 @@ public abstract class GameImpl implements Game, Serializable {
             if (perm.isWorld()) {
                 worldEnchantment.add(perm);
             }
-            if (FILTER_AURA.match(perm, this)) {
+            if (StaticFilters.FILTER_PERMANENT_AURA.match(perm, this)) {
                 //20091005 - 704.5n, 702.14c
                 if (perm.getAttachedTo() == null) {
                     Card card = this.getCard(perm.getId());
@@ -1861,10 +1852,10 @@ public abstract class GameImpl implements Game, Serializable {
                     }
                 }
             }
-            if (this.getState().isLegendaryRuleActive() && FILTER_LEGENDARY.match(perm, this)) {
+            if (this.getState().isLegendaryRuleActive() && StaticFilters.FILTER_PERMANENT_LEGENDARY.match(perm, this)) {
                 legendary.add(perm);
             }
-            if (FILTER_EQUIPMENT.match(perm, this)) {
+            if (StaticFilters.FILTER_PERMANENT_EQUIPMENT.match(perm, this)) {
                 //20091005 - 704.5p, 702.14d
                 if (perm.getAttachedTo() != null) {
                     Permanent attachedTo = getPermanent(perm.getAttachedTo());
@@ -1889,7 +1880,7 @@ public abstract class GameImpl implements Game, Serializable {
                     }
                 }
             }
-            if (FILTER_FORTIFICATION.match(perm, this)) {
+            if (StaticFilters.FILTER_PERMANENT_FORTIFICATION.match(perm, this)) {
                 if (perm.getAttachedTo() != null) {
                     Permanent land = getPermanent(perm.getAttachedTo());
                     if (land == null || !land.getAttachments().contains(perm.getId())) {
@@ -1949,15 +1940,15 @@ public abstract class GameImpl implements Game, Serializable {
         // This is called the "planeswalker uniqueness rule."
         if (planeswalkers.size() > 1) {  //don't bother checking if less than 2 planeswalkers in play
             for (Permanent planeswalker : planeswalkers) {
-                for (String planeswalkertype : planeswalker.getSubtype(this)) {
+                for (SubType planeswalkertype : planeswalker.getSubtype(this)) {
                     FilterPlaneswalkerPermanent filterPlaneswalker = new FilterPlaneswalkerPermanent();
-                    filterPlaneswalker.add(new SubtypePredicate(SubType.byDescription(planeswalkertype)));
+                    filterPlaneswalker.add(new SubtypePredicate(planeswalkertype));
                     filterPlaneswalker.add(new ControllerIdPredicate(planeswalker.getControllerId()));
                     if (getBattlefield().contains(filterPlaneswalker, planeswalker.getControllerId(), this, 2)) {
                         Player controller = this.getPlayer(planeswalker.getControllerId());
                         if (controller != null) {
                             Target targetPlaneswalkerToKeep = new TargetPermanent(filterPlaneswalker);
-                            targetPlaneswalkerToKeep.setTargetName(planeswalker.getName() + " to keep?");
+                            targetPlaneswalkerToKeep.setTargetName(planeswalkertype.toString() + " to keep?");
                             controller.chooseTarget(Outcome.Benefit, targetPlaneswalkerToKeep, null, this);
                             for (Permanent dupPlaneswalker : this.getBattlefield().getActivePermanents(filterPlaneswalker, planeswalker.getControllerId(), this)) {
                                 if (!targetPlaneswalkerToKeep.getTargets().contains(dupPlaneswalker.getId())) {
@@ -2849,6 +2840,11 @@ public abstract class GameImpl implements Game, Serializable {
     @Override
     public UUID getStartingPlayerId() {
         return startingPlayerId;
+    }
+
+    @Override
+    public void setStartingPlayerId(UUID startingPlayerId) {
+        this.startingPlayerId = startingPlayerId;
     }
 
     @Override

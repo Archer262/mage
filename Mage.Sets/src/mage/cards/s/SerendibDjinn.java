@@ -29,7 +29,6 @@ package mage.cards.s;
 
 import mage.MageInt;
 import mage.abilities.Ability;
-import mage.constants.ComparisonType;
 import mage.abilities.common.BeginningOfUpkeepTriggeredAbility;
 import mage.abilities.common.ControlsPermanentsControllerTriggeredAbility;
 import mage.abilities.effects.OneShotEffect;
@@ -37,11 +36,9 @@ import mage.abilities.effects.common.SacrificeSourceEffect;
 import mage.abilities.keyword.FlyingAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
-import mage.constants.CardType;
-import mage.constants.Outcome;
-import mage.constants.TargetController;
+import mage.constants.*;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterControlledLandPermanent;
-import mage.filter.common.FilterLandPermanent;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
 import mage.players.Player;
@@ -68,7 +65,7 @@ public class SerendibDjinn extends CardImpl {
         this.addAbility(new BeginningOfUpkeepTriggeredAbility(new SerendibDjinnEffect(), TargetController.YOU, false));
         // When you control no lands, sacrifice Serendib Djinn.
         this.addAbility(new ControlsPermanentsControllerTriggeredAbility(
-                new FilterLandPermanent(), ComparisonType.EQUAL_TO, 0,
+                StaticFilters.FILTER_LANDS, ComparisonType.EQUAL_TO, 0,
                 new SacrificeSourceEffect()));
     }
 
@@ -108,7 +105,7 @@ class SerendibDjinnEffect extends OneShotEffect {
                 Permanent permanent = game.getPermanent(target.getFirstTarget());
                 if (permanent != null) {
                     permanent.sacrifice(source.getSourceId(), game);
-                    if (permanent.hasSubtype("Island", game)) {
+                    if (permanent.hasSubtype(SubType.ISLAND, game)) {
                         controller.damage(3, source.getSourceId(), game, false, true);
                     }
                 }

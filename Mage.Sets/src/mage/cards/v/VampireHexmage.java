@@ -28,10 +28,6 @@
 package mage.cards.v;
 
 import java.util.UUID;
-
-import mage.constants.CardType;
-import mage.constants.Outcome;
-import mage.constants.Zone;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SimpleActivatedAbility;
@@ -40,6 +36,9 @@ import mage.abilities.effects.OneShotEffect;
 import mage.abilities.keyword.FirstStrikeAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
+import mage.constants.CardType;
+import mage.constants.Outcome;
+import mage.constants.Zone;
 import mage.counters.Counter;
 import mage.game.Game;
 import mage.game.permanent.Permanent;
@@ -52,7 +51,7 @@ import mage.target.TargetPermanent;
 public class VampireHexmage extends CardImpl {
 
     public VampireHexmage(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{B}{B}");
+        super(ownerId, setInfo, new CardType[]{CardType.CREATURE}, "{B}{B}");
         this.subtype.add("Vampire");
         this.subtype.add("Shaman");
 
@@ -78,12 +77,12 @@ public class VampireHexmage extends CardImpl {
 
 class VampireHexmageEffect extends OneShotEffect {
 
-    VampireHexmageEffect ( ) {
+    VampireHexmageEffect() {
         super(Outcome.Benefit);
         staticText = "Remove all counters from target permanent";
     }
 
-    VampireHexmageEffect ( VampireHexmageEffect effect ) {
+    VampireHexmageEffect(VampireHexmageEffect effect) {
         super(effect);
     }
 
@@ -94,18 +93,13 @@ class VampireHexmageEffect extends OneShotEffect {
 
     @Override
     public boolean apply(Game game, Ability source) {
-        TargetPermanent target = (TargetPermanent)source.getTargets().get(0);
-
-        Permanent permanent = game.getPermanent(target.getFirstTarget());
-
+        Permanent permanent = game.getPermanent(getTargetPointer().getFirst(game, source));
         if (permanent != null) {
-            for(Counter counter : permanent.getCounters(game).values()){
+            for (Counter counter : permanent.getCounters(game).copy().values()) { // copy to prevent ConcurrentModificationException
                 permanent.removeCounters(counter, game);
             }
-
             return true;
         }
-
         return false;
     }
 

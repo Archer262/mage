@@ -64,6 +64,7 @@ public class MastersEditionII extends ExpansionSet {
         this.numBoosterUncommon = 3;
         this.numBoosterRare = 1;
         this.ratioBoosterMythic = 0;
+        cards.add(new SetCardInfo("Aether Storm", 39, Rarity.UNCOMMON, mage.cards.a.AetherStorm.class));
         cards.add(new SetCardInfo("Abbey Gargoyles", 1, Rarity.UNCOMMON, mage.cards.a.AbbeyGargoyles.class));
         cards.add(new SetCardInfo("Adarkar Sentinel", 201, Rarity.COMMON, mage.cards.a.AdarkarSentinel.class));
         cards.add(new SetCardInfo("Aeolipile", 202, Rarity.COMMON, mage.cards.a.Aeolipile.class));
@@ -77,7 +78,9 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Aurochs", 153, Rarity.COMMON, mage.cards.a.Aurochs.class));
         cards.add(new SetCardInfo("Aysen Bureaucrats", 6, Rarity.COMMON, mage.cards.a.AysenBureaucrats.class));
         cards.add(new SetCardInfo("Badlands", 225, Rarity.RARE, mage.cards.b.Badlands.class));
+        cards.add(new SetCardInfo("Balduvian Conjurer", 40, Rarity.COMMON, mage.cards.b.BalduvianConjurer.class));
         cards.add(new SetCardInfo("Balduvian Dead", 79, Rarity.UNCOMMON, mage.cards.b.BalduvianDead.class));
+        cards.add(new SetCardInfo("Balduvian Hydra", 118, Rarity.RARE, mage.cards.b.BalduvianHydra.class));
         cards.add(new SetCardInfo("Balduvian Trading Post", 226, Rarity.RARE, mage.cards.b.BalduvianTradingPost.class));
         cards.add(new SetCardInfo("Barbed Sextant", 204, Rarity.COMMON, mage.cards.b.BarbedSextant.class));
         cards.add(new SetCardInfo("Binding Grasp", 41, Rarity.RARE, mage.cards.b.BindingGrasp.class));
@@ -85,6 +88,7 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Brainstorm", 42, Rarity.COMMON, mage.cards.b.Brainstorm.class));
         cards.add(new SetCardInfo("Brassclaw Orcs", 119, Rarity.COMMON, BrassclawOrcs.class));
         cards.add(new SetCardInfo("Brimstone Dragon", 120, Rarity.RARE, mage.cards.b.BrimstoneDragon.class));
+        cards.add(new SetCardInfo("Brine Shaman", 80, Rarity.COMMON, mage.cards.b.BrineShaman.class));
         cards.add(new SetCardInfo("Browse", 43, Rarity.UNCOMMON, mage.cards.b.Browse.class));
         cards.add(new SetCardInfo("Burnout", 121, Rarity.UNCOMMON, mage.cards.b.Burnout.class));
         cards.add(new SetCardInfo("Carapace", 155, Rarity.COMMON, mage.cards.c.Carapace.class));
@@ -98,6 +102,7 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Deep Spawn", 45, Rarity.RARE, mage.cards.d.DeepSpawn.class));
         cards.add(new SetCardInfo("Demonic Consultation", 85, Rarity.UNCOMMON, mage.cards.d.DemonicConsultation.class));
         cards.add(new SetCardInfo("Despotic Scepter", 206, Rarity.RARE, mage.cards.d.DespoticScepter.class));
+        cards.add(new SetCardInfo("Diabolic Vision", 191, Rarity.UNCOMMON, mage.cards.d.DiabolicVision.class));
         cards.add(new SetCardInfo("Disenchant", 10, Rarity.COMMON, mage.cards.d.Disenchant.class));
         cards.add(new SetCardInfo("Dwarven Ruins", 227, Rarity.UNCOMMON, mage.cards.d.DwarvenRuins.class));
         cards.add(new SetCardInfo("Dystopia", 88, Rarity.RARE, mage.cards.d.Dystopia.class));
@@ -124,6 +129,7 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Fungal Bloom", 165, Rarity.RARE, mage.cards.f.FungalBloom.class));
         cards.add(new SetCardInfo("Gangrenous Zombies", 92, Rarity.COMMON, mage.cards.g.GangrenousZombies.class));
         cards.add(new SetCardInfo("Giant Growth", 167, Rarity.COMMON, mage.cards.g.GiantGrowth.class));
+        cards.add(new SetCardInfo("Giant Trap Door Spider", 195, Rarity.UNCOMMON, mage.cards.g.GiantTrapDoorSpider.class));
         cards.add(new SetCardInfo("Glacial Chasm", 229, Rarity.RARE, mage.cards.g.GlacialChasm.class));
         cards.add(new SetCardInfo("Glacial Crevasses", 127, Rarity.RARE, mage.cards.g.GlacialCrevasses.class));
         cards.add(new SetCardInfo("Gorilla Shaman", 129, Rarity.UNCOMMON, GorillaShaman.class));
@@ -133,6 +139,7 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Helm of Obedience", 210, Rarity.RARE, mage.cards.h.HelmOfObedience.class));
         cards.add(new SetCardInfo("Icatian Javelineers", 15, Rarity.COMMON, IcatianJavelineers.class));
         cards.add(new SetCardInfo("Icatian Scout", 17, Rarity.COMMON, IcatianScout.class));
+        cards.add(new SetCardInfo("Iceberg", 49, Rarity.UNCOMMON, mage.cards.i.Iceberg.class));
         cards.add(new SetCardInfo("Icequake", 94, Rarity.COMMON, mage.cards.i.Icequake.class));
         cards.add(new SetCardInfo("Icy Prison", 50, Rarity.COMMON, mage.cards.i.IcyPrison.class));
         cards.add(new SetCardInfo("Ihsan's Shade", 95, Rarity.RARE, mage.cards.i.IhsansShade.class));
@@ -143,6 +150,7 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Inheritance", 18, Rarity.UNCOMMON, mage.cards.i.Inheritance.class));
         cards.add(new SetCardInfo("Ironclaw Orcs", 132, Rarity.COMMON, mage.cards.i.IronclawOrcs.class));
         cards.add(new SetCardInfo("Jester's Mask", 211, Rarity.RARE, mage.cards.j.JestersMask.class));
+        cards.add(new SetCardInfo("Jeweled Amulet", 212, Rarity.UNCOMMON, mage.cards.j.JeweledAmulet.class));
         cards.add(new SetCardInfo("Johtull Wurm", 168, Rarity.UNCOMMON, mage.cards.j.JohtullWurm.class));
         cards.add(new SetCardInfo("Juniper Order Advocate", 20, Rarity.UNCOMMON, mage.cards.j.JuniperOrderAdvocate.class));
         cards.add(new SetCardInfo("Kaysa", 170, Rarity.RARE, mage.cards.k.Kaysa.class));
@@ -157,6 +165,8 @@ public class MastersEditionII extends ExpansionSet {
         cards.add(new SetCardInfo("Mana Crypt", 214, Rarity.RARE, mage.cards.m.ManaCrypt.class));
         cards.add(new SetCardInfo("Marjhan", 54, Rarity.RARE, mage.cards.m.Marjhan.class));
         cards.add(new SetCardInfo("Mesmeric Trance", 55, Rarity.RARE, mage.cards.m.MesmericTrance.class));
+        cards.add(new SetCardInfo("Minion of Leshrac", 104, Rarity.RARE, mage.cards.m.MinionOfLeshrac.class));
+        cards.add(new SetCardInfo("Mudslide", 136, Rarity.RARE, mage.cards.m.Mudslide.class));
         cards.add(new SetCardInfo("Narwhal", 57, Rarity.UNCOMMON, mage.cards.n.Narwhal.class));
         cards.add(new SetCardInfo("Necrite", 106, Rarity.COMMON, Necrite.class));
         cards.add(new SetCardInfo("Necropotence", 107, Rarity.RARE, mage.cards.n.Necropotence.class));

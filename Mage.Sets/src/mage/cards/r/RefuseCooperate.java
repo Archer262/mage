@@ -51,7 +51,7 @@ import mage.target.TargetSpell;
 public class RefuseCooperate extends SplitCard {
 
     public RefuseCooperate(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId, setInfo, new CardType[]{CardType.INSTANT}, new CardType[]{CardType.SORCERY}, "{3}{R}", "{2}{U}", SpellAbilityType.SPLIT_AFTERMATH);
+        super(ownerId, setInfo, new CardType[]{CardType.INSTANT}, new CardType[]{CardType.INSTANT}, "{3}{R}", "{2}{U}", SpellAbilityType.SPLIT_AFTERMATH);
 
         // Refuse
         // Refuse deals damage to target spell's controller equal to that spell's converted mana cost.
@@ -96,7 +96,7 @@ class RefuseEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            Spell spell = game.getStack().getSpell(source.getFirstTarget());
+            Spell spell = game.getStack().getSpell(getTargetPointer().getFirst(game, source));
             if (spell != null) {
                 Player spellController = game.getPlayer(spell.getControllerId());
                 if (spellController != null) {

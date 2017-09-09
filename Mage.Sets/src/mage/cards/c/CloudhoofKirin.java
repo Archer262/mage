@@ -27,6 +27,7 @@
  */
 package mage.cards.c;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.Ability;
 import mage.abilities.common.SpellCastControllerTriggeredAbility;
@@ -38,14 +39,12 @@ import mage.constants.CardType;
 import mage.constants.Outcome;
 import mage.constants.SuperType;
 import mage.constants.Zone;
-import mage.filter.common.FilterSpiritOrArcaneCard;
+import mage.filter.StaticFilters;
 import mage.game.Game;
 import mage.game.stack.Spell;
 import mage.players.Player;
 import mage.target.Target;
 import mage.target.TargetPlayer;
-
-import java.util.UUID;
 
 /**
  *
@@ -65,7 +64,7 @@ public class CloudhoofKirin extends CardImpl {
         // Flying
         this.addAbility(FlyingAbility.getInstance());
         // Whenever you cast a Spirit or Arcane spell, you may have target player put the top X cards of his or her library into his or her graveyard, where X is that spell's converted mana cost.
-        Ability ability = new SpellCastControllerTriggeredAbility(Zone.BATTLEFIELD, new CloudhoofKirinEffect(), new FilterSpiritOrArcaneCard(), true, true);
+        Ability ability = new SpellCastControllerTriggeredAbility(Zone.BATTLEFIELD, new CloudhoofKirinEffect(), StaticFilters.SPIRIT_OR_ARCANE_CARD, true, true);
         ability.addTarget(new TargetPlayer());
         this.addAbility(ability);
     }

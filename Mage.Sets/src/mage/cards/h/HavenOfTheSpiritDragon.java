@@ -46,6 +46,7 @@ import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
+import mage.constants.SubType;
 import mage.constants.Zone;
 import mage.filter.FilterCard;
 import mage.filter.predicate.Predicate;
@@ -123,7 +124,7 @@ class HavenOfTheSpiritManaCondition extends CreatureCastManaCondition {
     public boolean apply(Game game, Ability source, UUID manaProducer, Cost costToPay) {
         if (super.apply(game, source)) {
             MageObject object = game.getObject(source.getSourceId());
-            if (object.hasSubtype("Dragon", game)
+            if (object.hasSubtype(SubType.DRAGON, game)
                     && object.isCreature()) {
                 return true;
             }
@@ -140,7 +141,7 @@ class DragonCreatureCardPredicate implements Predicate<Card> {
     @Override
     public boolean apply(Card input, Game game) {
         return input.isCreature()
-                && input.hasSubtype("Dragon", game);
+                && input.hasSubtype(SubType.DRAGON, game);
     }
 
     @Override

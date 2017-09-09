@@ -27,6 +27,7 @@
  */
 package mage.cards.a;
 
+import java.util.UUID;
 import mage.MageInt;
 import mage.abilities.costs.mana.ManaCostsImpl;
 import mage.abilities.keyword.MorphAbility;
@@ -34,8 +35,7 @@ import mage.abilities.keyword.ReachAbility;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
-
-import java.util.UUID;
+import mage.constants.SubType;
 
 /**
  *
@@ -45,8 +45,8 @@ public class AerieBowmasters extends CardImpl {
 
     public AerieBowmasters(UUID ownerId, CardSetInfo setInfo) {
         super(ownerId,setInfo,new CardType[]{CardType.CREATURE},"{2}{G}{G}");
-        this.subtype.add("Hound");
-        this.subtype.add("Archer");
+        this.subtype.add(SubType.HOUND);
+        this.subtype.add(SubType.ARCHER);
         this.power = new MageInt(3);
         this.toughness = new MageInt(4);
         

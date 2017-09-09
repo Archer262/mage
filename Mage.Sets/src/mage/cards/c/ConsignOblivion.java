@@ -28,11 +28,16 @@
 package mage.cards.c;
 
 import java.util.UUID;
-
+import mage.abilities.effects.common.ReturnToHandTargetEffect;
+import mage.abilities.effects.common.discard.DiscardTargetEffect;
+import mage.abilities.keyword.AftermathAbility;
+import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.cards.SplitCard;
 import mage.constants.CardType;
 import mage.constants.SpellAbilityType;
+import mage.target.common.TargetNonlandPermanent;
+import mage.target.common.TargetOpponent;
 
 /**
  *
@@ -41,13 +46,19 @@ import mage.constants.SpellAbilityType;
 public class ConsignOblivion extends SplitCard {
 
     public ConsignOblivion(UUID ownerId, CardSetInfo setInfo) {
-        super(ownerId, setInfo, new CardType[]{}, new CardType[]{}, "", "", SpellAbilityType.SPLIT_AFTERMATH);
-  
+        super(ownerId, setInfo, new CardType[]{CardType.INSTANT}, new CardType[]{CardType.SORCERY}, "{1}{U}", "{4}{B}", SpellAbilityType.SPLIT_AFTERMATH);
 
-    getLeftHalfCard().getSpellAbility().addEffect(new Effect...);
+        // Return target nonland permanent to its owner's hand.
+        getLeftHalfCard().getSpellAbility().addEffect(new ReturnToHandTargetEffect());
+        getLeftHalfCard().getSpellAbility().addTarget(new TargetNonlandPermanent());
 
-    getRightHalfCard().getSpellAbility().addEffect(new Effect...);
-
+        // Oblivion {4}{B}
+        // Sorcery
+        // Aftermath
+        ((CardImpl) (getRightHalfCard())).addAbility(new AftermathAbility().setRuleAtTheTop(true));
+        // Target opponent discards two cards.
+        getRightHalfCard().getSpellAbility().addEffect(new DiscardTargetEffect(2));
+        getRightHalfCard().getSpellAbility().addTarget(new TargetOpponent());
     }
 
     public ConsignOblivion(final ConsignOblivion card) {

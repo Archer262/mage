@@ -27,15 +27,13 @@
  */
 package mage.cards.t;
 
-import java.util.ArrayList;
-import java.util.UUID;
 import mage.abilities.Ability;
 import mage.abilities.DelayedTriggeredAbility;
 import mage.abilities.abilityword.StriveAbility;
 import mage.abilities.common.delayed.AtTheBeginOfNextEndStepDelayedTriggeredAbility;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.ExileTargetEffect;
-import mage.abilities.effects.common.PutTokenOntoBattlefieldCopyTargetEffect;
+import mage.abilities.effects.common.CreateTokenCopyTargetEffect;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
@@ -47,6 +45,10 @@ import mage.players.Player;
 import mage.target.common.TargetControlledCreaturePermanent;
 import mage.target.targetpointer.FixedTarget;
 import mage.target.targetpointer.FixedTargets;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -95,11 +97,11 @@ class TwinflameCopyEffect extends OneShotEffect {
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer(source.getControllerId());
         if (controller != null) {
-            ArrayList<Permanent> toExile = new ArrayList<>();
+            List<Permanent> toExile = new ArrayList<>();
             for (UUID creatureId : this.getTargetPointer().getTargets(game, source)) {
                 Permanent creature = game.getPermanentOrLKIBattlefield(creatureId);
                 if (creature != null) {
-                    PutTokenOntoBattlefieldCopyTargetEffect effect = new PutTokenOntoBattlefieldCopyTargetEffect(source.getControllerId(), null, true);
+                    CreateTokenCopyTargetEffect effect = new CreateTokenCopyTargetEffect(source.getControllerId(), null, true);
                     effect.setTargetPointer(new FixedTarget(creature, game));
                     effect.apply(game, source);
                     toExile.addAll(effect.getAddedPermanent());

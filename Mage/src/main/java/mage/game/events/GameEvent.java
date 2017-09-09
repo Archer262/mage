@@ -29,6 +29,7 @@ package mage.game.events;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import mage.constants.Zone;
 
@@ -46,7 +47,7 @@ public class GameEvent implements Serializable {
     protected boolean flag;
     protected String data;
     protected Zone zone;
-    protected ArrayList<UUID> appliedEffects = new ArrayList<>();
+    protected List<UUID> appliedEffects = new ArrayList<>();
     protected UUID customEventType = null;
 
     public enum EventType {
@@ -88,7 +89,9 @@ public class GameEvent implements Serializable {
         ZONE_CHANGE,
         ZONE_CHANGE_GROUP,
         EMPTY_DRAW,
+        DRAW_CARDS, // applies to an instruction to draw more than one card before any replacement effects apply to individual cards drawn
         DRAW_CARD, DREW_CARD,
+        EXPLORED,
         MIRACLE_CARD_REVEALED,
         MADNESS_CARD_EXILED,
         INVESTIGATED,
@@ -290,6 +293,7 @@ public class GameEvent implements Serializable {
         EXPLOITED_CREATURE,
         EVOLVED_CREATURE,
         EMBALMED_CREATURE,
+        ETERNALIZED_CREATURE,
         ATTACH, ATTACHED,
         STAY_ATTACHED,
         UNATTACH, UNATTACHED,
@@ -460,7 +464,7 @@ public class GameEvent implements Serializable {
      *
      * @return
      */
-    public ArrayList<UUID> getAppliedEffects() {
+    public List<UUID> getAppliedEffects() {
         return appliedEffects;
     }
 
@@ -468,13 +472,13 @@ public class GameEvent implements Serializable {
         return type == EventType.CUSTOM_EVENT && this.customEventType.equals(customEventType);
     }
 
-    public void addAppliedEffects(ArrayList<UUID> appliedEffects) {
+    public void addAppliedEffects(List<UUID> appliedEffects) {
         if (appliedEffects != null) {
             this.appliedEffects.addAll(appliedEffects);
         }
     }
 
-    public void setAppliedEffects(ArrayList<UUID> appliedEffects) {
+    public void setAppliedEffects(List<UUID> appliedEffects) {
         if (appliedEffects != null) {
             if (this.appliedEffects.isEmpty()) {
                 this.appliedEffects = appliedEffects; // Use object refecence to handle that an replacement effect can only be once applied to an event

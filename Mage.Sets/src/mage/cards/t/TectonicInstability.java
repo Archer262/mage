@@ -35,6 +35,7 @@ import mage.cards.CardSetInfo;
 import mage.constants.CardType;
 import mage.constants.SetTargetPointer;
 import mage.constants.Zone;
+import mage.filter.StaticFilters;
 import mage.filter.common.FilterLandPermanent;
 
 /**
@@ -49,7 +50,7 @@ public class TectonicInstability extends CardImpl {
 
         // Whenever a land enters the battlefield, tap all lands its controller controls.
         this.addAbility(new EntersBattlefieldAllTriggeredAbility(Zone.BATTLEFIELD,
-            new TapAllTargetPlayerControlsEffect(new FilterLandPermanent()), new FilterLandPermanent(),
+            new TapAllTargetPlayerControlsEffect(new FilterLandPermanent()), StaticFilters.FILTER_LANDS,
             false, SetTargetPointer.PLAYER, "Whenever a land enters the battlefield, tap all lands its controller controls."));
     }
 

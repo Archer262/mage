@@ -38,14 +38,13 @@ import mage.constants.*;
 import mage.filter.FilterCard;
 import mage.filter.predicate.mageobject.CardTypePredicate;
 import mage.game.Game;
-import mage.game.permanent.Permanent;
 import mage.players.Player;
 import mage.players.PlayerList;
 import mage.target.Target;
 import mage.target.common.TargetCardInHand;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -107,7 +106,7 @@ class KynaiosAndTirosEffect extends OneShotEffect {
             Player currentPlayer = game.getPlayer(playerList.get());
             UUID firstInactivePlayer = null;
             Target target = new TargetCardInHand(filter);
-            ArrayList<UUID> noLandPlayers = new ArrayList<>();
+            List<UUID> noLandPlayers = new ArrayList<>();
 
             while (controller.canRespond()) {
                 if (currentPlayer != null && currentPlayer.canRespond() && game.getState().getPlayersInRange(controller.getId(), game).contains(currentPlayer.getId())) {
@@ -141,9 +140,7 @@ class KynaiosAndTirosEffect extends OneShotEffect {
             for (UUID playerId : noLandPlayers) {
                 Player player = game.getPlayer(playerId);
                 if (player != null) {
-                    if (player.chooseUse(outcome.DrawCard, "Draw a card?", source, game)) {
-                        player.drawCards(1, game);
-                    }
+                    player.drawCards(1, game);
                 }
             }
             return true;
